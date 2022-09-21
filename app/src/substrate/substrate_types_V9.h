@@ -1,5 +1,5 @@
 /*******************************************************************************
- *  (c) 2019 - 2022 Zondax GmbH
+ *  (c) 2019 - 2022 Zondax AG
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -28,59 +28,59 @@ extern "C" {
 
 typedef struct {
     const uint8_t* _ptr;
-} pd_AccountId_V8_t;
+} pd_AccountId_V9_t;
 
 typedef struct {
     compactInt_t value;
-} pd_CompactAccountIndex_V8_t;
+} pd_CompactAccountIndex_V9_t;
 
 typedef struct {
     pd_BlockNumber_t height;
     uint32_t index;
-} pd_Timepoint_V8_t;
+} pd_Timepoint_V9_t;
 
 typedef struct {
     uint8_t value;
     union {
-        pd_AccountId_V8_t id;
-        pd_CompactAccountIndex_V8_t index;
+        pd_AccountId_V9_t id;
+        pd_CompactAccountIndex_V9_t index;
         pd_Bytes_t raw;
         const uint8_t* _ptr;
     };
-} pd_LookupasStaticLookupSource_V8_t;
+} pd_LookupasStaticLookupSource_V9_t;
 
 typedef struct {
     pd_Call_t call;
-} pd_OpaqueCall_V8_t;
+} pd_OpaqueCall_V9_t;
 
 typedef struct {
     uint8_t some;
-    pd_Timepoint_V8_t contained;
-} pd_OptionTimepoint_V8_t;
+    pd_Timepoint_V9_t contained;
+} pd_OptionTimepoint_V9_t;
 
 typedef struct {
     pd_BalanceOf_t locked;
     pd_BalanceOf_t per_block;
     pd_BlockNumber_t starting_block;
-} pd_VestingInfo_V8_t;
+} pd_VestingInfo_V9_t;
 
 typedef struct {
     const uint8_t* _ptr;
-} pd_Keys_V8_t;
+} pd_Keys_V9_t;
 
 typedef struct {
     uint32_t value;
-} pd_Perbill_V8_t;
+} pd_Perbill_V9_t;
 
 typedef struct {
     uint64_t _len;
     const uint8_t* _ptr;
     uint64_t _lenBuffer;
-} pd_VecAccountId_V8_t;
+} pd_VecAccountId_V9_t;
 
 typedef struct {
     uint64_t value;
-} pd_Weight_V8_t;
+} pd_Weight_V9_t;
 
 #ifdef __cplusplus
 }
