@@ -1,5 +1,5 @@
 /*******************************************************************************
- *  (c) 2019 - 2022 Zondax GmbH
+ *  (c) 2019 - 2022 Zondax AG
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 #include "bignum.h"
 #include "coin.h"
 #include "parser_impl.h"
-#include "substrate_dispatch_V8.h"
+#include "substrate_dispatch_V9.h"
 #include "substrate_strings.h"
 
 #include <stddef.h>
@@ -24,29 +24,29 @@
 #include <zxformat.h>
 #include <zxmacros.h>
 
-parser_error_t _readAccountId_V8(parser_context_t* c, pd_AccountId_V8_t* v) {
+parser_error_t _readAccountId_V9(parser_context_t* c, pd_AccountId_V9_t* v) {
     GEN_DEF_READARRAY(32)
 }
 
-parser_error_t _readCompactAccountIndex_V8(parser_context_t* c, pd_CompactAccountIndex_V8_t* v)
+parser_error_t _readCompactAccountIndex_V9(parser_context_t* c, pd_CompactAccountIndex_V9_t* v)
 {
     return _readCompactInt(c, &v->value);
 }
 
-parser_error_t _readKeys_V8(parser_context_t* c, pd_Keys_V8_t* v) {
+parser_error_t _readKeys_V9(parser_context_t* c, pd_Keys_V9_t* v) {
     GEN_DEF_READARRAY(2 * 32)
 }
 
-parser_error_t _readLookupasStaticLookupSource_V8(parser_context_t* c, pd_LookupasStaticLookupSource_V8_t* v)
+parser_error_t _readLookupasStaticLookupSource_V9(parser_context_t* c, pd_LookupasStaticLookupSource_V9_t* v)
 {
     CHECK_INPUT()
     CHECK_ERROR(_readUInt8(c, &v->value))
     switch (v->value) {
     case 0: // Id
-        CHECK_ERROR(_readAccountId_V8(c, &v->id))
+        CHECK_ERROR(_readAccountId_V9(c, &v->id))
         break;
     case 1: // Index
-        CHECK_ERROR(_readCompactAccountIndex_V8(c, &v->index))
+        CHECK_ERROR(_readCompactAccountIndex_V9(c, &v->index))
         break;
     case 2: // Raw
         CHECK_ERROR(_readBytes(c, &v->raw))
@@ -64,7 +64,7 @@ parser_error_t _readLookupasStaticLookupSource_V8(parser_context_t* c, pd_Lookup
     return parser_ok;
 }
 
-parser_error_t _readOpaqueCall_V8(parser_context_t* c, pd_OpaqueCall_V8_t* v)
+parser_error_t _readOpaqueCall_V9(parser_context_t* c, pd_OpaqueCall_V9_t* v)
 {
     // Encoded as Byte[], array size comes first
     uint8_t size;
@@ -72,21 +72,21 @@ parser_error_t _readOpaqueCall_V8(parser_context_t* c, pd_OpaqueCall_V8_t* v)
     return _readCall(c, &v->call);
 }
 
-parser_error_t _readPerbill_V8(parser_context_t* c, pd_Perbill_V8_t* v)
+parser_error_t _readPerbill_V9(parser_context_t* c, pd_Perbill_V9_t* v)
 {
     CHECK_INPUT()
     CHECK_ERROR(_readUInt32(c, &v->value))
     return parser_ok;
 }
 
-parser_error_t _readTimepoint_V8(parser_context_t* c, pd_Timepoint_V8_t* v)
+parser_error_t _readTimepoint_V9(parser_context_t* c, pd_Timepoint_V9_t* v)
 {
     CHECK_ERROR(_readBlockNumber(c, &v->height))
     CHECK_ERROR(_readu32(c, &v->index))
     return parser_ok;
 }
 
-parser_error_t _readVestingInfo_V8(parser_context_t* c, pd_VestingInfo_V8_t* v)
+parser_error_t _readVestingInfo_V9(parser_context_t* c, pd_VestingInfo_V9_t* v)
 {
     CHECK_ERROR(_readBalanceOf(c, &v->locked))
     CHECK_ERROR(_readBalanceOf(c, &v->per_block))
@@ -94,22 +94,22 @@ parser_error_t _readVestingInfo_V8(parser_context_t* c, pd_VestingInfo_V8_t* v)
     return parser_ok;
 }
 
-parser_error_t _readWeight_V8(parser_context_t* c, pd_Weight_V8_t* v)
+parser_error_t _readWeight_V9(parser_context_t* c, pd_Weight_V9_t* v)
 {
     CHECK_INPUT()
     CHECK_ERROR(_readUInt64(c, &v->value))
     return parser_ok;
 }
 
-parser_error_t _readVecAccountId_V8(parser_context_t* c, pd_VecAccountId_V8_t* v) {
-    GEN_DEF_READVECTOR(AccountId_V8)
+parser_error_t _readVecAccountId_V9(parser_context_t* c, pd_VecAccountId_V9_t* v) {
+    GEN_DEF_READVECTOR(AccountId_V9)
 }
 
-parser_error_t _readOptionTimepoint_V8(parser_context_t* c, pd_OptionTimepoint_V8_t* v)
+parser_error_t _readOptionTimepoint_V9(parser_context_t* c, pd_OptionTimepoint_V9_t* v)
 {
     CHECK_ERROR(_readUInt8(c, &v->some))
     if (v->some > 0) {
-        CHECK_ERROR(_readTimepoint_V8(c, &v->contained))
+        CHECK_ERROR(_readTimepoint_V9(c, &v->contained))
     }
     return parser_ok;
 }
@@ -118,8 +118,8 @@ parser_error_t _readOptionTimepoint_V8(parser_context_t* c, pd_OptionTimepoint_V
 ///////////////////////////////////
 ///////////////////////////////////
 
-parser_error_t _toStringAccountId_V8(
-    const pd_AccountId_V8_t* v,
+parser_error_t _toStringAccountId_V9(
+    const pd_AccountId_V9_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,
@@ -128,8 +128,8 @@ parser_error_t _toStringAccountId_V8(
     return _toStringPubkeyAsAddress(v->_ptr, outValue, outValueLen, pageIdx, pageCount);
 }
 
-parser_error_t _toStringCompactAccountIndex_V8(
-    const pd_CompactAccountIndex_V8_t* v,
+parser_error_t _toStringCompactAccountIndex_V9(
+    const pd_CompactAccountIndex_V9_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,
@@ -138,8 +138,8 @@ parser_error_t _toStringCompactAccountIndex_V8(
     return _toStringCompactInt(&v->value, 0, false, "", "", outValue, outValueLen, pageIdx, pageCount);
 }
 
-parser_error_t _toStringKeys_V8(
-    const pd_Keys_V8_t* v,
+parser_error_t _toStringKeys_V9(
+    const pd_Keys_V9_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,
@@ -147,8 +147,8 @@ parser_error_t _toStringKeys_V8(
     GEN_DEF_TOSTRING_ARRAY(2 * 32)
 }
 
-parser_error_t _toStringLookupasStaticLookupSource_V8(
-    const pd_LookupasStaticLookupSource_V8_t* v,
+parser_error_t _toStringLookupasStaticLookupSource_V9(
+    const pd_LookupasStaticLookupSource_V9_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,
@@ -157,10 +157,10 @@ parser_error_t _toStringLookupasStaticLookupSource_V8(
     CLEAN_AND_CHECK()
     switch (v->value) {
     case 0: // Id
-        CHECK_ERROR(_toStringAccountId_V8(&v->id, outValue, outValueLen, pageIdx, pageCount))
+        CHECK_ERROR(_toStringAccountId_V9(&v->id, outValue, outValueLen, pageIdx, pageCount))
         break;
     case 1: // Index
-        CHECK_ERROR(_toStringCompactAccountIndex_V8(&v->index, outValue, outValueLen, pageIdx, pageCount))
+        CHECK_ERROR(_toStringCompactAccountIndex_V9(&v->index, outValue, outValueLen, pageIdx, pageCount))
         break;
     case 2: // Raw
         CHECK_ERROR(_toStringBytes(&v->raw, outValue, outValueLen, pageIdx, pageCount))
@@ -180,8 +180,8 @@ parser_error_t _toStringLookupasStaticLookupSource_V8(
     return parser_ok;
 }
 
-parser_error_t _toStringOpaqueCall_V8(
-    const pd_OpaqueCall_V8_t* v,
+parser_error_t _toStringOpaqueCall_V9(
+    const pd_OpaqueCall_V9_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,
@@ -190,8 +190,8 @@ parser_error_t _toStringOpaqueCall_V8(
     return _toStringCall(&v->call, outValue, outValueLen, pageIdx, pageCount);
 }
 
-parser_error_t _toStringPerbill_V8(
-    const pd_Perbill_V8_t* v,
+parser_error_t _toStringPerbill_V9(
+    const pd_Perbill_V9_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,
@@ -213,8 +213,8 @@ parser_error_t _toStringPerbill_V8(
     return parser_ok;
 }
 
-parser_error_t _toStringTimepoint_V8(
-    const pd_Timepoint_V8_t* v,
+parser_error_t _toStringTimepoint_V9(
+    const pd_Timepoint_V9_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,
@@ -250,8 +250,8 @@ parser_error_t _toStringTimepoint_V8(
     return parser_display_idx_out_of_range;
 }
 
-parser_error_t _toStringVestingInfo_V8(
-    const pd_VestingInfo_V8_t* v,
+parser_error_t _toStringVestingInfo_V9(
+    const pd_VestingInfo_V9_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,
@@ -294,8 +294,8 @@ parser_error_t _toStringVestingInfo_V8(
     return parser_display_idx_out_of_range;
 }
 
-parser_error_t _toStringWeight_V8(
-    const pd_Weight_V8_t* v,
+parser_error_t _toStringWeight_V9(
+    const pd_Weight_V9_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,
@@ -304,18 +304,18 @@ parser_error_t _toStringWeight_V8(
     return _toStringu64(&v->value, outValue, outValueLen, pageIdx, pageCount);
 }
 
-parser_error_t _toStringVecAccountId_V8(
-    const pd_VecAccountId_V8_t* v,
+parser_error_t _toStringVecAccountId_V9(
+    const pd_VecAccountId_V9_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,
     uint8_t* pageCount)
 {
-    GEN_DEF_TOSTRING_VECTOR(AccountId_V8);
+    GEN_DEF_TOSTRING_VECTOR(AccountId_V9);
 }
 
-parser_error_t _toStringOptionTimepoint_V8(
-    const pd_OptionTimepoint_V8_t* v,
+parser_error_t _toStringOptionTimepoint_V9(
+    const pd_OptionTimepoint_V9_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,
@@ -325,7 +325,7 @@ parser_error_t _toStringOptionTimepoint_V8(
 
     *pageCount = 1;
     if (v->some > 0) {
-        CHECK_ERROR(_toStringTimepoint_V8(
+        CHECK_ERROR(_toStringTimepoint_V9(
             &v->contained,
             outValue, outValueLen,
             pageIdx, pageCount));

@@ -1,5 +1,5 @@
 /*******************************************************************************
- *  (c) 2019 - 2022 Zondax GmbH
+ *  (c) 2019 - 2022 Zondax AG
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,361 +14,361 @@
  *  limitations under the License.
  ********************************************************************************/
 
-#include "substrate_dispatch_V8.h"
+#include "substrate_dispatch_V9.h"
 #include "substrate_strings.h"
 #include "zxmacros.h"
 #include <stdint.h>
 
-__Z_INLINE parser_error_t _readMethod_balances_transfer_V8(
-    parser_context_t* c, pd_balances_transfer_V8_t* m)
+__Z_INLINE parser_error_t _readMethod_balances_transfer_V9(
+    parser_context_t* c, pd_balances_transfer_V9_t* m)
 {
-    CHECK_ERROR(_readLookupasStaticLookupSource_V8(c, &m->dest))
+    CHECK_ERROR(_readLookupasStaticLookupSource_V9(c, &m->dest))
     CHECK_ERROR(_readCompactBalance(c, &m->amount))
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_balances_force_transfer_V8(
-    parser_context_t* c, pd_balances_force_transfer_V8_t* m)
+__Z_INLINE parser_error_t _readMethod_balances_force_transfer_V9(
+    parser_context_t* c, pd_balances_force_transfer_V9_t* m)
 {
-    CHECK_ERROR(_readLookupasStaticLookupSource_V8(c, &m->source))
-    CHECK_ERROR(_readLookupasStaticLookupSource_V8(c, &m->dest))
+    CHECK_ERROR(_readLookupasStaticLookupSource_V9(c, &m->source))
+    CHECK_ERROR(_readLookupasStaticLookupSource_V9(c, &m->dest))
     CHECK_ERROR(_readCompactBalance(c, &m->amount))
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_balances_transfer_keep_alive_V8(
-    parser_context_t* c, pd_balances_transfer_keep_alive_V8_t* m)
+__Z_INLINE parser_error_t _readMethod_balances_transfer_keep_alive_V9(
+    parser_context_t* c, pd_balances_transfer_keep_alive_V9_t* m)
 {
-    CHECK_ERROR(_readLookupasStaticLookupSource_V8(c, &m->dest))
+    CHECK_ERROR(_readLookupasStaticLookupSource_V9(c, &m->dest))
     CHECK_ERROR(_readCompactBalance(c, &m->amount))
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_balances_transfer_all_V8(
-    parser_context_t* c, pd_balances_transfer_all_V8_t* m)
+__Z_INLINE parser_error_t _readMethod_balances_transfer_all_V9(
+    parser_context_t* c, pd_balances_transfer_all_V9_t* m)
 {
-    CHECK_ERROR(_readLookupasStaticLookupSource_V8(c, &m->dest))
+    CHECK_ERROR(_readLookupasStaticLookupSource_V9(c, &m->dest))
     CHECK_ERROR(_readbool(c, &m->keep_alive))
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_session_set_keys_V8(
-    parser_context_t* c, pd_session_set_keys_V8_t* m)
+__Z_INLINE parser_error_t _readMethod_session_set_keys_V9(
+    parser_context_t* c, pd_session_set_keys_V9_t* m)
 {
-    CHECK_ERROR(_readKeys_V8(c, &m->keys))
+    CHECK_ERROR(_readKeys_V9(c, &m->keys))
     CHECK_ERROR(_readBytes(c, &m->proof))
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_session_purge_keys_V8(
-    parser_context_t* c, pd_session_purge_keys_V8_t* m)
+__Z_INLINE parser_error_t _readMethod_session_purge_keys_V9(
+    parser_context_t* c, pd_session_purge_keys_V9_t* m)
 {
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_utility_batch_V8(
-    parser_context_t* c, pd_utility_batch_V8_t* m)
-{
-    CHECK_ERROR(_readVecCall(c, &m->calls))
-    return parser_ok;
-}
-
-__Z_INLINE parser_error_t _readMethod_utility_batch_all_V8(
-    parser_context_t* c, pd_utility_batch_all_V8_t* m)
+__Z_INLINE parser_error_t _readMethod_utility_batch_V9(
+    parser_context_t* c, pd_utility_batch_V9_t* m)
 {
     CHECK_ERROR(_readVecCall(c, &m->calls))
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_utility_force_batch_V8(
-    parser_context_t* c, pd_utility_force_batch_V8_t* m)
+__Z_INLINE parser_error_t _readMethod_utility_batch_all_V9(
+    parser_context_t* c, pd_utility_batch_all_V9_t* m)
+{
+    CHECK_ERROR(_readVecCall(c, &m->calls))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_utility_force_batch_V9(
+    parser_context_t* c, pd_utility_force_batch_V9_t* m)
 {
     CHECK_ERROR(_readVecCall(c, &m->calls))
     return parser_ok;
 }
 
 #ifdef SUBSTRATE_PARSER_FULL
-__Z_INLINE parser_error_t _readMethod_system_fill_block_V8(
-    parser_context_t* c, pd_system_fill_block_V8_t* m)
+__Z_INLINE parser_error_t _readMethod_system_fill_block_V9(
+    parser_context_t* c, pd_system_fill_block_V9_t* m)
 {
-    CHECK_ERROR(_readPerbill_V8(c, &m->ratio))
+    CHECK_ERROR(_readPerbill_V9(c, &m->ratio))
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_system_remark_V8(
-    parser_context_t* c, pd_system_remark_V8_t* m)
+__Z_INLINE parser_error_t _readMethod_system_remark_V9(
+    parser_context_t* c, pd_system_remark_V9_t* m)
 {
     CHECK_ERROR(_readVecu8(c, &m->remark))
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_system_set_heap_pages_V8(
-    parser_context_t* c, pd_system_set_heap_pages_V8_t* m)
+__Z_INLINE parser_error_t _readMethod_system_set_heap_pages_V9(
+    parser_context_t* c, pd_system_set_heap_pages_V9_t* m)
 {
     CHECK_ERROR(_readu64(c, &m->pages))
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_system_set_code_V8(
-    parser_context_t* c, pd_system_set_code_V8_t* m)
+__Z_INLINE parser_error_t _readMethod_system_set_code_V9(
+    parser_context_t* c, pd_system_set_code_V9_t* m)
 {
     CHECK_ERROR(_readVecu8(c, &m->code))
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_system_set_code_without_checks_V8(
-    parser_context_t* c, pd_system_set_code_without_checks_V8_t* m)
+__Z_INLINE parser_error_t _readMethod_system_set_code_without_checks_V9(
+    parser_context_t* c, pd_system_set_code_without_checks_V9_t* m)
 {
     CHECK_ERROR(_readVecu8(c, &m->code))
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_system_remark_with_event_V8(
-    parser_context_t* c, pd_system_remark_with_event_V8_t* m)
+__Z_INLINE parser_error_t _readMethod_system_remark_with_event_V9(
+    parser_context_t* c, pd_system_remark_with_event_V9_t* m)
 {
     CHECK_ERROR(_readVecu8(c, &m->remark))
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_timestamp_set_V8(
-    parser_context_t* c, pd_timestamp_set_V8_t* m)
+__Z_INLINE parser_error_t _readMethod_timestamp_set_V9(
+    parser_context_t* c, pd_timestamp_set_V9_t* m)
 {
     CHECK_ERROR(_readCompactu64(c, &m->now))
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_balances_set_balance_V8(
-    parser_context_t* c, pd_balances_set_balance_V8_t* m)
+__Z_INLINE parser_error_t _readMethod_balances_set_balance_V9(
+    parser_context_t* c, pd_balances_set_balance_V9_t* m)
 {
-    CHECK_ERROR(_readLookupasStaticLookupSource_V8(c, &m->who))
+    CHECK_ERROR(_readLookupasStaticLookupSource_V9(c, &m->who))
     CHECK_ERROR(_readCompactBalance(c, &m->new_free))
     CHECK_ERROR(_readCompactBalance(c, &m->new_reserved))
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_balances_force_unreserve_V8(
-    parser_context_t* c, pd_balances_force_unreserve_V8_t* m)
+__Z_INLINE parser_error_t _readMethod_balances_force_unreserve_V9(
+    parser_context_t* c, pd_balances_force_unreserve_V9_t* m)
 {
-    CHECK_ERROR(_readLookupasStaticLookupSource_V8(c, &m->who))
+    CHECK_ERROR(_readLookupasStaticLookupSource_V9(c, &m->who))
     CHECK_ERROR(_readBalance(c, &m->amount))
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_vesting_vest_V8(
-    parser_context_t* c, pd_vesting_vest_V8_t* m)
+__Z_INLINE parser_error_t _readMethod_vesting_vest_V9(
+    parser_context_t* c, pd_vesting_vest_V9_t* m)
 {
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_vesting_vest_other_V8(
-    parser_context_t* c, pd_vesting_vest_other_V8_t* m)
+__Z_INLINE parser_error_t _readMethod_vesting_vest_other_V9(
+    parser_context_t* c, pd_vesting_vest_other_V9_t* m)
 {
-    CHECK_ERROR(_readLookupasStaticLookupSource_V8(c, &m->target))
+    CHECK_ERROR(_readLookupasStaticLookupSource_V9(c, &m->target))
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_vesting_vested_transfer_V8(
-    parser_context_t* c, pd_vesting_vested_transfer_V8_t* m)
+__Z_INLINE parser_error_t _readMethod_vesting_vested_transfer_V9(
+    parser_context_t* c, pd_vesting_vested_transfer_V9_t* m)
 {
-    CHECK_ERROR(_readLookupasStaticLookupSource_V8(c, &m->target))
-    CHECK_ERROR(_readVestingInfo_V8(c, &m->schedule))
+    CHECK_ERROR(_readLookupasStaticLookupSource_V9(c, &m->target))
+    CHECK_ERROR(_readVestingInfo_V9(c, &m->schedule))
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_vesting_force_vested_transfer_V8(
-    parser_context_t* c, pd_vesting_force_vested_transfer_V8_t* m)
+__Z_INLINE parser_error_t _readMethod_vesting_force_vested_transfer_V9(
+    parser_context_t* c, pd_vesting_force_vested_transfer_V9_t* m)
 {
-    CHECK_ERROR(_readLookupasStaticLookupSource_V8(c, &m->source))
-    CHECK_ERROR(_readLookupasStaticLookupSource_V8(c, &m->target))
-    CHECK_ERROR(_readVestingInfo_V8(c, &m->schedule))
+    CHECK_ERROR(_readLookupasStaticLookupSource_V9(c, &m->source))
+    CHECK_ERROR(_readLookupasStaticLookupSource_V9(c, &m->target))
+    CHECK_ERROR(_readVestingInfo_V9(c, &m->schedule))
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_vesting_merge_schedules_V8(
-    parser_context_t* c, pd_vesting_merge_schedules_V8_t* m)
+__Z_INLINE parser_error_t _readMethod_vesting_merge_schedules_V9(
+    parser_context_t* c, pd_vesting_merge_schedules_V9_t* m)
 {
     CHECK_ERROR(_readu32(c, &m->schedule1_index))
     CHECK_ERROR(_readu32(c, &m->schedule2_index))
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_multisig_as_multi_threshold_1_V8(
-    parser_context_t* c, pd_multisig_as_multi_threshold_1_V8_t* m)
+__Z_INLINE parser_error_t _readMethod_multisig_as_multi_threshold_1_V9(
+    parser_context_t* c, pd_multisig_as_multi_threshold_1_V9_t* m)
 {
-    CHECK_ERROR(_readVecAccountId_V8(c, &m->other_signatories))
+    CHECK_ERROR(_readVecAccountId_V9(c, &m->other_signatories))
     CHECK_ERROR(_readCall(c, &m->call))
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_multisig_as_multi_V8(
-    parser_context_t* c, pd_multisig_as_multi_V8_t* m)
+__Z_INLINE parser_error_t _readMethod_multisig_as_multi_V9(
+    parser_context_t* c, pd_multisig_as_multi_V9_t* m)
 {
     CHECK_ERROR(_readu16(c, &m->threshold))
-    CHECK_ERROR(_readVecAccountId_V8(c, &m->other_signatories))
-    CHECK_ERROR(_readOptionTimepoint_V8(c, &m->maybe_timepoint))
-    CHECK_ERROR(_readOpaqueCall_V8(c, &m->call))
+    CHECK_ERROR(_readVecAccountId_V9(c, &m->other_signatories))
+    CHECK_ERROR(_readOptionTimepoint_V9(c, &m->maybe_timepoint))
+    CHECK_ERROR(_readOpaqueCall_V9(c, &m->call))
     CHECK_ERROR(_readbool(c, &m->store_call))
-    CHECK_ERROR(_readWeight_V8(c, &m->max_weight))
+    CHECK_ERROR(_readWeight_V9(c, &m->max_weight))
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_multisig_approve_as_multi_V8(
-    parser_context_t* c, pd_multisig_approve_as_multi_V8_t* m)
+__Z_INLINE parser_error_t _readMethod_multisig_approve_as_multi_V9(
+    parser_context_t* c, pd_multisig_approve_as_multi_V9_t* m)
 {
     CHECK_ERROR(_readu16(c, &m->threshold))
-    CHECK_ERROR(_readVecAccountId_V8(c, &m->other_signatories))
-    CHECK_ERROR(_readOptionTimepoint_V8(c, &m->maybe_timepoint))
+    CHECK_ERROR(_readVecAccountId_V9(c, &m->other_signatories))
+    CHECK_ERROR(_readOptionTimepoint_V9(c, &m->maybe_timepoint))
     CHECK_ERROR(_readH256(c, &m->call_hash))
-    CHECK_ERROR(_readWeight_V8(c, &m->max_weight))
+    CHECK_ERROR(_readWeight_V9(c, &m->max_weight))
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_multisig_cancel_as_multi_V8(
-    parser_context_t* c, pd_multisig_cancel_as_multi_V8_t* m)
+__Z_INLINE parser_error_t _readMethod_multisig_cancel_as_multi_V9(
+    parser_context_t* c, pd_multisig_cancel_as_multi_V9_t* m)
 {
     CHECK_ERROR(_readu16(c, &m->threshold))
-    CHECK_ERROR(_readVecAccountId_V8(c, &m->other_signatories))
-    CHECK_ERROR(_readTimepoint_V8(c, &m->timepoint))
+    CHECK_ERROR(_readVecAccountId_V9(c, &m->other_signatories))
+    CHECK_ERROR(_readTimepoint_V9(c, &m->timepoint))
     CHECK_ERROR(_readH256(c, &m->call_hash))
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_sudo_sudo_V8(
-    parser_context_t* c, pd_sudo_sudo_V8_t* m)
+__Z_INLINE parser_error_t _readMethod_sudo_sudo_V9(
+    parser_context_t* c, pd_sudo_sudo_V9_t* m)
 {
     CHECK_ERROR(_readCall(c, &m->call))
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_sudo_sudo_unchecked_weight_V8(
-    parser_context_t* c, pd_sudo_sudo_unchecked_weight_V8_t* m)
+__Z_INLINE parser_error_t _readMethod_sudo_sudo_unchecked_weight_V9(
+    parser_context_t* c, pd_sudo_sudo_unchecked_weight_V9_t* m)
 {
     CHECK_ERROR(_readCall(c, &m->call))
-    CHECK_ERROR(_readWeight_V8(c, &m->weight))
+    CHECK_ERROR(_readWeight_V9(c, &m->weight))
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_sudo_set_key_V8(
-    parser_context_t* c, pd_sudo_set_key_V8_t* m)
+__Z_INLINE parser_error_t _readMethod_sudo_set_key_V9(
+    parser_context_t* c, pd_sudo_set_key_V9_t* m)
 {
-    CHECK_ERROR(_readLookupasStaticLookupSource_V8(c, &m->new_))
+    CHECK_ERROR(_readLookupasStaticLookupSource_V9(c, &m->new_))
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_sudo_sudo_as_V8(
-    parser_context_t* c, pd_sudo_sudo_as_V8_t* m)
+__Z_INLINE parser_error_t _readMethod_sudo_sudo_as_V9(
+    parser_context_t* c, pd_sudo_sudo_as_V9_t* m)
 {
-    CHECK_ERROR(_readLookupasStaticLookupSource_V8(c, &m->who))
+    CHECK_ERROR(_readLookupasStaticLookupSource_V9(c, &m->who))
     CHECK_ERROR(_readCall(c, &m->call))
     return parser_ok;
 }
 
 #endif
 
-parser_error_t _readMethod_V8(
+parser_error_t _readMethod_V9(
     parser_context_t* c,
     uint8_t moduleIdx,
     uint8_t callIdx,
-    pd_Method_V8_t* method)
+    pd_Method_V9_t* method)
 {
     uint16_t callPrivIdx = ((uint16_t)moduleIdx << 8u) + callIdx;
 
     switch (callPrivIdx) {
 
     case 1280: /* module 5 call 0 */
-        CHECK_ERROR(_readMethod_balances_transfer_V8(c, &method->nested.balances_transfer_V8))
+        CHECK_ERROR(_readMethod_balances_transfer_V9(c, &method->nested.balances_transfer_V9))
         break;
     case 1282: /* module 5 call 2 */
-        CHECK_ERROR(_readMethod_balances_force_transfer_V8(c, &method->nested.balances_force_transfer_V8))
+        CHECK_ERROR(_readMethod_balances_force_transfer_V9(c, &method->nested.balances_force_transfer_V9))
         break;
     case 1283: /* module 5 call 3 */
-        CHECK_ERROR(_readMethod_balances_transfer_keep_alive_V8(c, &method->nested.balances_transfer_keep_alive_V8))
+        CHECK_ERROR(_readMethod_balances_transfer_keep_alive_V9(c, &method->nested.balances_transfer_keep_alive_V9))
         break;
     case 1284: /* module 5 call 4 */
-        CHECK_ERROR(_readMethod_balances_transfer_all_V8(c, &method->basic.balances_transfer_all_V8))
+        CHECK_ERROR(_readMethod_balances_transfer_all_V9(c, &method->basic.balances_transfer_all_V9))
         break;
     case 2560: /* module 10 call 0 */
-        CHECK_ERROR(_readMethod_session_set_keys_V8(c, &method->basic.session_set_keys_V8))
+        CHECK_ERROR(_readMethod_session_set_keys_V9(c, &method->basic.session_set_keys_V9))
         break;
     case 2561: /* module 10 call 1 */
-        CHECK_ERROR(_readMethod_session_purge_keys_V8(c, &method->basic.session_purge_keys_V8))
+        CHECK_ERROR(_readMethod_session_purge_keys_V9(c, &method->basic.session_purge_keys_V9))
         break;
     case 3840: /* module 15 call 0 */
-        CHECK_ERROR(_readMethod_utility_batch_V8(c, &method->basic.utility_batch_V8))
+        CHECK_ERROR(_readMethod_utility_batch_V9(c, &method->basic.utility_batch_V9))
         break;
     case 3842: /* module 15 call 2 */
-        CHECK_ERROR(_readMethod_utility_batch_all_V8(c, &method->basic.utility_batch_all_V8))
+        CHECK_ERROR(_readMethod_utility_batch_all_V9(c, &method->basic.utility_batch_all_V9))
         break;
     case 3844: /* module 15 call 4 */
-        CHECK_ERROR(_readMethod_utility_force_batch_V8(c, &method->basic.utility_force_batch_V8))
+        CHECK_ERROR(_readMethod_utility_force_batch_V9(c, &method->basic.utility_force_batch_V9))
         break;
 
 #ifdef SUBSTRATE_PARSER_FULL
     case 0: /* module 0 call 0 */
-        CHECK_ERROR(_readMethod_system_fill_block_V8(c, &method->nested.system_fill_block_V8))
+        CHECK_ERROR(_readMethod_system_fill_block_V9(c, &method->nested.system_fill_block_V9))
         break;
     case 1: /* module 0 call 1 */
-        CHECK_ERROR(_readMethod_system_remark_V8(c, &method->nested.system_remark_V8))
+        CHECK_ERROR(_readMethod_system_remark_V9(c, &method->nested.system_remark_V9))
         break;
     case 2: /* module 0 call 2 */
-        CHECK_ERROR(_readMethod_system_set_heap_pages_V8(c, &method->nested.system_set_heap_pages_V8))
+        CHECK_ERROR(_readMethod_system_set_heap_pages_V9(c, &method->nested.system_set_heap_pages_V9))
         break;
     case 3: /* module 0 call 3 */
-        CHECK_ERROR(_readMethod_system_set_code_V8(c, &method->nested.system_set_code_V8))
+        CHECK_ERROR(_readMethod_system_set_code_V9(c, &method->nested.system_set_code_V9))
         break;
     case 4: /* module 0 call 4 */
-        CHECK_ERROR(_readMethod_system_set_code_without_checks_V8(c, &method->nested.system_set_code_without_checks_V8))
+        CHECK_ERROR(_readMethod_system_set_code_without_checks_V9(c, &method->nested.system_set_code_without_checks_V9))
         break;
     case 8: /* module 0 call 8 */
-        CHECK_ERROR(_readMethod_system_remark_with_event_V8(c, &method->nested.system_remark_with_event_V8))
+        CHECK_ERROR(_readMethod_system_remark_with_event_V9(c, &method->nested.system_remark_with_event_V9))
         break;
     case 1024: /* module 4 call 0 */
-        CHECK_ERROR(_readMethod_timestamp_set_V8(c, &method->basic.timestamp_set_V8))
+        CHECK_ERROR(_readMethod_timestamp_set_V9(c, &method->basic.timestamp_set_V9))
         break;
     case 1281: /* module 5 call 1 */
-        CHECK_ERROR(_readMethod_balances_set_balance_V8(c, &method->nested.balances_set_balance_V8))
+        CHECK_ERROR(_readMethod_balances_set_balance_V9(c, &method->nested.balances_set_balance_V9))
         break;
     case 1285: /* module 5 call 5 */
-        CHECK_ERROR(_readMethod_balances_force_unreserve_V8(c, &method->basic.balances_force_unreserve_V8))
+        CHECK_ERROR(_readMethod_balances_force_unreserve_V9(c, &method->basic.balances_force_unreserve_V9))
         break;
     case 3584: /* module 14 call 0 */
-        CHECK_ERROR(_readMethod_vesting_vest_V8(c, &method->basic.vesting_vest_V8))
+        CHECK_ERROR(_readMethod_vesting_vest_V9(c, &method->basic.vesting_vest_V9))
         break;
     case 3585: /* module 14 call 1 */
-        CHECK_ERROR(_readMethod_vesting_vest_other_V8(c, &method->basic.vesting_vest_other_V8))
+        CHECK_ERROR(_readMethod_vesting_vest_other_V9(c, &method->basic.vesting_vest_other_V9))
         break;
     case 3586: /* module 14 call 2 */
-        CHECK_ERROR(_readMethod_vesting_vested_transfer_V8(c, &method->basic.vesting_vested_transfer_V8))
+        CHECK_ERROR(_readMethod_vesting_vested_transfer_V9(c, &method->basic.vesting_vested_transfer_V9))
         break;
     case 3587: /* module 14 call 3 */
-        CHECK_ERROR(_readMethod_vesting_force_vested_transfer_V8(c, &method->basic.vesting_force_vested_transfer_V8))
+        CHECK_ERROR(_readMethod_vesting_force_vested_transfer_V9(c, &method->basic.vesting_force_vested_transfer_V9))
         break;
     case 3588: /* module 14 call 4 */
-        CHECK_ERROR(_readMethod_vesting_merge_schedules_V8(c, &method->basic.vesting_merge_schedules_V8))
+        CHECK_ERROR(_readMethod_vesting_merge_schedules_V9(c, &method->basic.vesting_merge_schedules_V9))
         break;
     case 4096: /* module 16 call 0 */
-        CHECK_ERROR(_readMethod_multisig_as_multi_threshold_1_V8(c, &method->nested.multisig_as_multi_threshold_1_V8))
+        CHECK_ERROR(_readMethod_multisig_as_multi_threshold_1_V9(c, &method->nested.multisig_as_multi_threshold_1_V9))
         break;
     case 4097: /* module 16 call 1 */
-        CHECK_ERROR(_readMethod_multisig_as_multi_V8(c, &method->nested.multisig_as_multi_V8))
+        CHECK_ERROR(_readMethod_multisig_as_multi_V9(c, &method->nested.multisig_as_multi_V9))
         break;
     case 4098: /* module 16 call 2 */
-        CHECK_ERROR(_readMethod_multisig_approve_as_multi_V8(c, &method->nested.multisig_approve_as_multi_V8))
+        CHECK_ERROR(_readMethod_multisig_approve_as_multi_V9(c, &method->nested.multisig_approve_as_multi_V9))
         break;
     case 4099: /* module 16 call 3 */
-        CHECK_ERROR(_readMethod_multisig_cancel_as_multi_V8(c, &method->nested.multisig_cancel_as_multi_V8))
+        CHECK_ERROR(_readMethod_multisig_cancel_as_multi_V9(c, &method->nested.multisig_cancel_as_multi_V9))
         break;
     case 4352: /* module 17 call 0 */
-        CHECK_ERROR(_readMethod_sudo_sudo_V8(c, &method->basic.sudo_sudo_V8))
+        CHECK_ERROR(_readMethod_sudo_sudo_V9(c, &method->basic.sudo_sudo_V9))
         break;
     case 4353: /* module 17 call 1 */
-        CHECK_ERROR(_readMethod_sudo_sudo_unchecked_weight_V8(c, &method->basic.sudo_sudo_unchecked_weight_V8))
+        CHECK_ERROR(_readMethod_sudo_sudo_unchecked_weight_V9(c, &method->basic.sudo_sudo_unchecked_weight_V9))
         break;
     case 4354: /* module 17 call 2 */
-        CHECK_ERROR(_readMethod_sudo_set_key_V8(c, &method->basic.sudo_set_key_V8))
+        CHECK_ERROR(_readMethod_sudo_set_key_V9(c, &method->basic.sudo_set_key_V9))
         break;
     case 4355: /* module 17 call 3 */
-        CHECK_ERROR(_readMethod_sudo_sudo_as_V8(c, &method->basic.sudo_sudo_as_V8))
+        CHECK_ERROR(_readMethod_sudo_sudo_as_V9(c, &method->basic.sudo_sudo_as_V9))
         break;
 #endif
     default:
@@ -383,7 +383,7 @@ parser_error_t _readMethod_V8(
 /////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////
 
-const char* _getMethod_ModuleName_V8(uint8_t moduleIdx)
+const char* _getMethod_ModuleName_V9(uint8_t moduleIdx)
 {
     switch (moduleIdx) {
     case 5:
@@ -411,7 +411,7 @@ const char* _getMethod_ModuleName_V8(uint8_t moduleIdx)
     return NULL;
 }
 
-const char* _getMethod_Name_V8(uint8_t moduleIdx, uint8_t callIdx)
+const char* _getMethod_Name_V9(uint8_t moduleIdx, uint8_t callIdx)
 {
     uint16_t callPrivIdx = ((uint16_t)moduleIdx << 8u) + callIdx;
 
@@ -435,13 +435,13 @@ const char* _getMethod_Name_V8(uint8_t moduleIdx, uint8_t callIdx)
     case 3844: /* module 15 call 4 */
         return STR_ME_FORCE_BATCH;
     default:
-        return _getMethod_Name_V8_ParserFull(callPrivIdx);
+        return _getMethod_Name_V9_ParserFull(callPrivIdx);
     }
 
     return NULL;
 }
 
-const char* _getMethod_Name_V8_ParserFull(uint16_t callPrivIdx)
+const char* _getMethod_Name_V9_ParserFull(uint16_t callPrivIdx)
 {
     switch (callPrivIdx) {
 #ifdef SUBSTRATE_PARSER_FULL
@@ -497,7 +497,7 @@ const char* _getMethod_Name_V8_ParserFull(uint16_t callPrivIdx)
     return NULL;
 }
 
-uint8_t _getMethod_NumItems_V8(uint8_t moduleIdx, uint8_t callIdx)
+uint8_t _getMethod_NumItems_V9(uint8_t moduleIdx, uint8_t callIdx)
 {
     uint16_t callPrivIdx = ((uint16_t)moduleIdx << 8u) + callIdx;
 
@@ -573,7 +573,7 @@ uint8_t _getMethod_NumItems_V8(uint8_t moduleIdx, uint8_t callIdx)
     return 0;
 }
 
-const char* _getMethod_ItemName_V8(uint8_t moduleIdx, uint8_t callIdx, uint8_t itemIdx)
+const char* _getMethod_ItemName_V9(uint8_t moduleIdx, uint8_t callIdx, uint8_t itemIdx)
 {
     uint16_t callPrivIdx = ((uint16_t)moduleIdx << 8u) + callIdx;
 
@@ -856,8 +856,8 @@ const char* _getMethod_ItemName_V8(uint8_t moduleIdx, uint8_t callIdx, uint8_t i
     return NULL;
 }
 
-parser_error_t _getMethod_ItemValue_V8(
-    pd_Method_V8_t* m,
+parser_error_t _getMethod_ItemValue_V9(
+    pd_Method_V9_t* m,
     uint8_t moduleIdx, uint8_t callIdx, uint8_t itemIdx,
     char* outValue, uint16_t outValueLen,
     uint8_t pageIdx, uint8_t* pageCount)
@@ -867,14 +867,14 @@ parser_error_t _getMethod_ItemValue_V8(
     switch (callPrivIdx) {
     case 1280: /* module 5 call 0 */
         switch (itemIdx) {
-        case 0: /* balances_transfer_V8 - dest */;
-            return _toStringLookupasStaticLookupSource_V8(
-                &m->nested.balances_transfer_V8.dest,
+        case 0: /* balances_transfer_V9 - dest */;
+            return _toStringLookupasStaticLookupSource_V9(
+                &m->nested.balances_transfer_V9.dest,
                 outValue, outValueLen,
                 pageIdx, pageCount);
-        case 1: /* balances_transfer_V8 - amount */;
+        case 1: /* balances_transfer_V9 - amount */;
             return _toStringCompactBalance(
-                &m->nested.balances_transfer_V8.amount,
+                &m->nested.balances_transfer_V9.amount,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -882,19 +882,19 @@ parser_error_t _getMethod_ItemValue_V8(
         }
     case 1282: /* module 5 call 2 */
         switch (itemIdx) {
-        case 0: /* balances_force_transfer_V8 - source */;
-            return _toStringLookupasStaticLookupSource_V8(
-                &m->nested.balances_force_transfer_V8.source,
+        case 0: /* balances_force_transfer_V9 - source */;
+            return _toStringLookupasStaticLookupSource_V9(
+                &m->nested.balances_force_transfer_V9.source,
                 outValue, outValueLen,
                 pageIdx, pageCount);
-        case 1: /* balances_force_transfer_V8 - dest */;
-            return _toStringLookupasStaticLookupSource_V8(
-                &m->nested.balances_force_transfer_V8.dest,
+        case 1: /* balances_force_transfer_V9 - dest */;
+            return _toStringLookupasStaticLookupSource_V9(
+                &m->nested.balances_force_transfer_V9.dest,
                 outValue, outValueLen,
                 pageIdx, pageCount);
-        case 2: /* balances_force_transfer_V8 - amount */;
+        case 2: /* balances_force_transfer_V9 - amount */;
             return _toStringCompactBalance(
-                &m->nested.balances_force_transfer_V8.amount,
+                &m->nested.balances_force_transfer_V9.amount,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -902,14 +902,14 @@ parser_error_t _getMethod_ItemValue_V8(
         }
     case 1283: /* module 5 call 3 */
         switch (itemIdx) {
-        case 0: /* balances_transfer_keep_alive_V8 - dest */;
-            return _toStringLookupasStaticLookupSource_V8(
-                &m->nested.balances_transfer_keep_alive_V8.dest,
+        case 0: /* balances_transfer_keep_alive_V9 - dest */;
+            return _toStringLookupasStaticLookupSource_V9(
+                &m->nested.balances_transfer_keep_alive_V9.dest,
                 outValue, outValueLen,
                 pageIdx, pageCount);
-        case 1: /* balances_transfer_keep_alive_V8 - amount */;
+        case 1: /* balances_transfer_keep_alive_V9 - amount */;
             return _toStringCompactBalance(
-                &m->nested.balances_transfer_keep_alive_V8.amount,
+                &m->nested.balances_transfer_keep_alive_V9.amount,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -917,14 +917,14 @@ parser_error_t _getMethod_ItemValue_V8(
         }
     case 1284: /* module 5 call 4 */
         switch (itemIdx) {
-        case 0: /* balances_transfer_all_V8 - dest */;
-            return _toStringLookupasStaticLookupSource_V8(
-                &m->basic.balances_transfer_all_V8.dest,
+        case 0: /* balances_transfer_all_V9 - dest */;
+            return _toStringLookupasStaticLookupSource_V9(
+                &m->basic.balances_transfer_all_V9.dest,
                 outValue, outValueLen,
                 pageIdx, pageCount);
-        case 1: /* balances_transfer_all_V8 - keep_alive */;
+        case 1: /* balances_transfer_all_V9 - keep_alive */;
             return _toStringbool(
-                &m->basic.balances_transfer_all_V8.keep_alive,
+                &m->basic.balances_transfer_all_V9.keep_alive,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -932,14 +932,14 @@ parser_error_t _getMethod_ItemValue_V8(
         }
     case 2560: /* module 10 call 0 */
         switch (itemIdx) {
-        case 0: /* session_set_keys_V8 - keys */;
-            return _toStringKeys_V8(
-                &m->basic.session_set_keys_V8.keys,
+        case 0: /* session_set_keys_V9 - keys */;
+            return _toStringKeys_V9(
+                &m->basic.session_set_keys_V9.keys,
                 outValue, outValueLen,
                 pageIdx, pageCount);
-        case 1: /* session_set_keys_V8 - proof */;
+        case 1: /* session_set_keys_V9 - proof */;
             return _toStringBytes(
-                &m->basic.session_set_keys_V8.proof,
+                &m->basic.session_set_keys_V9.proof,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -952,9 +952,9 @@ parser_error_t _getMethod_ItemValue_V8(
         }
     case 3840: /* module 15 call 0 */
         switch (itemIdx) {
-        case 0: /* utility_batch_V8 - calls */;
+        case 0: /* utility_batch_V9 - calls */;
             return _toStringVecCall(
-                &m->basic.utility_batch_V8.calls,
+                &m->basic.utility_batch_V9.calls,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -962,9 +962,9 @@ parser_error_t _getMethod_ItemValue_V8(
         }
     case 3842: /* module 15 call 2 */
         switch (itemIdx) {
-        case 0: /* utility_batch_all_V8 - calls */;
+        case 0: /* utility_batch_all_V9 - calls */;
             return _toStringVecCall(
-                &m->basic.utility_batch_all_V8.calls,
+                &m->basic.utility_batch_all_V9.calls,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -972,9 +972,9 @@ parser_error_t _getMethod_ItemValue_V8(
         }
     case 3844: /* module 15 call 4 */
         switch (itemIdx) {
-        case 0: /* utility_force_batch_V8 - calls */;
+        case 0: /* utility_force_batch_V9 - calls */;
             return _toStringVecCall(
-                &m->basic.utility_force_batch_V8.calls,
+                &m->basic.utility_force_batch_V9.calls,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -983,9 +983,9 @@ parser_error_t _getMethod_ItemValue_V8(
 #ifdef SUBSTRATE_PARSER_FULL
     case 0: /* module 0 call 0 */
         switch (itemIdx) {
-        case 0: /* system_fill_block_V8 - ratio */;
-            return _toStringPerbill_V8(
-                &m->nested.system_fill_block_V8.ratio,
+        case 0: /* system_fill_block_V9 - ratio */;
+            return _toStringPerbill_V9(
+                &m->nested.system_fill_block_V9.ratio,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -993,9 +993,9 @@ parser_error_t _getMethod_ItemValue_V8(
         }
     case 1: /* module 0 call 1 */
         switch (itemIdx) {
-        case 0: /* system_remark_V8 - remark */;
+        case 0: /* system_remark_V9 - remark */;
             return _toStringVecu8(
-                &m->nested.system_remark_V8.remark,
+                &m->nested.system_remark_V9.remark,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -1003,9 +1003,9 @@ parser_error_t _getMethod_ItemValue_V8(
         }
     case 2: /* module 0 call 2 */
         switch (itemIdx) {
-        case 0: /* system_set_heap_pages_V8 - pages */;
+        case 0: /* system_set_heap_pages_V9 - pages */;
             return _toStringu64(
-                &m->nested.system_set_heap_pages_V8.pages,
+                &m->nested.system_set_heap_pages_V9.pages,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -1013,9 +1013,9 @@ parser_error_t _getMethod_ItemValue_V8(
         }
     case 3: /* module 0 call 3 */
         switch (itemIdx) {
-        case 0: /* system_set_code_V8 - code */;
+        case 0: /* system_set_code_V9 - code */;
             return _toStringVecu8(
-                &m->nested.system_set_code_V8.code,
+                &m->nested.system_set_code_V9.code,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -1023,9 +1023,9 @@ parser_error_t _getMethod_ItemValue_V8(
         }
     case 4: /* module 0 call 4 */
         switch (itemIdx) {
-        case 0: /* system_set_code_without_checks_V8 - code */;
+        case 0: /* system_set_code_without_checks_V9 - code */;
             return _toStringVecu8(
-                &m->nested.system_set_code_without_checks_V8.code,
+                &m->nested.system_set_code_without_checks_V9.code,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -1033,9 +1033,9 @@ parser_error_t _getMethod_ItemValue_V8(
         }
     case 8: /* module 0 call 8 */
         switch (itemIdx) {
-        case 0: /* system_remark_with_event_V8 - remark */;
+        case 0: /* system_remark_with_event_V9 - remark */;
             return _toStringVecu8(
-                &m->nested.system_remark_with_event_V8.remark,
+                &m->nested.system_remark_with_event_V9.remark,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -1043,9 +1043,9 @@ parser_error_t _getMethod_ItemValue_V8(
         }
     case 1024: /* module 4 call 0 */
         switch (itemIdx) {
-        case 0: /* timestamp_set_V8 - now */;
+        case 0: /* timestamp_set_V9 - now */;
             return _toStringCompactu64(
-                &m->basic.timestamp_set_V8.now,
+                &m->basic.timestamp_set_V9.now,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -1053,19 +1053,19 @@ parser_error_t _getMethod_ItemValue_V8(
         }
     case 1281: /* module 5 call 1 */
         switch (itemIdx) {
-        case 0: /* balances_set_balance_V8 - who */;
-            return _toStringLookupasStaticLookupSource_V8(
-                &m->nested.balances_set_balance_V8.who,
+        case 0: /* balances_set_balance_V9 - who */;
+            return _toStringLookupasStaticLookupSource_V9(
+                &m->nested.balances_set_balance_V9.who,
                 outValue, outValueLen,
                 pageIdx, pageCount);
-        case 1: /* balances_set_balance_V8 - new_free */;
+        case 1: /* balances_set_balance_V9 - new_free */;
             return _toStringCompactBalance(
-                &m->nested.balances_set_balance_V8.new_free,
+                &m->nested.balances_set_balance_V9.new_free,
                 outValue, outValueLen,
                 pageIdx, pageCount);
-        case 2: /* balances_set_balance_V8 - new_reserved */;
+        case 2: /* balances_set_balance_V9 - new_reserved */;
             return _toStringCompactBalance(
-                &m->nested.balances_set_balance_V8.new_reserved,
+                &m->nested.balances_set_balance_V9.new_reserved,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -1073,14 +1073,14 @@ parser_error_t _getMethod_ItemValue_V8(
         }
     case 1285: /* module 5 call 5 */
         switch (itemIdx) {
-        case 0: /* balances_force_unreserve_V8 - who */;
-            return _toStringLookupasStaticLookupSource_V8(
-                &m->basic.balances_force_unreserve_V8.who,
+        case 0: /* balances_force_unreserve_V9 - who */;
+            return _toStringLookupasStaticLookupSource_V9(
+                &m->basic.balances_force_unreserve_V9.who,
                 outValue, outValueLen,
                 pageIdx, pageCount);
-        case 1: /* balances_force_unreserve_V8 - amount */;
+        case 1: /* balances_force_unreserve_V9 - amount */;
             return _toStringBalance(
-                &m->basic.balances_force_unreserve_V8.amount,
+                &m->basic.balances_force_unreserve_V9.amount,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -1093,9 +1093,9 @@ parser_error_t _getMethod_ItemValue_V8(
         }
     case 3585: /* module 14 call 1 */
         switch (itemIdx) {
-        case 0: /* vesting_vest_other_V8 - target */;
-            return _toStringLookupasStaticLookupSource_V8(
-                &m->basic.vesting_vest_other_V8.target,
+        case 0: /* vesting_vest_other_V9 - target */;
+            return _toStringLookupasStaticLookupSource_V9(
+                &m->basic.vesting_vest_other_V9.target,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -1103,14 +1103,14 @@ parser_error_t _getMethod_ItemValue_V8(
         }
     case 3586: /* module 14 call 2 */
         switch (itemIdx) {
-        case 0: /* vesting_vested_transfer_V8 - target */;
-            return _toStringLookupasStaticLookupSource_V8(
-                &m->basic.vesting_vested_transfer_V8.target,
+        case 0: /* vesting_vested_transfer_V9 - target */;
+            return _toStringLookupasStaticLookupSource_V9(
+                &m->basic.vesting_vested_transfer_V9.target,
                 outValue, outValueLen,
                 pageIdx, pageCount);
-        case 1: /* vesting_vested_transfer_V8 - schedule */;
-            return _toStringVestingInfo_V8(
-                &m->basic.vesting_vested_transfer_V8.schedule,
+        case 1: /* vesting_vested_transfer_V9 - schedule */;
+            return _toStringVestingInfo_V9(
+                &m->basic.vesting_vested_transfer_V9.schedule,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -1118,19 +1118,19 @@ parser_error_t _getMethod_ItemValue_V8(
         }
     case 3587: /* module 14 call 3 */
         switch (itemIdx) {
-        case 0: /* vesting_force_vested_transfer_V8 - source */;
-            return _toStringLookupasStaticLookupSource_V8(
-                &m->basic.vesting_force_vested_transfer_V8.source,
+        case 0: /* vesting_force_vested_transfer_V9 - source */;
+            return _toStringLookupasStaticLookupSource_V9(
+                &m->basic.vesting_force_vested_transfer_V9.source,
                 outValue, outValueLen,
                 pageIdx, pageCount);
-        case 1: /* vesting_force_vested_transfer_V8 - target */;
-            return _toStringLookupasStaticLookupSource_V8(
-                &m->basic.vesting_force_vested_transfer_V8.target,
+        case 1: /* vesting_force_vested_transfer_V9 - target */;
+            return _toStringLookupasStaticLookupSource_V9(
+                &m->basic.vesting_force_vested_transfer_V9.target,
                 outValue, outValueLen,
                 pageIdx, pageCount);
-        case 2: /* vesting_force_vested_transfer_V8 - schedule */;
-            return _toStringVestingInfo_V8(
-                &m->basic.vesting_force_vested_transfer_V8.schedule,
+        case 2: /* vesting_force_vested_transfer_V9 - schedule */;
+            return _toStringVestingInfo_V9(
+                &m->basic.vesting_force_vested_transfer_V9.schedule,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -1138,14 +1138,14 @@ parser_error_t _getMethod_ItemValue_V8(
         }
     case 3588: /* module 14 call 4 */
         switch (itemIdx) {
-        case 0: /* vesting_merge_schedules_V8 - schedule1_index */;
+        case 0: /* vesting_merge_schedules_V9 - schedule1_index */;
             return _toStringu32(
-                &m->basic.vesting_merge_schedules_V8.schedule1_index,
+                &m->basic.vesting_merge_schedules_V9.schedule1_index,
                 outValue, outValueLen,
                 pageIdx, pageCount);
-        case 1: /* vesting_merge_schedules_V8 - schedule2_index */;
+        case 1: /* vesting_merge_schedules_V9 - schedule2_index */;
             return _toStringu32(
-                &m->basic.vesting_merge_schedules_V8.schedule2_index,
+                &m->basic.vesting_merge_schedules_V9.schedule2_index,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -1153,14 +1153,14 @@ parser_error_t _getMethod_ItemValue_V8(
         }
     case 4096: /* module 16 call 0 */
         switch (itemIdx) {
-        case 0: /* multisig_as_multi_threshold_1_V8 - other_signatories */;
-            return _toStringVecAccountId_V8(
-                &m->nested.multisig_as_multi_threshold_1_V8.other_signatories,
+        case 0: /* multisig_as_multi_threshold_1_V9 - other_signatories */;
+            return _toStringVecAccountId_V9(
+                &m->nested.multisig_as_multi_threshold_1_V9.other_signatories,
                 outValue, outValueLen,
                 pageIdx, pageCount);
-        case 1: /* multisig_as_multi_threshold_1_V8 - call */;
+        case 1: /* multisig_as_multi_threshold_1_V9 - call */;
             return _toStringCall(
-                &m->nested.multisig_as_multi_threshold_1_V8.call,
+                &m->nested.multisig_as_multi_threshold_1_V9.call,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -1168,34 +1168,34 @@ parser_error_t _getMethod_ItemValue_V8(
         }
     case 4097: /* module 16 call 1 */
         switch (itemIdx) {
-        case 0: /* multisig_as_multi_V8 - threshold */;
+        case 0: /* multisig_as_multi_V9 - threshold */;
             return _toStringu16(
-                &m->nested.multisig_as_multi_V8.threshold,
+                &m->nested.multisig_as_multi_V9.threshold,
                 outValue, outValueLen,
                 pageIdx, pageCount);
-        case 1: /* multisig_as_multi_V8 - other_signatories */;
-            return _toStringVecAccountId_V8(
-                &m->nested.multisig_as_multi_V8.other_signatories,
+        case 1: /* multisig_as_multi_V9 - other_signatories */;
+            return _toStringVecAccountId_V9(
+                &m->nested.multisig_as_multi_V9.other_signatories,
                 outValue, outValueLen,
                 pageIdx, pageCount);
-        case 2: /* multisig_as_multi_V8 - maybe_timepoint */;
-            return _toStringOptionTimepoint_V8(
-                &m->nested.multisig_as_multi_V8.maybe_timepoint,
+        case 2: /* multisig_as_multi_V9 - maybe_timepoint */;
+            return _toStringOptionTimepoint_V9(
+                &m->nested.multisig_as_multi_V9.maybe_timepoint,
                 outValue, outValueLen,
                 pageIdx, pageCount);
-        case 3: /* multisig_as_multi_V8 - call */;
-            return _toStringOpaqueCall_V8(
-                &m->nested.multisig_as_multi_V8.call,
+        case 3: /* multisig_as_multi_V9 - call */;
+            return _toStringOpaqueCall_V9(
+                &m->nested.multisig_as_multi_V9.call,
                 outValue, outValueLen,
                 pageIdx, pageCount);
-        case 4: /* multisig_as_multi_V8 - store_call */;
+        case 4: /* multisig_as_multi_V9 - store_call */;
             return _toStringbool(
-                &m->nested.multisig_as_multi_V8.store_call,
+                &m->nested.multisig_as_multi_V9.store_call,
                 outValue, outValueLen,
                 pageIdx, pageCount);
-        case 5: /* multisig_as_multi_V8 - max_weight */;
-            return _toStringWeight_V8(
-                &m->nested.multisig_as_multi_V8.max_weight,
+        case 5: /* multisig_as_multi_V9 - max_weight */;
+            return _toStringWeight_V9(
+                &m->nested.multisig_as_multi_V9.max_weight,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -1203,29 +1203,29 @@ parser_error_t _getMethod_ItemValue_V8(
         }
     case 4098: /* module 16 call 2 */
         switch (itemIdx) {
-        case 0: /* multisig_approve_as_multi_V8 - threshold */;
+        case 0: /* multisig_approve_as_multi_V9 - threshold */;
             return _toStringu16(
-                &m->nested.multisig_approve_as_multi_V8.threshold,
+                &m->nested.multisig_approve_as_multi_V9.threshold,
                 outValue, outValueLen,
                 pageIdx, pageCount);
-        case 1: /* multisig_approve_as_multi_V8 - other_signatories */;
-            return _toStringVecAccountId_V8(
-                &m->nested.multisig_approve_as_multi_V8.other_signatories,
+        case 1: /* multisig_approve_as_multi_V9 - other_signatories */;
+            return _toStringVecAccountId_V9(
+                &m->nested.multisig_approve_as_multi_V9.other_signatories,
                 outValue, outValueLen,
                 pageIdx, pageCount);
-        case 2: /* multisig_approve_as_multi_V8 - maybe_timepoint */;
-            return _toStringOptionTimepoint_V8(
-                &m->nested.multisig_approve_as_multi_V8.maybe_timepoint,
+        case 2: /* multisig_approve_as_multi_V9 - maybe_timepoint */;
+            return _toStringOptionTimepoint_V9(
+                &m->nested.multisig_approve_as_multi_V9.maybe_timepoint,
                 outValue, outValueLen,
                 pageIdx, pageCount);
-        case 3: /* multisig_approve_as_multi_V8 - call_hash */;
+        case 3: /* multisig_approve_as_multi_V9 - call_hash */;
             return _toStringH256(
-                &m->nested.multisig_approve_as_multi_V8.call_hash,
+                &m->nested.multisig_approve_as_multi_V9.call_hash,
                 outValue, outValueLen,
                 pageIdx, pageCount);
-        case 4: /* multisig_approve_as_multi_V8 - max_weight */;
-            return _toStringWeight_V8(
-                &m->nested.multisig_approve_as_multi_V8.max_weight,
+        case 4: /* multisig_approve_as_multi_V9 - max_weight */;
+            return _toStringWeight_V9(
+                &m->nested.multisig_approve_as_multi_V9.max_weight,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -1233,24 +1233,24 @@ parser_error_t _getMethod_ItemValue_V8(
         }
     case 4099: /* module 16 call 3 */
         switch (itemIdx) {
-        case 0: /* multisig_cancel_as_multi_V8 - threshold */;
+        case 0: /* multisig_cancel_as_multi_V9 - threshold */;
             return _toStringu16(
-                &m->nested.multisig_cancel_as_multi_V8.threshold,
+                &m->nested.multisig_cancel_as_multi_V9.threshold,
                 outValue, outValueLen,
                 pageIdx, pageCount);
-        case 1: /* multisig_cancel_as_multi_V8 - other_signatories */;
-            return _toStringVecAccountId_V8(
-                &m->nested.multisig_cancel_as_multi_V8.other_signatories,
+        case 1: /* multisig_cancel_as_multi_V9 - other_signatories */;
+            return _toStringVecAccountId_V9(
+                &m->nested.multisig_cancel_as_multi_V9.other_signatories,
                 outValue, outValueLen,
                 pageIdx, pageCount);
-        case 2: /* multisig_cancel_as_multi_V8 - timepoint */;
-            return _toStringTimepoint_V8(
-                &m->nested.multisig_cancel_as_multi_V8.timepoint,
+        case 2: /* multisig_cancel_as_multi_V9 - timepoint */;
+            return _toStringTimepoint_V9(
+                &m->nested.multisig_cancel_as_multi_V9.timepoint,
                 outValue, outValueLen,
                 pageIdx, pageCount);
-        case 3: /* multisig_cancel_as_multi_V8 - call_hash */;
+        case 3: /* multisig_cancel_as_multi_V9 - call_hash */;
             return _toStringH256(
-                &m->nested.multisig_cancel_as_multi_V8.call_hash,
+                &m->nested.multisig_cancel_as_multi_V9.call_hash,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -1258,9 +1258,9 @@ parser_error_t _getMethod_ItemValue_V8(
         }
     case 4352: /* module 17 call 0 */
         switch (itemIdx) {
-        case 0: /* sudo_sudo_V8 - call */;
+        case 0: /* sudo_sudo_V9 - call */;
             return _toStringCall(
-                &m->basic.sudo_sudo_V8.call,
+                &m->basic.sudo_sudo_V9.call,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -1268,14 +1268,14 @@ parser_error_t _getMethod_ItemValue_V8(
         }
     case 4353: /* module 17 call 1 */
         switch (itemIdx) {
-        case 0: /* sudo_sudo_unchecked_weight_V8 - call */;
+        case 0: /* sudo_sudo_unchecked_weight_V9 - call */;
             return _toStringCall(
-                &m->basic.sudo_sudo_unchecked_weight_V8.call,
+                &m->basic.sudo_sudo_unchecked_weight_V9.call,
                 outValue, outValueLen,
                 pageIdx, pageCount);
-        case 1: /* sudo_sudo_unchecked_weight_V8 - weight */;
-            return _toStringWeight_V8(
-                &m->basic.sudo_sudo_unchecked_weight_V8.weight,
+        case 1: /* sudo_sudo_unchecked_weight_V9 - weight */;
+            return _toStringWeight_V9(
+                &m->basic.sudo_sudo_unchecked_weight_V9.weight,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -1283,9 +1283,9 @@ parser_error_t _getMethod_ItemValue_V8(
         }
     case 4354: /* module 17 call 2 */
         switch (itemIdx) {
-        case 0: /* sudo_set_key_V8 - new_ */;
-            return _toStringLookupasStaticLookupSource_V8(
-                &m->basic.sudo_set_key_V8.new_,
+        case 0: /* sudo_set_key_V9 - new_ */;
+            return _toStringLookupasStaticLookupSource_V9(
+                &m->basic.sudo_set_key_V9.new_,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -1293,14 +1293,14 @@ parser_error_t _getMethod_ItemValue_V8(
         }
     case 4355: /* module 17 call 3 */
         switch (itemIdx) {
-        case 0: /* sudo_sudo_as_V8 - who */;
-            return _toStringLookupasStaticLookupSource_V8(
-                &m->basic.sudo_sudo_as_V8.who,
+        case 0: /* sudo_sudo_as_V9 - who */;
+            return _toStringLookupasStaticLookupSource_V9(
+                &m->basic.sudo_sudo_as_V9.who,
                 outValue, outValueLen,
                 pageIdx, pageCount);
-        case 1: /* sudo_sudo_as_V8 - call */;
+        case 1: /* sudo_sudo_as_V9 - call */;
             return _toStringCall(
-                &m->basic.sudo_sudo_as_V8.call,
+                &m->basic.sudo_sudo_as_V9.call,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -1314,7 +1314,7 @@ parser_error_t _getMethod_ItemValue_V8(
     return parser_ok;
 }
 
-bool _getMethod_ItemIsExpert_V8(uint8_t moduleIdx, uint8_t callIdx, uint8_t itemIdx)
+bool _getMethod_ItemIsExpert_V9(uint8_t moduleIdx, uint8_t callIdx, uint8_t itemIdx)
 {
     uint16_t callPrivIdx = ((uint16_t)moduleIdx << 8u) + callIdx;
 
@@ -1325,7 +1325,7 @@ bool _getMethod_ItemIsExpert_V8(uint8_t moduleIdx, uint8_t callIdx, uint8_t item
     }
 }
 
-bool _getMethod_IsNestingSupported_V8(uint8_t moduleIdx, uint8_t callIdx)
+bool _getMethod_IsNestingSupported_V9(uint8_t moduleIdx, uint8_t callIdx)
 {
     uint16_t callPrivIdx = ((uint16_t)moduleIdx << 8u) + callIdx;
 
