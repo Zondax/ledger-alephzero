@@ -28,7 +28,7 @@ Please:
 - **Do not use in production**
 - **Do not use a Ledger device with funds for development purposes.**
 - **Have a separate and marked device that is used ONLY for development and testing**
-# Aleph Zero  8.24.x
+# Aleph Zero  9.30.x
 
 ## System
 
@@ -116,6 +116,12 @@ Please:
 |Set keys | :heavy_check_mark:  | :heavy_check_mark: |   | `Keys` keys <br/>`Bytes` proof <br/> |
 |Purge keys | :heavy_check_mark:  | :heavy_check_mark: |   |  |
 
+## Aleph
+
+| Name        | Light | XL | Nesting | Arguments |
+| :---------- |:------------:|:--------:|:--------:|:--------|
+|Set emergency finalizer |    |   |   | `AuthorityId` emergency_finalizer <br/> |
+
 ## Elections
 
 | Name        | Light | XL | Nesting | Arguments |
@@ -129,6 +135,7 @@ Please:
 |Propose spend |    |   |   | `CompactBalance` amount <br/>`LookupasStaticLookupSource` beneficiary <br/> |
 |Reject proposal |    |   |   | `Compactu32` proposal_id <br/> |
 |Approve proposal |    |   |   | `Compactu32` proposal_id <br/> |
+|Spend |    |   |   | `CompactBalance` amount <br/>`LookupasStaticLookupSource` beneficiary <br/> |
 |Remove approval |    |   |   | `Compactu32` proposal_id <br/> |
 
 ## Vesting
@@ -196,6 +203,7 @@ Please:
 |Set metadata |    |   |   | `PoolId` pool_id <br/>`Vecu8` metadata <br/> |
 |Set configs |    |   |   | `ConfigOpBalanceOfT` min_join_bond <br/>`ConfigOpBalanceOfT` min_create_bond <br/>`ConfigOpu32` max_pools <br/>`ConfigOpu32` max_members <br/>`ConfigOpu32` max_members_per_pool <br/> |
 |Update roles |    |   |   | `PoolId` pool_id <br/>`ConfigOpAccountId` new_root <br/>`ConfigOpAccountId` new_nominator <br/>`ConfigOpAccountId` new_state_toggler <br/> |
+|Chill |    |   |   | `PoolId` pool_id <br/> |
 
 ## Identity
 
