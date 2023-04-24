@@ -1,5 +1,5 @@
 /*******************************************************************************
- *  (c) 2019 - 2022 Zondax AG
+ *  (c) 2019 - 2023 Zondax AG
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -26,10 +26,8 @@ parser_error_t _readMethod(
     pd_Method_t* method)
 {
     switch (c->tx_obj->transactionVersion) {
-    case 9:
-        return _readMethod_V9(c, moduleIdx, callIdx, &method->V9);
-    case 4:
-        return _readMethod_V4(c, moduleIdx, callIdx, &method->V4);
+    case 16:
+        return _readMethod_V16(c, moduleIdx, callIdx, &method->V16);
     default:
         return parser_tx_version_not_supported;
     }
@@ -38,10 +36,8 @@ parser_error_t _readMethod(
 uint8_t _getMethod_NumItems(uint32_t transactionVersion, uint8_t moduleIdx, uint8_t callIdx)
 {
     switch (transactionVersion) {
-    case 9:
-        return _getMethod_NumItems_V9(moduleIdx, callIdx);
-    case 4:
-        return _getMethod_NumItems_V4(moduleIdx, callIdx);
+    case 16:
+        return _getMethod_NumItems_V16(moduleIdx, callIdx);
     default:
         return parser_tx_version_not_supported;
     }
@@ -50,10 +46,8 @@ uint8_t _getMethod_NumItems(uint32_t transactionVersion, uint8_t moduleIdx, uint
 const char* _getMethod_ModuleName(uint32_t transactionVersion, uint8_t moduleIdx)
 {
     switch (transactionVersion) {
-    case 9:
-        return _getMethod_ModuleName_V9(moduleIdx);
-    case 4:
-        return _getMethod_ModuleName_V4(moduleIdx);
+    case 16:
+        return _getMethod_ModuleName_V16(moduleIdx);
     default:
         return NULL;
     }
@@ -62,10 +56,8 @@ const char* _getMethod_ModuleName(uint32_t transactionVersion, uint8_t moduleIdx
 const char* _getMethod_Name(uint32_t transactionVersion, uint8_t moduleIdx, uint8_t callIdx)
 {
     switch (transactionVersion) {
-    case 9:
-        return _getMethod_Name_V9(moduleIdx, callIdx);
-    case 4:
-        return _getMethod_Name_V4(moduleIdx, callIdx);
+    case 16:
+        return _getMethod_Name_V16(moduleIdx, callIdx);
     default:
         return 0;
     }
@@ -74,10 +66,8 @@ const char* _getMethod_Name(uint32_t transactionVersion, uint8_t moduleIdx, uint
 const char* _getMethod_ItemName(uint32_t transactionVersion, uint8_t moduleIdx, uint8_t callIdx, uint8_t itemIdx)
 {
     switch (transactionVersion) {
-    case 9:
-        return _getMethod_ItemName_V9(moduleIdx, callIdx, itemIdx);
-    case 4:
-        return _getMethod_ItemName_V4(moduleIdx, callIdx, itemIdx);
+    case 16:
+        return _getMethod_ItemName_V16(moduleIdx, callIdx, itemIdx);
     default:
         return NULL;
     }
@@ -88,11 +78,8 @@ parser_error_t _getMethod_ItemValue(uint32_t transactionVersion, pd_Method_t* m,
     uint8_t pageIdx, uint8_t* pageCount)
 {
     switch (transactionVersion) {
-    case 9:
-        return _getMethod_ItemValue_V9(&m->V9, moduleIdx, callIdx, itemIdx, outValue,
-            outValueLen, pageIdx, pageCount);
-    case 4:
-        return _getMethod_ItemValue_V4(&m->V4, moduleIdx, callIdx, itemIdx, outValue,
+    case 16:
+        return _getMethod_ItemValue_V16(&m->V16, moduleIdx, callIdx, itemIdx, outValue,
             outValueLen, pageIdx, pageCount);
     default:
         return parser_tx_version_not_supported;
@@ -102,10 +89,8 @@ parser_error_t _getMethod_ItemValue(uint32_t transactionVersion, pd_Method_t* m,
 bool _getMethod_ItemIsExpert(uint32_t transactionVersion, uint8_t moduleIdx, uint8_t callIdx, uint8_t itemIdx)
 {
     switch (transactionVersion) {
-    case 9:
-        return _getMethod_ItemIsExpert_V9(moduleIdx, callIdx, itemIdx);
-    case 4:
-        return _getMethod_ItemIsExpert_V4(moduleIdx, callIdx, itemIdx);
+    case 16:
+        return _getMethod_ItemIsExpert_V16(moduleIdx, callIdx, itemIdx);
     default:
         return false;
     }
@@ -114,10 +99,8 @@ bool _getMethod_ItemIsExpert(uint32_t transactionVersion, uint8_t moduleIdx, uin
 bool _getMethod_IsNestingSupported(uint32_t transactionVersion, uint8_t moduleIdx, uint8_t callIdx)
 {
     switch (transactionVersion) {
-    case 9:
-        return _getMethod_IsNestingSupported_V9(moduleIdx, callIdx);
-    case 4:
-        return _getMethod_IsNestingSupported_V4(moduleIdx, callIdx);
+    case 16:
+        return _getMethod_IsNestingSupported_V16(moduleIdx, callIdx);
     default:
         return false;
     }

@@ -1,5 +1,5 @@
 /*******************************************************************************
- *  (c) 2019 - 2022 Zondax AG
+ *  (c) 2019 - 2023 Zondax AG
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -35,12 +35,21 @@ parser_error_t _readCompactu64(parser_context_t* c, pd_Compactu64_t* v);
 parser_error_t _readCallImpl(parser_context_t* c, pd_Call_t* v, pd_MethodNested_t* m);
 
 parser_error_t _readBalance(parser_context_t* c, pd_Balance_t* v);
+parser_error_t _readAccountId(parser_context_t* c, pd_AccountId_t* v);
 parser_error_t _readBalanceOf(parser_context_t* c, pd_BalanceOf_t* v);
 parser_error_t _readBytes(parser_context_t* c, pd_Bytes_t* v);
 parser_error_t _readCall(parser_context_t* c, pd_Call_t* v);
+parser_error_t _readCompactAccountIndex(parser_context_t* c, pd_CompactAccountIndex_t* v);
+parser_error_t _readTimepoint(parser_context_t* c, pd_Timepoint_t* v);
+parser_error_t _readAccountIdLookupOfT(parser_context_t* c, pd_AccountIdLookupOfT_t* v);
+parser_error_t _readOptionTimepoint(parser_context_t* c, pd_OptionTimepoint_t* v);
 parser_error_t _readVecCall(parser_context_t* c, pd_VecCall_t* v);
+parser_error_t _readVestingInfo(parser_context_t* c, pd_VestingInfo_t* v);
+parser_error_t _readWeight(parser_context_t* c, pd_Weight_t* v);
 parser_error_t _readH256(parser_context_t* c, pd_H256_t* v);
 parser_error_t _readHash(parser_context_t* c, pd_Hash_t* v);
+parser_error_t _readKeys(parser_context_t* c, pd_Keys_t* v);
+parser_error_t _readVecAccountId(parser_context_t* c, pd_VecAccountId_t* v);
 parser_error_t _readVecu8(parser_context_t* c, pd_Vecu8_t* v);
 
 // Common toString functions
@@ -108,6 +117,13 @@ parser_error_t _toStringBalance(
     uint8_t pageIdx,
     uint8_t* pageCount);
 
+parser_error_t _toStringAccountId(
+    const pd_AccountId_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
 parser_error_t _toStringBalanceOf(
     const pd_BalanceOf_t* v,
     char* outValue,
@@ -129,8 +145,50 @@ parser_error_t _toStringCall(
     uint8_t pageIdx,
     uint8_t* pageCount);
 
+parser_error_t _toStringCompactAccountIndex(
+    const pd_CompactAccountIndex_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
+parser_error_t _toStringTimepoint(
+    const pd_Timepoint_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
+parser_error_t _toStringAccountIdLookupOfT(
+    const pd_AccountIdLookupOfT_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
+parser_error_t _toStringOptionTimepoint(
+    const pd_OptionTimepoint_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
 parser_error_t _toStringVecCall(
     const pd_VecCall_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
+parser_error_t _toStringVestingInfo(
+    const pd_VestingInfo_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
+parser_error_t _toStringWeight(
+    const pd_Weight_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,
@@ -145,6 +203,20 @@ parser_error_t _toStringH256(
 
 parser_error_t _toStringHash(
     const pd_Hash_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
+parser_error_t _toStringKeys(
+    const pd_Keys_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
+parser_error_t _toStringVecAccountId(
+    const pd_VecAccountId_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,
