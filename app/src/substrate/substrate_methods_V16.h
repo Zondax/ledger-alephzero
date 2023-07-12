@@ -32,6 +32,7 @@ extern "C" {
 
 #define PD_CALL_SYSTEM_V16 0
 #define PD_CALL_BALANCES_V16 5
+#define PD_CALL_STAKING_V16 8
 #define PD_CALL_SESSION_V16 10
 #define PD_CALL_VESTING_V16 14
 #define PD_CALL_UTILITY_V16 15
@@ -180,6 +181,63 @@ typedef struct {
     pd_CompactBalance_t amount;
 } pd_balances_transfer_keep_alive_V16_t;
 
+#define PD_CALL_STAKING_BOND_V16 0
+typedef struct {
+    pd_AccountIdLookupOfT_t controller;
+    pd_CompactBalance_t amount;
+    pd_RewardDestination_t payee;
+} pd_staking_bond_V16_t;
+
+#define PD_CALL_STAKING_BOND_EXTRA_V16 1
+typedef struct {
+    pd_CompactBalance_t amount;
+} pd_staking_bond_extra_V16_t;
+
+#define PD_CALL_STAKING_UNBOND_V16 2
+typedef struct {
+    pd_CompactBalance_t amount;
+} pd_staking_unbond_V16_t;
+
+#define PD_CALL_STAKING_WITHDRAW_UNBONDED_V16 3
+typedef struct {
+    pd_u32_t num_slashing_spans;
+} pd_staking_withdraw_unbonded_V16_t;
+
+#define PD_CALL_STAKING_VALIDATE_V16 4
+typedef struct {
+    pd_ValidatorPrefs_t prefs;
+} pd_staking_validate_V16_t;
+
+#define PD_CALL_STAKING_NOMINATE_V16 5
+typedef struct {
+    pd_VecAccountIdLookupOfT_t targets;
+} pd_staking_nominate_V16_t;
+
+#define PD_CALL_STAKING_CHILL_V16 6
+typedef struct {
+} pd_staking_chill_V16_t;
+
+#define PD_CALL_STAKING_SET_PAYEE_V16 7
+typedef struct {
+    pd_RewardDestination_t payee;
+} pd_staking_set_payee_V16_t;
+
+#define PD_CALL_STAKING_SET_CONTROLLER_V16 8
+typedef struct {
+    pd_AccountIdLookupOfT_t controller;
+} pd_staking_set_controller_V16_t;
+
+#define PD_CALL_STAKING_PAYOUT_STAKERS_V16 18
+typedef struct {
+    pd_AccountId_t validator_stash;
+    pd_EraIndex_t era;
+} pd_staking_payout_stakers_V16_t;
+
+#define PD_CALL_STAKING_REBOND_V16 19
+typedef struct {
+    pd_CompactBalance_t amount;
+} pd_staking_rebond_V16_t;
+
 #ifdef SUBSTRATE_PARSER_FULL
 #ifndef TARGET_NANOS
 #endif
@@ -214,6 +272,86 @@ typedef struct {
     pd_CompactBalance_t new_free;
     pd_CompactBalance_t new_reserved;
 } pd_balances_set_balance_V16_t;
+
+#define PD_CALL_STAKING_SET_VALIDATOR_COUNT_V16 9
+typedef struct {
+    pd_Compactu32_t new_;
+} pd_staking_set_validator_count_V16_t;
+
+#define PD_CALL_STAKING_INCREASE_VALIDATOR_COUNT_V16 10
+typedef struct {
+    pd_Compactu32_t additional;
+} pd_staking_increase_validator_count_V16_t;
+
+#define PD_CALL_STAKING_SCALE_VALIDATOR_COUNT_V16 11
+typedef struct {
+    pd_Percent_t factor;
+} pd_staking_scale_validator_count_V16_t;
+
+#define PD_CALL_STAKING_FORCE_NO_ERAS_V16 12
+typedef struct {
+} pd_staking_force_no_eras_V16_t;
+
+#define PD_CALL_STAKING_FORCE_NEW_ERA_V16 13
+typedef struct {
+} pd_staking_force_new_era_V16_t;
+
+#define PD_CALL_STAKING_SET_INVULNERABLES_V16 14
+typedef struct {
+    pd_VecAccountId_t invulnerables;
+} pd_staking_set_invulnerables_V16_t;
+
+#define PD_CALL_STAKING_FORCE_UNSTAKE_V16 15
+typedef struct {
+    pd_AccountId_t stash;
+    pd_u32_t num_slashing_spans;
+} pd_staking_force_unstake_V16_t;
+
+#define PD_CALL_STAKING_FORCE_NEW_ERA_ALWAYS_V16 16
+typedef struct {
+} pd_staking_force_new_era_always_V16_t;
+
+#define PD_CALL_STAKING_CANCEL_DEFERRED_SLASH_V16 17
+typedef struct {
+    pd_EraIndex_t era;
+    pd_Vecu32_t slash_indices;
+} pd_staking_cancel_deferred_slash_V16_t;
+
+#define PD_CALL_STAKING_REAP_STASH_V16 20
+typedef struct {
+    pd_AccountId_t stash;
+    pd_u32_t num_slashing_spans;
+} pd_staking_reap_stash_V16_t;
+
+#define PD_CALL_STAKING_KICK_V16 21
+typedef struct {
+    pd_VecAccountIdLookupOfT_t who;
+} pd_staking_kick_V16_t;
+
+#define PD_CALL_STAKING_SET_STAKING_CONFIGS_V16 22
+typedef struct {
+    pd_ConfigOpBalanceOfT_t min_nominator_bond;
+    pd_ConfigOpBalanceOfT_t min_validator_bond;
+    pd_ConfigOpu32_t max_nominator_count;
+    pd_ConfigOpu32_t max_validator_count;
+    pd_ConfigOpPercent_t chill_threshold;
+    pd_ConfigOpPerbill_t min_commission;
+} pd_staking_set_staking_configs_V16_t;
+
+#define PD_CALL_STAKING_CHILL_OTHER_V16 23
+typedef struct {
+    pd_AccountId_t controller;
+} pd_staking_chill_other_V16_t;
+
+#define PD_CALL_STAKING_FORCE_APPLY_MIN_COMMISSION_V16 24
+typedef struct {
+    pd_AccountId_t validator_stash;
+} pd_staking_force_apply_min_commission_V16_t;
+
+#define PD_CALL_STAKING_SET_MIN_COMMISSION_V16 25
+typedef struct {
+    pd_Perbill_t new_;
+} pd_staking_set_min_commission_V16_t;
 
 #define PD_CALL_MULTISIG_AS_MULTI_THRESHOLD_1_V16 0
 typedef struct {
@@ -253,6 +391,17 @@ typedef union {
     pd_balances_transfer_V16_t balances_transfer_V16;
     pd_balances_force_transfer_V16_t balances_force_transfer_V16;
     pd_balances_transfer_keep_alive_V16_t balances_transfer_keep_alive_V16;
+    pd_staking_bond_V16_t staking_bond_V16;
+    pd_staking_bond_extra_V16_t staking_bond_extra_V16;
+    pd_staking_unbond_V16_t staking_unbond_V16;
+    pd_staking_withdraw_unbonded_V16_t staking_withdraw_unbonded_V16;
+    pd_staking_validate_V16_t staking_validate_V16;
+    pd_staking_nominate_V16_t staking_nominate_V16;
+    pd_staking_chill_V16_t staking_chill_V16;
+    pd_staking_set_payee_V16_t staking_set_payee_V16;
+    pd_staking_set_controller_V16_t staking_set_controller_V16;
+    pd_staking_payout_stakers_V16_t staking_payout_stakers_V16;
+    pd_staking_rebond_V16_t staking_rebond_V16;
 #ifdef SUBSTRATE_PARSER_FULL
 #ifndef TARGET_NANOS
 #endif
@@ -262,6 +411,21 @@ typedef union {
     pd_system_set_code_without_checks_V16_t system_set_code_without_checks_V16;
     pd_system_remark_with_event_V16_t system_remark_with_event_V16;
     pd_balances_set_balance_V16_t balances_set_balance_V16;
+    pd_staking_set_validator_count_V16_t staking_set_validator_count_V16;
+    pd_staking_increase_validator_count_V16_t staking_increase_validator_count_V16;
+    pd_staking_scale_validator_count_V16_t staking_scale_validator_count_V16;
+    pd_staking_force_no_eras_V16_t staking_force_no_eras_V16;
+    pd_staking_force_new_era_V16_t staking_force_new_era_V16;
+    pd_staking_set_invulnerables_V16_t staking_set_invulnerables_V16;
+    pd_staking_force_unstake_V16_t staking_force_unstake_V16;
+    pd_staking_force_new_era_always_V16_t staking_force_new_era_always_V16;
+    pd_staking_cancel_deferred_slash_V16_t staking_cancel_deferred_slash_V16;
+    pd_staking_reap_stash_V16_t staking_reap_stash_V16;
+    pd_staking_kick_V16_t staking_kick_V16;
+    pd_staking_set_staking_configs_V16_t staking_set_staking_configs_V16;
+    pd_staking_chill_other_V16_t staking_chill_other_V16;
+    pd_staking_force_apply_min_commission_V16_t staking_force_apply_min_commission_V16;
+    pd_staking_set_min_commission_V16_t staking_set_min_commission_V16;
     pd_multisig_as_multi_threshold_1_V16_t multisig_as_multi_threshold_1_V16;
     pd_multisig_as_multi_V16_t multisig_as_multi_V16;
     pd_multisig_approve_as_multi_V16_t multisig_approve_as_multi_V16;
