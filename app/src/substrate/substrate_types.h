@@ -157,7 +157,15 @@ typedef struct {
 
 typedef struct {
     compactInt_t value;
+} pd_CompactBalanceOf_t;
+
+typedef struct {
+    compactInt_t value;
 } pd_CompactPerBill_t;
+
+typedef struct {
+    const uint8_t* _ptr;
+} pd_Hash_t;
 
 typedef struct {
     uint32_t value;
@@ -168,9 +176,33 @@ typedef struct {
 } pd_Percent_t;
 
 typedef struct {
+    uint8_t value;
+    pd_AccountId_t _signed;
+} pd_SystemOrigin_t;
+
+typedef struct {
     pd_BlockNumber_t height;
     uint32_t index;
 } pd_Timepoint_t;
+
+typedef struct {
+    uint8_t value;
+    pd_Balance_t freeBalance;
+} pd_BondExtraBalanceOfT_t;
+
+typedef struct {
+    uint8_t value;
+    pd_SystemOrigin_t system;
+} pd_BoxPalletsOrigin_t;
+
+typedef struct {
+    pd_Hash_t hash;
+} pd_CodeHash_t;
+
+typedef struct {
+    uint8_t value;
+    pd_AccountId_t set;
+} pd_ConfigOpAccountId_t;
 
 typedef struct {
     uint8_t value;
@@ -232,6 +264,10 @@ typedef struct {
 } pd_ConfigOpu32_t;
 
 typedef struct {
+    uint8_t value;
+} pd_Determinism_t;
+
+typedef struct {
     uint32_t value;
 } pd_EraIndex_t;
 
@@ -241,11 +277,20 @@ typedef struct {
 
 typedef struct {
     const uint8_t* _ptr;
-} pd_Hash_t;
+} pd_Keys_t;
 
 typedef struct {
-    const uint8_t* _ptr;
-} pd_Keys_t;
+    uint8_t some;
+    pd_CompactBalanceOf_t contained;
+} pd_OptionCompactBalanceOf_t;
+
+typedef struct {
+    uint32_t value;
+} pd_PoolId_t;
+
+typedef struct {
+    uint8_t value;
+} pd_PoolState_t;
 
 typedef struct {
     uint64_t _len;

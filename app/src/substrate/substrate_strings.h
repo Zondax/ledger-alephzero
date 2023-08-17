@@ -28,6 +28,8 @@ static const char* STR_MO_VESTING = "Vesting";
 static const char* STR_MO_UTILITY = "Utility";
 static const char* STR_MO_MULTISIG = "Multisig";
 static const char* STR_MO_SUDO = "Sudo";
+static const char* STR_MO_CONTRACTS = "Contracts";
+static const char* STR_MO_NOMINATIONPOOLS = "Nominationpools";
 
 // Methods names
 static const char* STR_ME_REMARK = "Remark";
@@ -76,6 +78,7 @@ static const char* STR_ME_FORCE_VESTED_TRANSFER = "Force vested transfer";
 static const char* STR_ME_MERGE_SCHEDULES = "Merge schedules";
 static const char* STR_ME_BATCH = "Batch";
 static const char* STR_ME_BATCH_ALL = "Batch all";
+static const char* STR_ME_DISPATCH_AS = "Dispatch as";
 static const char* STR_ME_FORCE_BATCH = "Force batch";
 static const char* STR_ME_WITH_WEIGHT = "With weight";
 static const char* STR_ME_AS_MULTI_THRESHOLD_1 = "As multi threshold 1";
@@ -86,6 +89,23 @@ static const char* STR_ME_SUDO = "Sudo";
 static const char* STR_ME_SUDO_UNCHECKED_WEIGHT = "Sudo unchecked weight";
 static const char* STR_ME_SET_KEY = "Set key";
 static const char* STR_ME_SUDO_AS = "Sudo as";
+static const char* STR_ME_CALL_OLD_WEIGHT = "Call old weight";
+static const char* STR_ME_INSTANTIATE_WITH_CODE_OLD_WEIGHT = "Instantiate with code old weight";
+static const char* STR_ME_INSTANTIATE_OLD_WEIGHT = "Instantiate old weight";
+static const char* STR_ME_UPLOAD_CODE = "Upload code";
+static const char* STR_ME_REMOVE_CODE = "Remove code";
+static const char* STR_ME_CALL = "Call";
+static const char* STR_ME_INSTANTIATE_WITH_CODE = "Instantiate with code";
+static const char* STR_ME_INSTANTIATE = "Instantiate";
+static const char* STR_ME_JOIN = "Join";
+static const char* STR_ME_CLAIM_PAYOUT = "Claim payout";
+static const char* STR_ME_POOL_WITHDRAW_UNBONDED = "Pool withdraw unbonded";
+static const char* STR_ME_CREATE = "Create";
+static const char* STR_ME_CREATE_WITH_POOL_ID = "Create with pool id";
+static const char* STR_ME_SET_STATE = "Set state";
+static const char* STR_ME_SET_METADATA = "Set metadata";
+static const char* STR_ME_SET_CONFIGS = "Set configs";
+static const char* STR_ME_UPDATE_ROLES = "Update roles";
 
 // Items names
 static const char* STR_IT_remark = "Remark";
@@ -137,6 +157,30 @@ static const char* STR_IT_maybe_timepoint = "Maybe timepoint";
 static const char* STR_IT_max_weight = "Max weight";
 static const char* STR_IT_call_hash = "Call hash";
 static const char* STR_IT_timepoint = "Timepoint";
+static const char* STR_IT_gas_limit = "Gas limit";
+static const char* STR_IT_storage_deposit_limit = "Storage deposit limit";
+static const char* STR_IT_data = "Data";
+static const char* STR_IT_salt = "Salt";
+static const char* STR_IT_code_hash = "Code hash";
+static const char* STR_IT_determinism = "Determinism";
+static const char* STR_IT_pool_id = "Pool id";
+static const char* STR_IT_extra = "Extra";
+static const char* STR_IT_member_account = "Member account";
+static const char* STR_IT_unbonding_points = "Unbonding points";
+static const char* STR_IT_root = "Root";
+static const char* STR_IT_nominator = "Nominator";
+static const char* STR_IT_state_toggler = "State toggler";
+static const char* STR_IT_validators = "Validators";
+static const char* STR_IT_state = "State";
+static const char* STR_IT_metadata = "Metadata";
+static const char* STR_IT_min_join_bond = "Min join bond";
+static const char* STR_IT_min_create_bond = "Min create bond";
+static const char* STR_IT_max_pools = "Max pools";
+static const char* STR_IT_max_members = "Max members";
+static const char* STR_IT_max_members_per_pool = "Max members per pool";
+static const char* STR_IT_new_root = "New root";
+static const char* STR_IT_new_nominator = "New nominator";
+static const char* STR_IT_new_state_toggler = "New state toggler";
 
 #ifdef __cplusplus
 }
