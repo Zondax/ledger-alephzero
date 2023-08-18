@@ -62,8 +62,8 @@ uint8_t crypto_SS58CalculatePrefix(uint16_t addressType, uint8_t *prefixBytes) {
     return 1;
 }
 
-uint8_t crypto_SS58EncodePubkey(uint8_t *buffer, uint16_t buffer_len,
-                                uint16_t addressType, const uint8_t *pubkey) {
+uint16_t crypto_SS58EncodePubkey(uint8_t *buffer, uint16_t buffer_len,
+                                 uint16_t addressType, const uint8_t *pubkey) {
     // based on https://docs.substrate.io/v3/advanced/ss58/
     if (buffer == NULL || buffer_len < SS58_ADDRESS_MAX_LEN) {
         return 0;

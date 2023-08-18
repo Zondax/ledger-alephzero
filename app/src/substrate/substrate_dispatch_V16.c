@@ -384,6 +384,14 @@ __Z_INLINE parser_error_t _readMethod_vesting_merge_schedules_V16(
     return parser_ok;
 }
 
+__Z_INLINE parser_error_t _readMethod_utility_dispatch_as_V16(
+    parser_context_t* c, pd_utility_dispatch_as_V16_t* m)
+{
+    CHECK_ERROR(_readBoxPalletsOrigin(c, &m->as_origin))
+    CHECK_ERROR(_readCall(c, &m->call))
+    return parser_ok;
+}
+
 __Z_INLINE parser_error_t _readMethod_utility_with_weight_V16(
     parser_context_t* c, pd_utility_with_weight_V16_t* m)
 {
@@ -462,6 +470,220 @@ __Z_INLINE parser_error_t _readMethod_sudo_sudo_as_V16(
     return parser_ok;
 }
 
+__Z_INLINE parser_error_t _readMethod_contracts_call_old_weight_V16(
+    parser_context_t* c, pd_contracts_call_old_weight_V16_t* m)
+{
+    CHECK_ERROR(_readAccountIdLookupOfT(c, &m->dest))
+    CHECK_ERROR(_readCompactBalance(c, &m->amount))
+    CHECK_ERROR(_readCompactu64(c, &m->gas_limit))
+    CHECK_ERROR(_readOptionCompactBalanceOf(c, &m->storage_deposit_limit))
+    CHECK_ERROR(_readVecu8(c, &m->data))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_contracts_instantiate_with_code_old_weight_V16(
+    parser_context_t* c, pd_contracts_instantiate_with_code_old_weight_V16_t* m)
+{
+    CHECK_ERROR(_readCompactBalance(c, &m->amount))
+    CHECK_ERROR(_readCompactu64(c, &m->gas_limit))
+    CHECK_ERROR(_readOptionCompactBalanceOf(c, &m->storage_deposit_limit))
+    CHECK_ERROR(_readVecu8(c, &m->code))
+    CHECK_ERROR(_readVecu8(c, &m->data))
+    CHECK_ERROR(_readVecu8(c, &m->salt))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_contracts_instantiate_old_weight_V16(
+    parser_context_t* c, pd_contracts_instantiate_old_weight_V16_t* m)
+{
+    CHECK_ERROR(_readCompactBalance(c, &m->amount))
+    CHECK_ERROR(_readCompactu64(c, &m->gas_limit))
+    CHECK_ERROR(_readOptionCompactBalanceOf(c, &m->storage_deposit_limit))
+    CHECK_ERROR(_readCodeHash(c, &m->code_hash))
+    CHECK_ERROR(_readVecu8(c, &m->data))
+    CHECK_ERROR(_readVecu8(c, &m->salt))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_contracts_upload_code_V16(
+    parser_context_t* c, pd_contracts_upload_code_V16_t* m)
+{
+    CHECK_ERROR(_readVecu8(c, &m->code))
+    CHECK_ERROR(_readOptionCompactBalanceOf(c, &m->storage_deposit_limit))
+    CHECK_ERROR(_readDeterminism(c, &m->determinism))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_contracts_remove_code_V16(
+    parser_context_t* c, pd_contracts_remove_code_V16_t* m)
+{
+    CHECK_ERROR(_readCodeHash(c, &m->code_hash))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_contracts_set_code_V16(
+    parser_context_t* c, pd_contracts_set_code_V16_t* m)
+{
+    CHECK_ERROR(_readAccountIdLookupOfT(c, &m->dest))
+    CHECK_ERROR(_readCodeHash(c, &m->code_hash))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_contracts_call_V16(
+    parser_context_t* c, pd_contracts_call_V16_t* m)
+{
+    CHECK_ERROR(_readAccountIdLookupOfT(c, &m->dest))
+    CHECK_ERROR(_readCompactBalance(c, &m->amount))
+    CHECK_ERROR(_readWeight(c, &m->gas_limit))
+    CHECK_ERROR(_readOptionCompactBalanceOf(c, &m->storage_deposit_limit))
+    CHECK_ERROR(_readVecu8(c, &m->data))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_contracts_instantiate_with_code_V16(
+    parser_context_t* c, pd_contracts_instantiate_with_code_V16_t* m)
+{
+    CHECK_ERROR(_readCompactBalance(c, &m->amount))
+    CHECK_ERROR(_readWeight(c, &m->gas_limit))
+    CHECK_ERROR(_readOptionCompactBalanceOf(c, &m->storage_deposit_limit))
+    CHECK_ERROR(_readVecu8(c, &m->code))
+    CHECK_ERROR(_readVecu8(c, &m->data))
+    CHECK_ERROR(_readVecu8(c, &m->salt))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_contracts_instantiate_V16(
+    parser_context_t* c, pd_contracts_instantiate_V16_t* m)
+{
+    CHECK_ERROR(_readCompactBalance(c, &m->amount))
+    CHECK_ERROR(_readWeight(c, &m->gas_limit))
+    CHECK_ERROR(_readOptionCompactBalanceOf(c, &m->storage_deposit_limit))
+    CHECK_ERROR(_readCodeHash(c, &m->code_hash))
+    CHECK_ERROR(_readBytes(c, &m->data))
+    CHECK_ERROR(_readBytes(c, &m->salt))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_nominationpools_join_V16(
+    parser_context_t* c, pd_nominationpools_join_V16_t* m)
+{
+    CHECK_ERROR(_readCompactBalance(c, &m->amount))
+    CHECK_ERROR(_readPoolId(c, &m->pool_id))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_nominationpools_bond_extra_V16(
+    parser_context_t* c, pd_nominationpools_bond_extra_V16_t* m)
+{
+    CHECK_ERROR(_readBondExtraBalanceOfT(c, &m->extra))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_nominationpools_claim_payout_V16(
+    parser_context_t* c, pd_nominationpools_claim_payout_V16_t* m)
+{
+    UNUSED(c);
+    UNUSED(m);
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_nominationpools_unbond_V16(
+    parser_context_t* c, pd_nominationpools_unbond_V16_t* m)
+{
+    CHECK_ERROR(_readAccountIdLookupOfT(c, &m->member_account))
+    CHECK_ERROR(_readCompactBalance(c, &m->unbonding_points))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_nominationpools_pool_withdraw_unbonded_V16(
+    parser_context_t* c, pd_nominationpools_pool_withdraw_unbonded_V16_t* m)
+{
+    CHECK_ERROR(_readPoolId(c, &m->pool_id))
+    CHECK_ERROR(_readu32(c, &m->num_slashing_spans))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_nominationpools_withdraw_unbonded_V16(
+    parser_context_t* c, pd_nominationpools_withdraw_unbonded_V16_t* m)
+{
+    CHECK_ERROR(_readAccountIdLookupOfT(c, &m->member_account))
+    CHECK_ERROR(_readu32(c, &m->num_slashing_spans))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_nominationpools_create_V16(
+    parser_context_t* c, pd_nominationpools_create_V16_t* m)
+{
+    CHECK_ERROR(_readCompactBalance(c, &m->amount))
+    CHECK_ERROR(_readAccountIdLookupOfT(c, &m->root))
+    CHECK_ERROR(_readAccountIdLookupOfT(c, &m->nominator))
+    CHECK_ERROR(_readAccountIdLookupOfT(c, &m->state_toggler))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_nominationpools_create_with_pool_id_V16(
+    parser_context_t* c, pd_nominationpools_create_with_pool_id_V16_t* m)
+{
+    CHECK_ERROR(_readCompactBalance(c, &m->amount))
+    CHECK_ERROR(_readAccountIdLookupOfT(c, &m->root))
+    CHECK_ERROR(_readAccountIdLookupOfT(c, &m->nominator))
+    CHECK_ERROR(_readAccountIdLookupOfT(c, &m->state_toggler))
+    CHECK_ERROR(_readPoolId(c, &m->pool_id))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_nominationpools_nominate_V16(
+    parser_context_t* c, pd_nominationpools_nominate_V16_t* m)
+{
+    CHECK_ERROR(_readPoolId(c, &m->pool_id))
+    CHECK_ERROR(_readVecAccountId(c, &m->validators))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_nominationpools_set_state_V16(
+    parser_context_t* c, pd_nominationpools_set_state_V16_t* m)
+{
+    CHECK_ERROR(_readPoolId(c, &m->pool_id))
+    CHECK_ERROR(_readPoolState(c, &m->state))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_nominationpools_set_metadata_V16(
+    parser_context_t* c, pd_nominationpools_set_metadata_V16_t* m)
+{
+    CHECK_ERROR(_readPoolId(c, &m->pool_id))
+    CHECK_ERROR(_readVecu8(c, &m->metadata))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_nominationpools_set_configs_V16(
+    parser_context_t* c, pd_nominationpools_set_configs_V16_t* m)
+{
+    CHECK_ERROR(_readConfigOpBalanceOfT(c, &m->min_join_bond))
+    CHECK_ERROR(_readConfigOpBalanceOfT(c, &m->min_create_bond))
+    CHECK_ERROR(_readConfigOpu32(c, &m->max_pools))
+    CHECK_ERROR(_readConfigOpu32(c, &m->max_members))
+    CHECK_ERROR(_readConfigOpu32(c, &m->max_members_per_pool))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_nominationpools_update_roles_V16(
+    parser_context_t* c, pd_nominationpools_update_roles_V16_t* m)
+{
+    CHECK_ERROR(_readPoolId(c, &m->pool_id))
+    CHECK_ERROR(_readConfigOpAccountId(c, &m->new_root))
+    CHECK_ERROR(_readConfigOpAccountId(c, &m->new_nominator))
+    CHECK_ERROR(_readConfigOpAccountId(c, &m->new_state_toggler))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_nominationpools_chill_V16(
+    parser_context_t* c, pd_nominationpools_chill_V16_t* m)
+{
+    CHECK_ERROR(_readPoolId(c, &m->pool_id))
+    return parser_ok;
+}
+
 #endif
 
 parser_error_t _readMethod_V16(
@@ -484,7 +706,7 @@ parser_error_t _readMethod_V16(
         CHECK_ERROR(_readMethod_balances_transfer_keep_alive_V16(c, &method->nested.balances_transfer_keep_alive_V16))
         break;
     case 1284: /* module 5 call 4 */
-        CHECK_ERROR(_readMethod_balances_transfer_all_V16(c, &method->basic.balances_transfer_all_V16))
+        CHECK_ERROR(_readMethod_balances_transfer_all_V16(c, &method->nested.balances_transfer_all_V16))
         break;
     case 2048: /* module 8 call 0 */
         CHECK_ERROR(_readMethod_staking_bond_V16(c, &method->nested.staking_bond_V16))
@@ -520,10 +742,10 @@ parser_error_t _readMethod_V16(
         CHECK_ERROR(_readMethod_staking_rebond_V16(c, &method->nested.staking_rebond_V16))
         break;
     case 2560: /* module 10 call 0 */
-        CHECK_ERROR(_readMethod_session_set_keys_V16(c, &method->basic.session_set_keys_V16))
+        CHECK_ERROR(_readMethod_session_set_keys_V16(c, &method->nested.session_set_keys_V16))
         break;
     case 2561: /* module 10 call 1 */
-        CHECK_ERROR(_readMethod_session_purge_keys_V16(c, &method->basic.session_purge_keys_V16))
+        CHECK_ERROR(_readMethod_session_purge_keys_V16(c, &method->nested.session_purge_keys_V16))
         break;
     case 3840: /* module 15 call 0 */
         CHECK_ERROR(_readMethod_utility_batch_V16(c, &method->basic.utility_batch_V16))
@@ -619,6 +841,9 @@ parser_error_t _readMethod_V16(
     case 3588: /* module 14 call 4 */
         CHECK_ERROR(_readMethod_vesting_merge_schedules_V16(c, &method->basic.vesting_merge_schedules_V16))
         break;
+    case 3843: /* module 15 call 3 */
+        CHECK_ERROR(_readMethod_utility_dispatch_as_V16(c, &method->basic.utility_dispatch_as_V16))
+        break;
     case 3845: /* module 15 call 5 */
         CHECK_ERROR(_readMethod_utility_with_weight_V16(c, &method->basic.utility_with_weight_V16))
         break;
@@ -645,6 +870,75 @@ parser_error_t _readMethod_V16(
         break;
     case 4355: /* module 17 call 3 */
         CHECK_ERROR(_readMethod_sudo_sudo_as_V16(c, &method->basic.sudo_sudo_as_V16))
+        break;
+    case 4608: /* module 18 call 0 */
+        CHECK_ERROR(_readMethod_contracts_call_old_weight_V16(c, &method->basic.contracts_call_old_weight_V16))
+        break;
+    case 4609: /* module 18 call 1 */
+        CHECK_ERROR(_readMethod_contracts_instantiate_with_code_old_weight_V16(c, &method->basic.contracts_instantiate_with_code_old_weight_V16))
+        break;
+    case 4610: /* module 18 call 2 */
+        CHECK_ERROR(_readMethod_contracts_instantiate_old_weight_V16(c, &method->basic.contracts_instantiate_old_weight_V16))
+        break;
+    case 4611: /* module 18 call 3 */
+        CHECK_ERROR(_readMethod_contracts_upload_code_V16(c, &method->basic.contracts_upload_code_V16))
+        break;
+    case 4612: /* module 18 call 4 */
+        CHECK_ERROR(_readMethod_contracts_remove_code_V16(c, &method->basic.contracts_remove_code_V16))
+        break;
+    case 4613: /* module 18 call 5 */
+        CHECK_ERROR(_readMethod_contracts_set_code_V16(c, &method->basic.contracts_set_code_V16))
+        break;
+    case 4614: /* module 18 call 6 */
+        CHECK_ERROR(_readMethod_contracts_call_V16(c, &method->basic.contracts_call_V16))
+        break;
+    case 4615: /* module 18 call 7 */
+        CHECK_ERROR(_readMethod_contracts_instantiate_with_code_V16(c, &method->basic.contracts_instantiate_with_code_V16))
+        break;
+    case 4616: /* module 18 call 8 */
+        CHECK_ERROR(_readMethod_contracts_instantiate_V16(c, &method->basic.contracts_instantiate_V16))
+        break;
+    case 4864: /* module 19 call 0 */
+        CHECK_ERROR(_readMethod_nominationpools_join_V16(c, &method->nested.nominationpools_join_V16))
+        break;
+    case 4865: /* module 19 call 1 */
+        CHECK_ERROR(_readMethod_nominationpools_bond_extra_V16(c, &method->nested.nominationpools_bond_extra_V16))
+        break;
+    case 4866: /* module 19 call 2 */
+        CHECK_ERROR(_readMethod_nominationpools_claim_payout_V16(c, &method->nested.nominationpools_claim_payout_V16))
+        break;
+    case 4867: /* module 19 call 3 */
+        CHECK_ERROR(_readMethod_nominationpools_unbond_V16(c, &method->nested.nominationpools_unbond_V16))
+        break;
+    case 4868: /* module 19 call 4 */
+        CHECK_ERROR(_readMethod_nominationpools_pool_withdraw_unbonded_V16(c, &method->basic.nominationpools_pool_withdraw_unbonded_V16))
+        break;
+    case 4869: /* module 19 call 5 */
+        CHECK_ERROR(_readMethod_nominationpools_withdraw_unbonded_V16(c, &method->nested.nominationpools_withdraw_unbonded_V16))
+        break;
+    case 4870: /* module 19 call 6 */
+        CHECK_ERROR(_readMethod_nominationpools_create_V16(c, &method->nested.nominationpools_create_V16))
+        break;
+    case 4871: /* module 19 call 7 */
+        CHECK_ERROR(_readMethod_nominationpools_create_with_pool_id_V16(c, &method->basic.nominationpools_create_with_pool_id_V16))
+        break;
+    case 4872: /* module 19 call 8 */
+        CHECK_ERROR(_readMethod_nominationpools_nominate_V16(c, &method->nested.nominationpools_nominate_V16))
+        break;
+    case 4873: /* module 19 call 9 */
+        CHECK_ERROR(_readMethod_nominationpools_set_state_V16(c, &method->nested.nominationpools_set_state_V16))
+        break;
+    case 4874: /* module 19 call 10 */
+        CHECK_ERROR(_readMethod_nominationpools_set_metadata_V16(c, &method->nested.nominationpools_set_metadata_V16))
+        break;
+    case 4875: /* module 19 call 11 */
+        CHECK_ERROR(_readMethod_nominationpools_set_configs_V16(c, &method->basic.nominationpools_set_configs_V16))
+        break;
+    case 4876: /* module 19 call 12 */
+        CHECK_ERROR(_readMethod_nominationpools_update_roles_V16(c, &method->nested.nominationpools_update_roles_V16))
+        break;
+    case 4877: /* module 19 call 13 */
+        CHECK_ERROR(_readMethod_nominationpools_chill_V16(c, &method->nested.nominationpools_chill_V16))
         break;
 #endif
     default:
@@ -681,6 +975,10 @@ const char* _getMethod_ModuleName_V16(uint8_t moduleIdx)
         return STR_MO_MULTISIG;
     case 17:
         return STR_MO_SUDO;
+    case 18:
+        return STR_MO_CONTRACTS;
+    case 19:
+        return STR_MO_NOMINATIONPOOLS;
 #endif
     default:
         return NULL;
@@ -801,6 +1099,8 @@ const char* _getMethod_Name_V16_ParserFull(uint16_t callPrivIdx)
         return STR_ME_FORCE_VESTED_TRANSFER;
     case 3588: /* module 14 call 4 */
         return STR_ME_MERGE_SCHEDULES;
+    case 3843: /* module 15 call 3 */
+        return STR_ME_DISPATCH_AS;
     case 3845: /* module 15 call 5 */
         return STR_ME_WITH_WEIGHT;
     case 4096: /* module 16 call 0 */
@@ -819,6 +1119,52 @@ const char* _getMethod_Name_V16_ParserFull(uint16_t callPrivIdx)
         return STR_ME_SET_KEY;
     case 4355: /* module 17 call 3 */
         return STR_ME_SUDO_AS;
+    case 4608: /* module 18 call 0 */
+        return STR_ME_CALL_OLD_WEIGHT;
+    case 4609: /* module 18 call 1 */
+        return STR_ME_INSTANTIATE_WITH_CODE_OLD_WEIGHT;
+    case 4610: /* module 18 call 2 */
+        return STR_ME_INSTANTIATE_OLD_WEIGHT;
+    case 4611: /* module 18 call 3 */
+        return STR_ME_UPLOAD_CODE;
+    case 4612: /* module 18 call 4 */
+        return STR_ME_REMOVE_CODE;
+    case 4613: /* module 18 call 5 */
+        return STR_ME_SET_CODE;
+    case 4614: /* module 18 call 6 */
+        return STR_ME_CALL;
+    case 4615: /* module 18 call 7 */
+        return STR_ME_INSTANTIATE_WITH_CODE;
+    case 4616: /* module 18 call 8 */
+        return STR_ME_INSTANTIATE;
+    case 4864: /* module 19 call 0 */
+        return STR_ME_JOIN;
+    case 4865: /* module 19 call 1 */
+        return STR_ME_BOND_EXTRA;
+    case 4866: /* module 19 call 2 */
+        return STR_ME_CLAIM_PAYOUT;
+    case 4867: /* module 19 call 3 */
+        return STR_ME_UNBOND;
+    case 4868: /* module 19 call 4 */
+        return STR_ME_POOL_WITHDRAW_UNBONDED;
+    case 4869: /* module 19 call 5 */
+        return STR_ME_WITHDRAW_UNBONDED;
+    case 4870: /* module 19 call 6 */
+        return STR_ME_CREATE;
+    case 4871: /* module 19 call 7 */
+        return STR_ME_CREATE_WITH_POOL_ID;
+    case 4872: /* module 19 call 8 */
+        return STR_ME_NOMINATE;
+    case 4873: /* module 19 call 9 */
+        return STR_ME_SET_STATE;
+    case 4874: /* module 19 call 10 */
+        return STR_ME_SET_METADATA;
+    case 4875: /* module 19 call 11 */
+        return STR_ME_SET_CONFIGS;
+    case 4876: /* module 19 call 12 */
+        return STR_ME_UPDATE_ROLES;
+    case 4877: /* module 19 call 13 */
+        return STR_ME_CHILL;
 #endif
     default:
         return NULL;
@@ -929,6 +1275,8 @@ uint8_t _getMethod_NumItems_V16(uint8_t moduleIdx, uint8_t callIdx)
         return 3;
     case 3588: /* module 14 call 4 */
         return 2;
+    case 3843: /* module 15 call 3 */
+        return 2;
     case 3845: /* module 15 call 5 */
         return 2;
     case 4096: /* module 16 call 0 */
@@ -947,6 +1295,52 @@ uint8_t _getMethod_NumItems_V16(uint8_t moduleIdx, uint8_t callIdx)
         return 1;
     case 4355: /* module 17 call 3 */
         return 2;
+    case 4608: /* module 18 call 0 */
+        return 5;
+    case 4609: /* module 18 call 1 */
+        return 6;
+    case 4610: /* module 18 call 2 */
+        return 6;
+    case 4611: /* module 18 call 3 */
+        return 3;
+    case 4612: /* module 18 call 4 */
+        return 1;
+    case 4613: /* module 18 call 5 */
+        return 2;
+    case 4614: /* module 18 call 6 */
+        return 5;
+    case 4615: /* module 18 call 7 */
+        return 6;
+    case 4616: /* module 18 call 8 */
+        return 6;
+    case 4864: /* module 19 call 0 */
+        return 2;
+    case 4865: /* module 19 call 1 */
+        return 1;
+    case 4866: /* module 19 call 2 */
+        return 0;
+    case 4867: /* module 19 call 3 */
+        return 2;
+    case 4868: /* module 19 call 4 */
+        return 2;
+    case 4869: /* module 19 call 5 */
+        return 2;
+    case 4870: /* module 19 call 6 */
+        return 4;
+    case 4871: /* module 19 call 7 */
+        return 5;
+    case 4872: /* module 19 call 8 */
+        return 2;
+    case 4873: /* module 19 call 9 */
+        return 2;
+    case 4874: /* module 19 call 10 */
+        return 2;
+    case 4875: /* module 19 call 11 */
+        return 5;
+    case 4876: /* module 19 call 12 */
+        return 4;
+    case 4877: /* module 19 call 13 */
+        return 1;
 #endif
     default:
         return 0;
@@ -1328,6 +1722,15 @@ const char* _getMethod_ItemName_V16(uint8_t moduleIdx, uint8_t callIdx, uint8_t 
         default:
             return NULL;
         }
+    case 3843: /* module 15 call 3 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_as_origin;
+        case 1:
+            return STR_IT_call;
+        default:
+            return NULL;
+        }
     case 3845: /* module 15 call 5 */
         switch (itemIdx) {
         case 0:
@@ -1421,6 +1824,269 @@ const char* _getMethod_ItemName_V16(uint8_t moduleIdx, uint8_t callIdx, uint8_t 
         default:
             return NULL;
         }
+    case 4608: /* module 18 call 0 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_dest;
+        case 1:
+            return STR_IT_amount;
+        case 2:
+            return STR_IT_gas_limit;
+        case 3:
+            return STR_IT_storage_deposit_limit;
+        case 4:
+            return STR_IT_data;
+        default:
+            return NULL;
+        }
+    case 4609: /* module 18 call 1 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_amount;
+        case 1:
+            return STR_IT_gas_limit;
+        case 2:
+            return STR_IT_storage_deposit_limit;
+        case 3:
+            return STR_IT_code;
+        case 4:
+            return STR_IT_data;
+        case 5:
+            return STR_IT_salt;
+        default:
+            return NULL;
+        }
+    case 4610: /* module 18 call 2 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_amount;
+        case 1:
+            return STR_IT_gas_limit;
+        case 2:
+            return STR_IT_storage_deposit_limit;
+        case 3:
+            return STR_IT_code_hash;
+        case 4:
+            return STR_IT_data;
+        case 5:
+            return STR_IT_salt;
+        default:
+            return NULL;
+        }
+    case 4611: /* module 18 call 3 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_code;
+        case 1:
+            return STR_IT_storage_deposit_limit;
+        case 2:
+            return STR_IT_determinism;
+        default:
+            return NULL;
+        }
+    case 4612: /* module 18 call 4 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_code_hash;
+        default:
+            return NULL;
+        }
+    case 4613: /* module 18 call 5 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_dest;
+        case 1:
+            return STR_IT_code_hash;
+        default:
+            return NULL;
+        }
+    case 4614: /* module 18 call 6 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_dest;
+        case 1:
+            return STR_IT_amount;
+        case 2:
+            return STR_IT_gas_limit;
+        case 3:
+            return STR_IT_storage_deposit_limit;
+        case 4:
+            return STR_IT_data;
+        default:
+            return NULL;
+        }
+    case 4615: /* module 18 call 7 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_amount;
+        case 1:
+            return STR_IT_gas_limit;
+        case 2:
+            return STR_IT_storage_deposit_limit;
+        case 3:
+            return STR_IT_code;
+        case 4:
+            return STR_IT_data;
+        case 5:
+            return STR_IT_salt;
+        default:
+            return NULL;
+        }
+    case 4616: /* module 18 call 8 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_amount;
+        case 1:
+            return STR_IT_gas_limit;
+        case 2:
+            return STR_IT_storage_deposit_limit;
+        case 3:
+            return STR_IT_code_hash;
+        case 4:
+            return STR_IT_data;
+        case 5:
+            return STR_IT_salt;
+        default:
+            return NULL;
+        }
+    case 4864: /* module 19 call 0 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_amount;
+        case 1:
+            return STR_IT_pool_id;
+        default:
+            return NULL;
+        }
+    case 4865: /* module 19 call 1 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_extra;
+        default:
+            return NULL;
+        }
+    case 4866: /* module 19 call 2 */
+        switch (itemIdx) {
+        default:
+            return NULL;
+        }
+    case 4867: /* module 19 call 3 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_member_account;
+        case 1:
+            return STR_IT_unbonding_points;
+        default:
+            return NULL;
+        }
+    case 4868: /* module 19 call 4 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_pool_id;
+        case 1:
+            return STR_IT_num_slashing_spans;
+        default:
+            return NULL;
+        }
+    case 4869: /* module 19 call 5 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_member_account;
+        case 1:
+            return STR_IT_num_slashing_spans;
+        default:
+            return NULL;
+        }
+    case 4870: /* module 19 call 6 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_amount;
+        case 1:
+            return STR_IT_root;
+        case 2:
+            return STR_IT_nominator;
+        case 3:
+            return STR_IT_state_toggler;
+        default:
+            return NULL;
+        }
+    case 4871: /* module 19 call 7 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_amount;
+        case 1:
+            return STR_IT_root;
+        case 2:
+            return STR_IT_nominator;
+        case 3:
+            return STR_IT_state_toggler;
+        case 4:
+            return STR_IT_pool_id;
+        default:
+            return NULL;
+        }
+    case 4872: /* module 19 call 8 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_pool_id;
+        case 1:
+            return STR_IT_validators;
+        default:
+            return NULL;
+        }
+    case 4873: /* module 19 call 9 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_pool_id;
+        case 1:
+            return STR_IT_state;
+        default:
+            return NULL;
+        }
+    case 4874: /* module 19 call 10 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_pool_id;
+        case 1:
+            return STR_IT_metadata;
+        default:
+            return NULL;
+        }
+    case 4875: /* module 19 call 11 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_min_join_bond;
+        case 1:
+            return STR_IT_min_create_bond;
+        case 2:
+            return STR_IT_max_pools;
+        case 3:
+            return STR_IT_max_members;
+        case 4:
+            return STR_IT_max_members_per_pool;
+        default:
+            return NULL;
+        }
+    case 4876: /* module 19 call 12 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_pool_id;
+        case 1:
+            return STR_IT_new_root;
+        case 2:
+            return STR_IT_new_nominator;
+        case 3:
+            return STR_IT_new_state_toggler;
+        default:
+            return NULL;
+        }
+    case 4877: /* module 19 call 13 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_pool_id;
+        default:
+            return NULL;
+        }
 #endif
     default:
         return NULL;
@@ -1492,12 +2158,12 @@ parser_error_t _getMethod_ItemValue_V16(
         switch (itemIdx) {
         case 0: /* balances_transfer_all_V16 - dest */;
             return _toStringAccountIdLookupOfT(
-                &m->basic.balances_transfer_all_V16.dest,
+                &m->nested.balances_transfer_all_V16.dest,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 1: /* balances_transfer_all_V16 - keep_alive */;
             return _toStringbool(
-                &m->basic.balances_transfer_all_V16.keep_alive,
+                &m->nested.balances_transfer_all_V16.keep_alive,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -1627,12 +2293,12 @@ parser_error_t _getMethod_ItemValue_V16(
         switch (itemIdx) {
         case 0: /* session_set_keys_V16 - keys */;
             return _toStringKeys(
-                &m->basic.session_set_keys_V16.keys,
+                &m->nested.session_set_keys_V16.keys,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 1: /* session_set_keys_V16 - proof */;
             return _toStringBytes(
-                &m->basic.session_set_keys_V16.proof,
+                &m->nested.session_set_keys_V16.proof,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -2001,6 +2667,21 @@ parser_error_t _getMethod_ItemValue_V16(
         default:
             return parser_no_data;
         }
+    case 3843: /* module 15 call 3 */
+        switch (itemIdx) {
+        case 0: /* utility_dispatch_as_V16 - as_origin */;
+            return _toStringBoxPalletsOrigin(
+                &m->basic.utility_dispatch_as_V16.as_origin,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* utility_dispatch_as_V16 - call */;
+            return _toStringCall(
+                &m->basic.utility_dispatch_as_V16.call,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
     case 3845: /* module 15 call 5 */
         switch (itemIdx) {
         case 0: /* utility_with_weight_V16 - call */;
@@ -2166,6 +2847,491 @@ parser_error_t _getMethod_ItemValue_V16(
         default:
             return parser_no_data;
         }
+    case 4608: /* module 18 call 0 */
+        switch (itemIdx) {
+        case 0: /* contracts_call_old_weight_V16 - dest */;
+            return _toStringAccountIdLookupOfT(
+                &m->basic.contracts_call_old_weight_V16.dest,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* contracts_call_old_weight_V16 - amount */;
+            return _toStringCompactBalance(
+                &m->basic.contracts_call_old_weight_V16.amount,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* contracts_call_old_weight_V16 - gas_limit */;
+            return _toStringCompactu64(
+                &m->basic.contracts_call_old_weight_V16.gas_limit,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* contracts_call_old_weight_V16 - storage_deposit_limit */;
+            return _toStringOptionCompactBalanceOf(
+                &m->basic.contracts_call_old_weight_V16.storage_deposit_limit,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 4: /* contracts_call_old_weight_V16 - data */;
+            return _toStringVecu8(
+                &m->basic.contracts_call_old_weight_V16.data,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 4609: /* module 18 call 1 */
+        switch (itemIdx) {
+        case 0: /* contracts_instantiate_with_code_old_weight_V16 - amount */;
+            return _toStringCompactBalance(
+                &m->basic.contracts_instantiate_with_code_old_weight_V16.amount,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* contracts_instantiate_with_code_old_weight_V16 - gas_limit */;
+            return _toStringCompactu64(
+                &m->basic.contracts_instantiate_with_code_old_weight_V16.gas_limit,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* contracts_instantiate_with_code_old_weight_V16 - storage_deposit_limit */;
+            return _toStringOptionCompactBalanceOf(
+                &m->basic.contracts_instantiate_with_code_old_weight_V16.storage_deposit_limit,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* contracts_instantiate_with_code_old_weight_V16 - code */;
+            return _toStringVecu8(
+                &m->basic.contracts_instantiate_with_code_old_weight_V16.code,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 4: /* contracts_instantiate_with_code_old_weight_V16 - data */;
+            return _toStringVecu8(
+                &m->basic.contracts_instantiate_with_code_old_weight_V16.data,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 5: /* contracts_instantiate_with_code_old_weight_V16 - salt */;
+            return _toStringVecu8(
+                &m->basic.contracts_instantiate_with_code_old_weight_V16.salt,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 4610: /* module 18 call 2 */
+        switch (itemIdx) {
+        case 0: /* contracts_instantiate_old_weight_V16 - amount */;
+            return _toStringCompactBalance(
+                &m->basic.contracts_instantiate_old_weight_V16.amount,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* contracts_instantiate_old_weight_V16 - gas_limit */;
+            return _toStringCompactu64(
+                &m->basic.contracts_instantiate_old_weight_V16.gas_limit,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* contracts_instantiate_old_weight_V16 - storage_deposit_limit */;
+            return _toStringOptionCompactBalanceOf(
+                &m->basic.contracts_instantiate_old_weight_V16.storage_deposit_limit,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* contracts_instantiate_old_weight_V16 - code_hash */;
+            return _toStringCodeHash(
+                &m->basic.contracts_instantiate_old_weight_V16.code_hash,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 4: /* contracts_instantiate_old_weight_V16 - data */;
+            return _toStringVecu8(
+                &m->basic.contracts_instantiate_old_weight_V16.data,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 5: /* contracts_instantiate_old_weight_V16 - salt */;
+            return _toStringVecu8(
+                &m->basic.contracts_instantiate_old_weight_V16.salt,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 4611: /* module 18 call 3 */
+        switch (itemIdx) {
+        case 0: /* contracts_upload_code_V16 - code */;
+            return _toStringVecu8(
+                &m->basic.contracts_upload_code_V16.code,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* contracts_upload_code_V16 - storage_deposit_limit */;
+            return _toStringOptionCompactBalanceOf(
+                &m->basic.contracts_upload_code_V16.storage_deposit_limit,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* contracts_upload_code_V16 - determinism */;
+            return _toStringDeterminism(
+                &m->basic.contracts_upload_code_V16.determinism,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 4612: /* module 18 call 4 */
+        switch (itemIdx) {
+        case 0: /* contracts_remove_code_V16 - code_hash */;
+            return _toStringCodeHash(
+                &m->basic.contracts_remove_code_V16.code_hash,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 4613: /* module 18 call 5 */
+        switch (itemIdx) {
+        case 0: /* contracts_set_code_V16 - dest */;
+            return _toStringAccountIdLookupOfT(
+                &m->basic.contracts_set_code_V16.dest,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* contracts_set_code_V16 - code_hash */;
+            return _toStringCodeHash(
+                &m->basic.contracts_set_code_V16.code_hash,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 4614: /* module 18 call 6 */
+        switch (itemIdx) {
+        case 0: /* contracts_call_V16 - dest */;
+            return _toStringAccountIdLookupOfT(
+                &m->basic.contracts_call_V16.dest,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* contracts_call_V16 - amount */;
+            return _toStringCompactBalance(
+                &m->basic.contracts_call_V16.amount,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* contracts_call_V16 - gas_limit */;
+            return _toStringWeight(
+                &m->basic.contracts_call_V16.gas_limit,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* contracts_call_V16 - storage_deposit_limit */;
+            return _toStringOptionCompactBalanceOf(
+                &m->basic.contracts_call_V16.storage_deposit_limit,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 4: /* contracts_call_V16 - data */;
+            return _toStringVecu8(
+                &m->basic.contracts_call_V16.data,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 4615: /* module 18 call 7 */
+        switch (itemIdx) {
+        case 0: /* contracts_instantiate_with_code_V16 - amount */;
+            return _toStringCompactBalance(
+                &m->basic.contracts_instantiate_with_code_V16.amount,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* contracts_instantiate_with_code_V16 - gas_limit */;
+            return _toStringWeight(
+                &m->basic.contracts_instantiate_with_code_V16.gas_limit,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* contracts_instantiate_with_code_V16 - storage_deposit_limit */;
+            return _toStringOptionCompactBalanceOf(
+                &m->basic.contracts_instantiate_with_code_V16.storage_deposit_limit,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* contracts_instantiate_with_code_V16 - code */;
+            return _toStringVecu8(
+                &m->basic.contracts_instantiate_with_code_V16.code,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 4: /* contracts_instantiate_with_code_V16 - data */;
+            return _toStringVecu8(
+                &m->basic.contracts_instantiate_with_code_V16.data,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 5: /* contracts_instantiate_with_code_V16 - salt */;
+            return _toStringVecu8(
+                &m->basic.contracts_instantiate_with_code_V16.salt,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 4616: /* module 18 call 8 */
+        switch (itemIdx) {
+        case 0: /* contracts_instantiate_V16 - amount */;
+            return _toStringCompactBalance(
+                &m->basic.contracts_instantiate_V16.amount,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* contracts_instantiate_V16 - gas_limit */;
+            return _toStringWeight(
+                &m->basic.contracts_instantiate_V16.gas_limit,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* contracts_instantiate_V16 - storage_deposit_limit */;
+            return _toStringOptionCompactBalanceOf(
+                &m->basic.contracts_instantiate_V16.storage_deposit_limit,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* contracts_instantiate_V16 - code_hash */;
+            return _toStringCodeHash(
+                &m->basic.contracts_instantiate_V16.code_hash,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 4: /* contracts_instantiate_V16 - data */;
+            return _toStringBytes(
+                &m->basic.contracts_instantiate_V16.data,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 5: /* contracts_instantiate_V16 - salt */;
+            return _toStringBytes(
+                &m->basic.contracts_instantiate_V16.salt,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 4864: /* module 19 call 0 */
+        switch (itemIdx) {
+        case 0: /* nominationpools_join_V16 - amount */;
+            return _toStringCompactBalance(
+                &m->nested.nominationpools_join_V16.amount,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* nominationpools_join_V16 - pool_id */;
+            return _toStringPoolId(
+                &m->nested.nominationpools_join_V16.pool_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 4865: /* module 19 call 1 */
+        switch (itemIdx) {
+        case 0: /* nominationpools_bond_extra_V16 - extra */;
+            return _toStringBondExtraBalanceOfT(
+                &m->nested.nominationpools_bond_extra_V16.extra,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 4866: /* module 19 call 2 */
+        switch (itemIdx) {
+        default:
+            return parser_no_data;
+        }
+    case 4867: /* module 19 call 3 */
+        switch (itemIdx) {
+        case 0: /* nominationpools_unbond_V16 - member_account */;
+            return _toStringAccountIdLookupOfT(
+                &m->nested.nominationpools_unbond_V16.member_account,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* nominationpools_unbond_V16 - unbonding_points */;
+            return _toStringCompactBalance(
+                &m->nested.nominationpools_unbond_V16.unbonding_points,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 4868: /* module 19 call 4 */
+        switch (itemIdx) {
+        case 0: /* nominationpools_pool_withdraw_unbonded_V16 - pool_id */;
+            return _toStringPoolId(
+                &m->basic.nominationpools_pool_withdraw_unbonded_V16.pool_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* nominationpools_pool_withdraw_unbonded_V16 - num_slashing_spans */;
+            return _toStringu32(
+                &m->basic.nominationpools_pool_withdraw_unbonded_V16.num_slashing_spans,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 4869: /* module 19 call 5 */
+        switch (itemIdx) {
+        case 0: /* nominationpools_withdraw_unbonded_V16 - member_account */;
+            return _toStringAccountIdLookupOfT(
+                &m->nested.nominationpools_withdraw_unbonded_V16.member_account,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* nominationpools_withdraw_unbonded_V16 - num_slashing_spans */;
+            return _toStringu32(
+                &m->nested.nominationpools_withdraw_unbonded_V16.num_slashing_spans,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 4870: /* module 19 call 6 */
+        switch (itemIdx) {
+        case 0: /* nominationpools_create_V16 - amount */;
+            return _toStringCompactBalance(
+                &m->nested.nominationpools_create_V16.amount,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* nominationpools_create_V16 - root */;
+            return _toStringAccountIdLookupOfT(
+                &m->nested.nominationpools_create_V16.root,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* nominationpools_create_V16 - nominator */;
+            return _toStringAccountIdLookupOfT(
+                &m->nested.nominationpools_create_V16.nominator,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* nominationpools_create_V16 - state_toggler */;
+            return _toStringAccountIdLookupOfT(
+                &m->nested.nominationpools_create_V16.state_toggler,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 4871: /* module 19 call 7 */
+        switch (itemIdx) {
+        case 0: /* nominationpools_create_with_pool_id_V16 - amount */;
+            return _toStringCompactBalance(
+                &m->basic.nominationpools_create_with_pool_id_V16.amount,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* nominationpools_create_with_pool_id_V16 - root */;
+            return _toStringAccountIdLookupOfT(
+                &m->basic.nominationpools_create_with_pool_id_V16.root,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* nominationpools_create_with_pool_id_V16 - nominator */;
+            return _toStringAccountIdLookupOfT(
+                &m->basic.nominationpools_create_with_pool_id_V16.nominator,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* nominationpools_create_with_pool_id_V16 - state_toggler */;
+            return _toStringAccountIdLookupOfT(
+                &m->basic.nominationpools_create_with_pool_id_V16.state_toggler,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 4: /* nominationpools_create_with_pool_id_V16 - pool_id */;
+            return _toStringPoolId(
+                &m->basic.nominationpools_create_with_pool_id_V16.pool_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 4872: /* module 19 call 8 */
+        switch (itemIdx) {
+        case 0: /* nominationpools_nominate_V16 - pool_id */;
+            return _toStringPoolId(
+                &m->nested.nominationpools_nominate_V16.pool_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* nominationpools_nominate_V16 - validators */;
+            return _toStringVecAccountId(
+                &m->nested.nominationpools_nominate_V16.validators,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 4873: /* module 19 call 9 */
+        switch (itemIdx) {
+        case 0: /* nominationpools_set_state_V16 - pool_id */;
+            return _toStringPoolId(
+                &m->nested.nominationpools_set_state_V16.pool_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* nominationpools_set_state_V16 - state */;
+            return _toStringPoolState(
+                &m->nested.nominationpools_set_state_V16.state,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 4874: /* module 19 call 10 */
+        switch (itemIdx) {
+        case 0: /* nominationpools_set_metadata_V16 - pool_id */;
+            return _toStringPoolId(
+                &m->nested.nominationpools_set_metadata_V16.pool_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* nominationpools_set_metadata_V16 - metadata */;
+            return _toStringVecu8(
+                &m->nested.nominationpools_set_metadata_V16.metadata,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 4875: /* module 19 call 11 */
+        switch (itemIdx) {
+        case 0: /* nominationpools_set_configs_V16 - min_join_bond */;
+            return _toStringConfigOpBalanceOfT(
+                &m->basic.nominationpools_set_configs_V16.min_join_bond,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* nominationpools_set_configs_V16 - min_create_bond */;
+            return _toStringConfigOpBalanceOfT(
+                &m->basic.nominationpools_set_configs_V16.min_create_bond,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* nominationpools_set_configs_V16 - max_pools */;
+            return _toStringConfigOpu32(
+                &m->basic.nominationpools_set_configs_V16.max_pools,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* nominationpools_set_configs_V16 - max_members */;
+            return _toStringConfigOpu32(
+                &m->basic.nominationpools_set_configs_V16.max_members,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 4: /* nominationpools_set_configs_V16 - max_members_per_pool */;
+            return _toStringConfigOpu32(
+                &m->basic.nominationpools_set_configs_V16.max_members_per_pool,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 4876: /* module 19 call 12 */
+        switch (itemIdx) {
+        case 0: /* nominationpools_update_roles_V16 - pool_id */;
+            return _toStringPoolId(
+                &m->nested.nominationpools_update_roles_V16.pool_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* nominationpools_update_roles_V16 - new_root */;
+            return _toStringConfigOpAccountId(
+                &m->nested.nominationpools_update_roles_V16.new_root,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* nominationpools_update_roles_V16 - new_nominator */;
+            return _toStringConfigOpAccountId(
+                &m->nested.nominationpools_update_roles_V16.new_nominator,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* nominationpools_update_roles_V16 - new_state_toggler */;
+            return _toStringConfigOpAccountId(
+                &m->nested.nominationpools_update_roles_V16.new_state_toggler,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 4877: /* module 19 call 13 */
+        switch (itemIdx) {
+        case 0: /* nominationpools_chill_V16 - pool_id */;
+            return _toStringPoolId(
+                &m->nested.nominationpools_chill_V16.pool_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
 #endif
     default:
         return parser_ok;
@@ -2200,6 +3366,20 @@ bool _getMethod_ItemIsExpert_V16(uint8_t moduleIdx, uint8_t callIdx, __Z_UNUSED 
         default:
             return false;
         }
+    case 4868: // NominationPools:Pool withdraw unbonded
+        switch (itemIdx) {
+        case 1: // Num slashing spans
+            return true;
+        default:
+            return false;
+        }
+    case 4869: // NominationPools:Withdraw Unbonded
+        switch (itemIdx) {
+        case 1: // Num slashing spans
+            return true;
+        default:
+            return false;
+        }
 
     default:
         return false;
@@ -2211,10 +3391,7 @@ bool _getMethod_IsNestingSupported_V16(uint8_t moduleIdx, uint8_t callIdx)
     uint16_t callPrivIdx = ((uint16_t)moduleIdx << 8u) + callIdx;
 
     switch (callPrivIdx) {
-    case 1284: // Balances:Transfer all
     case 1285: // Balances:Force unreserve
-    case 2560: // Session:Set keys
-    case 2561: // Session:Purge keys
     case 3584: // Vesting:Vest
     case 3585: // Vesting:Vest other
     case 3586: // Vesting:Vested transfer
@@ -2222,12 +3399,25 @@ bool _getMethod_IsNestingSupported_V16(uint8_t moduleIdx, uint8_t callIdx)
     case 3588: // Vesting:Merge schedules
     case 3840: // Utility:Batch
     case 3842: // Utility:Batch all
+    case 3843: // Utility:Dispatch as
     case 3844: // Utility:Force batch
     case 3845: // Utility:With weight
     case 4352: // Sudo:Sudo
     case 4353: // Sudo:Sudo unchecked weight
     case 4354: // Sudo:Set key
     case 4355: // Sudo:Sudo as
+    case 4608: // Contracts:Call old weight
+    case 4609: // Contracts:Instantiate with code old weight
+    case 4610: // Contracts:Instantiate old weight
+    case 4611: // Contracts:Upload code
+    case 4612: // Contracts:Remove code
+    case 4613: // Contracts:Set code
+    case 4614: // Contracts:Call
+    case 4615: // Contracts:Instantiate with code
+    case 4616: // Contracts:Instantiate
+    case 4868: // NominationPools:Pool withdraw unbonded
+    case 4871: // NominationPools:Create with pool id
+    case 4875: // NominationPools:Set configs
         return false;
     default:
         return true;
