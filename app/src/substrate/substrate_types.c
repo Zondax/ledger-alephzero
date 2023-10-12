@@ -109,17 +109,12 @@ parser_error_t _readCallImpl(parser_context_t* c, pd_Call_t* v, pd_MethodNested_
 ///////////////////////////////////
 ///////////////////////////////////
 
-parser_error_t _readBalance(parser_context_t* c, pd_Balance_t* v) {
-    GEN_DEF_READARRAY(16)
-}
-
 parser_error_t _readAccountId(parser_context_t* c, pd_AccountId_t* v) {
     GEN_DEF_READARRAY(32)
 }
 
-parser_error_t _readBalanceOf(parser_context_t* c, pd_BalanceOf_t* v)
-{
-    return _readBalance(c, &v->value);
+parser_error_t _readBalance(parser_context_t* c, pd_Balance_t* v) {
+    GEN_DEF_READARRAY(16)
 }
 
 parser_error_t _readBytes(parser_context_t* c, pd_Bytes_t* v)
@@ -135,35 +130,9 @@ parser_error_t _readBytes(parser_context_t* c, pd_Bytes_t* v)
     return parser_ok;
 }
 
-parser_error_t _readCall(parser_context_t* c, pd_Call_t* v)
-{
-    pd_MethodNested_t _method;
-    if (c->tx_obj->nestCallIdx.isTail) {
-        c->tx_obj->nestCallIdx.isTail = false;
-        v->nestCallIdx.isTail = true;
-    } else {
-        v->nestCallIdx.isTail = false;
-    }
-
-    CHECK_ERROR(_readCallImpl(c, v, &_method))
-    if (c->tx_obj->nestCallIdx._ptr != NULL && c->tx_obj->nestCallIdx._nextPtr != NULL) {
-        v->nestCallIdx._ptr = c->tx_obj->nestCallIdx._ptr;
-        v->nestCallIdx._nextPtr = c->tx_obj->nestCallIdx._nextPtr;
-    }
-    v->nestCallIdx.slotIdx = c->tx_obj->nestCallIdx.slotIdx;
-    return parser_ok;
-}
-
 parser_error_t _readCompactAccountIndex(parser_context_t* c, pd_CompactAccountIndex_t* v)
 {
     return _readCompactInt(c, &v->value);
-}
-
-parser_error_t _readTimepoint(parser_context_t* c, pd_Timepoint_t* v)
-{
-    CHECK_ERROR(_readBlockNumber(c, &v->height))
-    CHECK_ERROR(_readu32(c, &v->index))
-    return parser_ok;
 }
 
 parser_error_t _readAccountIdLookupOfT(parser_context_t* c, pd_AccountIdLookupOfT_t* v)
@@ -190,6 +159,211 @@ parser_error_t _readAccountIdLookupOfT(parser_context_t* c, pd_AccountIdLookupOf
         return parser_unexpected_value;
     }
 
+    return parser_ok;
+}
+
+parser_error_t _readBalanceOf(parser_context_t* c, pd_BalanceOf_t* v)
+{
+    return _readBalance(c, &v->value);
+}
+
+parser_error_t _readCall(parser_context_t* c, pd_Call_t* v)
+{
+    pd_MethodNested_t _method;
+    if (c->tx_obj->nestCallIdx.isTail) {
+        c->tx_obj->nestCallIdx.isTail = false;
+        v->nestCallIdx.isTail = true;
+    } else {
+        v->nestCallIdx.isTail = false;
+    }
+
+    CHECK_ERROR(_readCallImpl(c, v, &_method))
+    if (c->tx_obj->nestCallIdx._ptr != NULL && c->tx_obj->nestCallIdx._nextPtr != NULL) {
+        v->nestCallIdx._ptr = c->tx_obj->nestCallIdx._ptr;
+        v->nestCallIdx._nextPtr = c->tx_obj->nestCallIdx._nextPtr;
+    }
+    v->nestCallIdx.slotIdx = c->tx_obj->nestCallIdx.slotIdx;
+    return parser_ok;
+}
+
+parser_error_t _readCompactBalanceOf(parser_context_t* c, pd_CompactBalanceOf_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readCompactInt(c, &v->value));
+    return parser_ok;
+}
+
+parser_error_t _readCompactPerBill(parser_context_t* c, pd_CompactPerBill_t* v)
+{
+    return _readCompactInt(c, &v->value);
+}
+
+parser_error_t _readHash(parser_context_t* c, pd_Hash_t* v) {
+    GEN_DEF_READARRAY(32)
+}
+
+parser_error_t _readPerbill(parser_context_t* c, pd_Perbill_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt32(c, &v->value))
+    return parser_ok;
+}
+
+parser_error_t _readPercent(parser_context_t* c, pd_Percent_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->value))
+    return parser_ok;
+}
+
+parser_error_t _readSystemOrigin(parser_context_t* c, pd_SystemOrigin_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->value))
+    switch (v->value) {
+    case 0: // Root
+    case 2: // None
+        break;
+    case 1: // Signed
+        CHECK_ERROR(_readAccountId(c, &v->_signed))
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+    return parser_ok;
+}
+
+parser_error_t _readTimepoint(parser_context_t* c, pd_Timepoint_t* v)
+{
+    CHECK_ERROR(_readBlockNumber(c, &v->height))
+    CHECK_ERROR(_readu32(c, &v->index))
+    return parser_ok;
+}
+
+parser_error_t _readBondExtraBalanceOfT(parser_context_t* c, pd_BondExtraBalanceOfT_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->value))
+    switch (v->value) {
+    case 0:
+        CHECK_ERROR(_readBalance(c, &v->freeBalance))
+        break;
+    case 1: // Rewards
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+    return parser_ok;
+}
+
+parser_error_t _readBoxPalletsOrigin(parser_context_t* c, pd_BoxPalletsOrigin_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->value))
+    switch (v->value) {
+    case 0: // System
+        CHECK_ERROR(_readSystemOrigin(c, &v->system))
+        break;
+    case 1: // Void
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+    return parser_ok;
+}
+
+parser_error_t _readCodeHash(parser_context_t* c, pd_CodeHash_t* v)
+{
+    CHECK_ERROR(_readHash(c, &v->hash))
+    return parser_ok;
+}
+
+parser_error_t _readConfigOpAccountId(parser_context_t* c, pd_ConfigOpAccountId_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->value))
+    switch (v->value) {
+    case 0: // Noop
+    case 2: // Remove
+        break;
+    case 1:
+        CHECK_ERROR(_readAccountId(c, &v->set))
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+    return parser_ok;
+}
+
+parser_error_t _readConfigOpBalanceOfT(parser_context_t* c, pd_ConfigOpBalanceOfT_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->value))
+    switch (v->value) {
+    case 0: // Noop
+    case 2: // Remove
+        break;
+    case 1:
+        CHECK_ERROR(_readBalance(c, &v->set))
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+    return parser_ok;
+}
+
+parser_error_t _readConfigOpPerbill(parser_context_t* c, pd_ConfigOpPerbill_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->value))
+    switch (v->value) {
+    case 0: // Noop
+    case 2: // Remove
+        break;
+    case 1:
+        CHECK_ERROR(_readPerbill(c, &v->set))
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+    return parser_ok;
+}
+
+parser_error_t _readConfigOpPercent(parser_context_t* c, pd_ConfigOpPercent_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->value))
+    switch (v->value) {
+    case 0: // Noop
+    case 2: // Remove
+        break;
+    case 1:
+        CHECK_ERROR(_readPercent(c, &v->set))
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+    return parser_ok;
+}
+
+parser_error_t _readRewardDestination(parser_context_t* c, pd_RewardDestination_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->value))
+
+    if (v->value == 3) {
+        CHECK_ERROR(_readAccountId(c, &v->accountId))
+    } else if (v->value > 4) {
+        return parser_value_out_of_range;
+    }
+    return parser_ok;
+}
+
+parser_error_t _readValidatorPrefs(parser_context_t* c, pd_ValidatorPrefs_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readCompactPerBill(c, &v->commission));
+    CHECK_ERROR(_readbool(c, &v->blocked))
     return parser_ok;
 }
 
@@ -236,11 +410,41 @@ parser_error_t _readWeight(parser_context_t* c, pd_Weight_t* v)
     return parser_ok;
 }
 
-parser_error_t _readH256(parser_context_t* c, pd_H256_t* v) {
-    GEN_DEF_READARRAY(32)
+parser_error_t _readConfigOpu32(parser_context_t* c, pd_ConfigOpu32_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->value))
+    switch (v->value) {
+    case 0: // Noop
+    case 2: // Remove
+        break;
+    case 1:
+        CHECK_ERROR(_readUInt32(c, &v->set))
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+    return parser_ok;
 }
 
-parser_error_t _readHash(parser_context_t* c, pd_Hash_t* v) {
+parser_error_t _readDeterminism(parser_context_t* c, pd_Determinism_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->value))
+    if (v->value > 1) {
+        return parser_value_out_of_range;
+    }
+    return parser_ok;
+}
+
+parser_error_t _readEraIndex(parser_context_t* c, pd_EraIndex_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt32(c, &v->value))
+    return parser_ok;
+}
+
+parser_error_t _readH256(parser_context_t* c, pd_H256_t* v) {
     GEN_DEF_READARRAY(32)
 }
 
@@ -248,8 +452,30 @@ parser_error_t _readKeys(parser_context_t* c, pd_Keys_t* v) {
     GEN_DEF_READARRAY(2 * 32)
 }
 
+parser_error_t _readPoolId(parser_context_t* c, pd_PoolId_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt32(c, &v->value))
+    return parser_ok;
+}
+
+parser_error_t _readPoolState(parser_context_t* c, pd_PoolState_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->value))
+    return parser_ok;
+}
+
+parser_error_t _readVecAccountIdLookupOfT(parser_context_t* c, pd_VecAccountIdLookupOfT_t* v) {
+    GEN_DEF_READVECTOR(AccountIdLookupOfT)
+}
+
 parser_error_t _readVecAccountId(parser_context_t* c, pd_VecAccountId_t* v) {
     GEN_DEF_READVECTOR(AccountId)
+}
+
+parser_error_t _readVecu32(parser_context_t* c, pd_Vecu32_t* v) {
+    GEN_DEF_READVECTOR(u32)
 }
 
 parser_error_t _readVecu8(parser_context_t* c, pd_Vecu8_t* v) {
@@ -258,9 +484,20 @@ parser_error_t _readVecu8(parser_context_t* c, pd_Vecu8_t* v) {
 
 parser_error_t _readOptionTimepoint(parser_context_t* c, pd_OptionTimepoint_t* v)
 {
+    CHECK_INPUT()
     CHECK_ERROR(_readUInt8(c, &v->some))
     if (v->some > 0) {
         CHECK_ERROR(_readTimepoint(c, &v->contained))
+    }
+    return parser_ok;
+}
+
+parser_error_t _readOptionCompactBalanceOf(parser_context_t* c, pd_OptionCompactBalanceOf_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->some))
+    if (v->some > 0) {
+        CHECK_ERROR(_readCompactBalanceOf(c, &v->contained))
     }
     return parser_ok;
 }
@@ -386,6 +623,16 @@ parser_error_t _toStringCompactu64(
 ///////////////////////////////////
 ///////////////////////////////////
 
+parser_error_t _toStringAccountId(
+    const pd_AccountId_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    return _toStringPubkeyAsAddress(v->_ptr, outValue, outValueLen, pageIdx, pageCount);
+}
+
 parser_error_t _toStringBalance(
     const pd_Balance_t* v,
     char* outValue,
@@ -423,14 +670,57 @@ parser_error_t _toStringBalance(
     return parser_ok;
 }
 
-parser_error_t _toStringAccountId(
-    const pd_AccountId_t* v,
+parser_error_t _toStringBytes(
+    const pd_Bytes_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,
     uint8_t* pageCount)
 {
-    return _toStringPubkeyAsAddress(v->_ptr, outValue, outValueLen, pageIdx, pageCount);
+    GEN_DEF_TOSTRING_ARRAY(v->_len);
+}
+
+parser_error_t _toStringCompactAccountIndex(
+    const pd_CompactAccountIndex_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    return _toStringCompactInt(&v->value, 0, false, "", "", outValue, outValueLen, pageIdx, pageCount);
+}
+
+parser_error_t _toStringAccountIdLookupOfT(
+    const pd_AccountIdLookupOfT_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+    switch (v->value) {
+    case 0: // Id
+        CHECK_ERROR(_toStringAccountId(&v->id, outValue, outValueLen, pageIdx, pageCount))
+        break;
+    case 1: // Index
+        CHECK_ERROR(_toStringCompactAccountIndex(&v->index, outValue, outValueLen, pageIdx, pageCount))
+        break;
+    case 2: // Raw
+        CHECK_ERROR(_toStringBytes(&v->raw, outValue, outValueLen, pageIdx, pageCount))
+        break;
+    case 3: // Address32
+    {
+        GEN_DEF_TOSTRING_ARRAY(32)
+    }
+    case 4: // Address20
+    {
+        GEN_DEF_TOSTRING_ARRAY(20)
+    }
+    default:
+        return parser_not_supported;
+    }
+
+    return parser_ok;
 }
 
 parser_error_t _toStringBalanceOf(
@@ -441,16 +731,6 @@ parser_error_t _toStringBalanceOf(
     uint8_t* pageCount)
 {
     return _toStringBalance(&v->value, outValue, outValueLen, pageIdx, pageCount);
-}
-
-parser_error_t _toStringBytes(
-    const pd_Bytes_t* v,
-    char* outValue,
-    uint16_t outValueLen,
-    uint8_t pageIdx,
-    uint8_t* pageCount)
-{
-    GEN_DEF_TOSTRING_ARRAY(v->_len);
 }
 
 parser_error_t _toStringCall(
@@ -533,14 +813,98 @@ parser_error_t _toStringCall(
     return parser_display_idx_out_of_range;
 }
 
-parser_error_t _toStringCompactAccountIndex(
-    const pd_CompactAccountIndex_t* v,
+parser_error_t _toStringCompactBalanceOf(
+    const pd_CompactBalanceOf_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,
     uint8_t* pageCount)
 {
-    return _toStringCompactInt(&v->value, 0, false, "", "", outValue, outValueLen, pageIdx, pageCount);
+    CHECK_ERROR(_toStringCompactInt(&v->value, COIN_AMOUNT_DECIMAL_PLACES, true, "", COIN_TICKER, outValue, outValueLen, pageIdx, pageCount))
+    return parser_ok;
+}
+
+parser_error_t _toStringCompactPerBill(
+    const pd_CompactPerBill_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    // 9 but shift 2 to show as percentage
+    return _toStringCompactInt(&v->value, 7, false, "%", "", outValue, outValueLen, pageIdx, pageCount);
+}
+
+parser_error_t _toStringHash(
+    const pd_Hash_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount) {
+    GEN_DEF_TOSTRING_ARRAY(32)
+}
+
+parser_error_t _toStringPerbill(
+    const pd_Perbill_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    char bufferUI[100] = { 0 };
+    char ratioBuffer[80] = { 0 };
+    memset(outValue, 0, outValueLen);
+    *pageCount = 1;
+
+    if (fpuint64_to_str(ratioBuffer, sizeof(ratioBuffer), v->value, 7) == 0) {
+        return parser_unexpected_value;
+    }
+
+    snprintf(bufferUI, sizeof(bufferUI), "%s%%", ratioBuffer);
+    pageString(outValue, outValueLen, bufferUI, pageIdx, pageCount);
+    return parser_ok;
+}
+
+parser_error_t _toStringPercent(
+    const pd_Percent_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    char bufferUI[50];
+    char bufferRatio[50];
+
+    uint64_to_str(bufferRatio, sizeof(bufferRatio), v->value);
+
+    snprintf(bufferUI, sizeof(bufferUI), "%s%%", bufferRatio);
+    pageString(outValue, outValueLen, bufferUI, pageIdx, pageCount);
+    return parser_ok;
+}
+
+parser_error_t _toStringSystemOrigin(
+    const pd_SystemOrigin_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+    *pageCount = 1;
+    switch (v->value) {
+    case 0: // Root
+        snprintf(outValue, outValueLen, "Root");
+        break;
+    case 1: // Signed
+        CHECK_ERROR(_toStringAccountId(&v->_signed, outValue, outValueLen, pageIdx, pageCount))
+        break;
+    case 2: // None
+        snprintf(outValue, outValueLen, "None");
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+    return parser_ok;
 }
 
 parser_error_t _toStringTimepoint(
@@ -562,7 +926,7 @@ parser_error_t _toStringTimepoint(
         *pageCount += pages[i];
     }
 
-    if (pageIdx > *pageCount) {
+    if (pageIdx >= *pageCount) {
         return parser_display_idx_out_of_range;
     }
 
@@ -580,37 +944,228 @@ parser_error_t _toStringTimepoint(
     return parser_display_idx_out_of_range;
 }
 
-parser_error_t _toStringAccountIdLookupOfT(
-    const pd_AccountIdLookupOfT_t* v,
+parser_error_t _toStringBondExtraBalanceOfT(
+    const pd_BondExtraBalanceOfT_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,
     uint8_t* pageCount)
 {
     CLEAN_AND_CHECK()
+    *pageCount = 1;
     switch (v->value) {
-    case 0: // Id
-        CHECK_ERROR(_toStringAccountId(&v->id, outValue, outValueLen, pageIdx, pageCount))
+    case 0:
+        CHECK_ERROR(_toStringBalance(&v->freeBalance, outValue, outValueLen, pageIdx, pageCount))
         break;
-    case 1: // Index
-        CHECK_ERROR(_toStringCompactAccountIndex(&v->index, outValue, outValueLen, pageIdx, pageCount))
+    case 1:
+        snprintf(outValue, outValueLen, "Rewards");
         break;
-    case 2: // Raw
-        CHECK_ERROR(_toStringBytes(&v->raw, outValue, outValueLen, pageIdx, pageCount))
-        break;
-    case 3: // Address32
-    {
-        GEN_DEF_TOSTRING_ARRAY(32)
-    }
-    case 4: // Address20
-    {
-        GEN_DEF_TOSTRING_ARRAY(20)
-    }
     default:
-        return parser_not_supported;
+        return parser_unexpected_value;
+    }
+    return parser_ok;
+}
+
+parser_error_t _toStringBoxPalletsOrigin(
+    const pd_BoxPalletsOrigin_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+    *pageCount = 1;
+    switch (v->value) {
+    case 0: // System
+        CHECK_ERROR(_toStringSystemOrigin(&v->system, outValue, outValueLen, pageIdx, pageCount))
+        break;
+    case 1: // Void
+        snprintf(outValue, outValueLen, "Void");
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+    return parser_ok;
+}
+
+parser_error_t _toStringCodeHash(
+    const pd_CodeHash_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    return _toStringHash(&v->hash, outValue, outValueLen, pageIdx, pageCount);
+}
+
+parser_error_t _toStringConfigOpAccountId(
+    const pd_ConfigOpAccountId_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+    *pageCount = 1;
+    switch (v->value) {
+    case 0:
+        snprintf(outValue, outValueLen, "Noop");
+        break;
+    case 1:
+        CHECK_ERROR(_toStringAccountId(&v->set, outValue, outValueLen, pageIdx, pageCount))
+        break;
+    case 2:
+        snprintf(outValue, outValueLen, "Remove");
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+    return parser_ok;
+}
+
+parser_error_t _toStringConfigOpBalanceOfT(
+    const pd_ConfigOpBalanceOfT_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+    *pageCount = 1;
+    switch (v->value) {
+    case 0:
+        snprintf(outValue, outValueLen, "Noop");
+        break;
+    case 1:
+        CHECK_ERROR(_toStringBalance(&v->set, outValue, outValueLen, pageIdx, pageCount))
+        break;
+    case 2:
+        snprintf(outValue, outValueLen, "Remove");
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+    return parser_ok;
+}
+
+parser_error_t _toStringConfigOpPerbill(
+    const pd_ConfigOpPerbill_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+    *pageCount = 1;
+    switch (v->value) {
+    case 0:
+        snprintf(outValue, outValueLen, "Noop");
+        break;
+    case 1:
+        CHECK_ERROR(_toStringPerbill(&v->set, outValue, outValueLen, pageIdx, pageCount))
+        break;
+    case 2:
+        snprintf(outValue, outValueLen, "Remove");
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+    return parser_ok;
+}
+
+parser_error_t _toStringConfigOpPercent(
+    const pd_ConfigOpPercent_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+    *pageCount = 1;
+    switch (v->value) {
+    case 0:
+        snprintf(outValue, outValueLen, "Noop");
+        break;
+    case 1:
+        CHECK_ERROR(_toStringPercent(&v->set, outValue, outValueLen, pageIdx, pageCount))
+        break;
+    case 2:
+        snprintf(outValue, outValueLen, "Remove");
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+    return parser_ok;
+}
+
+parser_error_t _toStringRewardDestination(
+    const pd_RewardDestination_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+
+    *pageCount = 1;
+    switch (v->value) {
+    case 0:
+        snprintf(outValue, outValueLen, "Staked");
+        break;
+    case 1:
+        snprintf(outValue, outValueLen, "Stash");
+        break;
+    case 2:
+        snprintf(outValue, outValueLen, "Controller");
+        break;
+    case 3:
+        CHECK_ERROR(_toStringAccountId(&v->accountId, outValue, outValueLen, pageIdx, pageCount));
+        break;
+    case 4:
+        snprintf(outValue, outValueLen, "None");
+        break;
+    default:
+        return parser_print_not_supported;
     }
 
     return parser_ok;
+}
+
+parser_error_t _toStringValidatorPrefs(
+    const pd_ValidatorPrefs_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+
+    // First measure number of pages
+    uint8_t pages[2] = { 0 };
+    CHECK_ERROR(_toStringCompactPerBill(&v->commission, outValue, outValueLen, 0, &pages[0]))
+    CHECK_ERROR(_toStringbool(&v->blocked, outValue, outValueLen, 0, &pages[1]))
+
+    *pageCount = 0;
+    for (uint8_t i = 0; i < (uint8_t)sizeof(pages); i++) {
+        *pageCount += pages[i];
+    }
+
+    if (pageIdx >= *pageCount) {
+        return parser_display_idx_out_of_range;
+    }
+
+    if (pageIdx < pages[0]) {
+        CHECK_ERROR(_toStringCompactPerBill(&v->commission, outValue, outValueLen, pageIdx, &pages[0]))
+        return parser_ok;
+    }
+    pageIdx -= pages[0];
+
+    if (pageIdx < pages[1]) {
+        CHECK_ERROR(_toStringbool(&v->blocked, outValue, outValueLen, pageIdx, &pages[1]))
+        return parser_ok;
+    }
+
+    return parser_display_idx_out_of_range;
 }
 
 parser_error_t _toStringVecCall(
@@ -693,7 +1248,7 @@ parser_error_t _toStringVestingInfo(
         *pageCount += pages[i];
     }
 
-    if (pageIdx > *pageCount) {
+    if (pageIdx >= *pageCount) {
         return parser_display_idx_out_of_range;
     }
 
@@ -736,7 +1291,7 @@ parser_error_t _toStringWeight(
         *pageCount += pages[i];
     }
 
-    if (pageIdx > *pageCount) {
+    if (pageIdx >= *pageCount) {
         return parser_display_idx_out_of_range;
     }
 
@@ -754,6 +1309,63 @@ parser_error_t _toStringWeight(
     return parser_display_idx_out_of_range;
 }
 
+parser_error_t _toStringConfigOpu32(
+    const pd_ConfigOpu32_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+    *pageCount = 1;
+    switch (v->value) {
+    case 0:
+        snprintf(outValue, outValueLen, "Noop");
+        break;
+    case 1:
+        CHECK_ERROR(_toStringu32(&v->set, outValue, outValueLen, pageIdx, pageCount))
+        break;
+    case 2:
+        snprintf(outValue, outValueLen, "Remove");
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+    return parser_ok;
+}
+
+parser_error_t _toStringDeterminism(
+    const pd_Determinism_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+    UNUSED(pageIdx);
+    switch (v->value) {
+    case 0: // Deterministic
+        snprintf(outValue, outValueLen, "Deterministic");
+        break;
+    case 1: // AllowIndeterminism
+        snprintf(outValue, outValueLen, "AllowIndeterminism");
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+    return parser_ok;
+}
+
+parser_error_t _toStringEraIndex(
+    const pd_EraIndex_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    return _toStringu32(&v->value, outValue, outValueLen, pageIdx, pageCount);
+}
+
 parser_error_t _toStringH256(
     const pd_H256_t* v,
     char* outValue,
@@ -762,15 +1374,6 @@ parser_error_t _toStringH256(
     uint8_t* pageCount)
 {
     GEN_DEF_TOSTRING_ARRAY(32);
-}
-
-parser_error_t _toStringHash(
-    const pd_Hash_t* v,
-    char* outValue,
-    uint16_t outValueLen,
-    uint8_t pageIdx,
-    uint8_t* pageCount) {
-    GEN_DEF_TOSTRING_ARRAY(32)
 }
 
 parser_error_t _toStringKeys(
@@ -782,6 +1385,52 @@ parser_error_t _toStringKeys(
     GEN_DEF_TOSTRING_ARRAY(2 * 32)
 }
 
+parser_error_t _toStringPoolId(
+    const pd_PoolId_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    return _toStringu32(&v->value, outValue, outValueLen, pageIdx, pageCount);
+}
+
+parser_error_t _toStringPoolState(
+    const pd_PoolState_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+    UNUSED(pageIdx);
+    *pageCount = 1;
+    switch (v->value) {
+    case 0:
+        snprintf(outValue, outValueLen, "Open");
+        break;
+    case 1:
+        snprintf(outValue, outValueLen, "Blocked");
+        break;
+    case 2:
+        snprintf(outValue, outValueLen, "Destroying");
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+    return parser_ok;
+}
+
+parser_error_t _toStringVecAccountIdLookupOfT(
+    const pd_VecAccountIdLookupOfT_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    GEN_DEF_TOSTRING_VECTOR(AccountIdLookupOfT);
+}
+
 parser_error_t _toStringVecAccountId(
     const pd_VecAccountId_t* v,
     char* outValue,
@@ -790,6 +1439,16 @@ parser_error_t _toStringVecAccountId(
     uint8_t* pageCount)
 {
     GEN_DEF_TOSTRING_VECTOR(AccountId);
+}
+
+parser_error_t _toStringVecu32(
+    const pd_Vecu32_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    GEN_DEF_TOSTRING_VECTOR(u32);
 }
 
 parser_error_t _toStringVecu8(
@@ -814,6 +1473,27 @@ parser_error_t _toStringOptionTimepoint(
     *pageCount = 1;
     if (v->some > 0) {
         CHECK_ERROR(_toStringTimepoint(
+            &v->contained,
+            outValue, outValueLen,
+            pageIdx, pageCount));
+    } else {
+        snprintf(outValue, outValueLen, "None");
+    }
+    return parser_ok;
+}
+
+parser_error_t _toStringOptionCompactBalanceOf(
+    const pd_OptionCompactBalanceOf_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+
+    *pageCount = 1;
+    if (v->some > 0) {
+        CHECK_ERROR(_toStringCompactBalanceOf(
             &v->contained,
             outValue, outValueLen,
             pageIdx, pageCount));
