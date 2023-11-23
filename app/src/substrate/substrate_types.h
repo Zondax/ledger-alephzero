@@ -136,6 +136,10 @@ typedef struct {
 } pd_CompactAccountIndex_t;
 
 typedef struct {
+    uint32_t value;
+} pd_Perbill_t;
+
+typedef struct {
     uint8_t value;
     union {
         pd_AccountId_t id;
@@ -168,10 +172,6 @@ typedef struct {
 } pd_Hash_t;
 
 typedef struct {
-    uint32_t value;
-} pd_Perbill_t;
-
-typedef struct {
     uint8_t value;
 } pd_Percent_t;
 
@@ -186,6 +186,11 @@ typedef struct {
 } pd_Timepoint_t;
 
 typedef struct {
+    pd_Perbill_t perbill;
+    pd_AccountId_t id;
+} pd_TuplePerbillAccountId_t;
+
+typedef struct {
     uint8_t value;
     pd_Balance_t freeBalance;
 } pd_BondExtraBalanceOfT_t;
@@ -198,6 +203,11 @@ typedef struct {
 typedef struct {
     pd_Hash_t hash;
 } pd_CodeHash_t;
+
+typedef struct {
+    pd_Perbill_t maxIncrease;
+    uint32_t minDelay;
+} pd_CommissionChangeRateBlockNumber_t;
 
 typedef struct {
     uint8_t value;
@@ -223,6 +233,11 @@ typedef struct {
     uint8_t some;
     pd_Timepoint_t contained;
 } pd_OptionTimepoint_t;
+
+typedef struct {
+    uint8_t some;
+    pd_TuplePerbillAccountId_t contained;
+} pd_OptionTuplePerbillAccountId_t;
 
 typedef struct {
     uint8_t value;
@@ -257,6 +272,10 @@ typedef struct {
     pd_Compactu64_t refTime;
     pd_Compactu64_t proofSize;
 } pd_Weight_t;
+
+typedef struct {
+    uint8_t value;
+} pd_ClaimPermission_t;
 
 typedef struct {
     uint8_t value;

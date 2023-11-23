@@ -135,6 +135,13 @@ parser_error_t _readCompactAccountIndex(parser_context_t* c, pd_CompactAccountIn
     return _readCompactInt(c, &v->value);
 }
 
+parser_error_t _readPerbill(parser_context_t* c, pd_Perbill_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt32(c, &v->value))
+    return parser_ok;
+}
+
 parser_error_t _readAccountIdLookupOfT(parser_context_t* c, pd_AccountIdLookupOfT_t* v)
 {
     CHECK_INPUT()
@@ -202,13 +209,6 @@ parser_error_t _readHash(parser_context_t* c, pd_Hash_t* v) {
     GEN_DEF_READARRAY(32)
 }
 
-parser_error_t _readPerbill(parser_context_t* c, pd_Perbill_t* v)
-{
-    CHECK_INPUT()
-    CHECK_ERROR(_readUInt32(c, &v->value))
-    return parser_ok;
-}
-
 parser_error_t _readPercent(parser_context_t* c, pd_Percent_t* v)
 {
     CHECK_INPUT()
@@ -237,6 +237,14 @@ parser_error_t _readTimepoint(parser_context_t* c, pd_Timepoint_t* v)
 {
     CHECK_ERROR(_readBlockNumber(c, &v->height))
     CHECK_ERROR(_readu32(c, &v->index))
+    return parser_ok;
+}
+
+parser_error_t _readTuplePerbillAccountId(parser_context_t* c, pd_TuplePerbillAccountId_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readPerbill(c, &v->perbill));
+    CHECK_ERROR(_readAccountId(c, &v->id));
     return parser_ok;
 }
 
@@ -275,6 +283,14 @@ parser_error_t _readBoxPalletsOrigin(parser_context_t* c, pd_BoxPalletsOrigin_t*
 parser_error_t _readCodeHash(parser_context_t* c, pd_CodeHash_t* v)
 {
     CHECK_ERROR(_readHash(c, &v->hash))
+    return parser_ok;
+}
+
+parser_error_t _readCommissionChangeRateBlockNumber(parser_context_t* c, pd_CommissionChangeRateBlockNumber_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readPerbill(c, &v->maxIncrease));
+    CHECK_ERROR(_readUInt32(c, &v->minDelay));
     return parser_ok;
 }
 
@@ -410,6 +426,16 @@ parser_error_t _readWeight(parser_context_t* c, pd_Weight_t* v)
     return parser_ok;
 }
 
+parser_error_t _readClaimPermission(parser_context_t* c, pd_ClaimPermission_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->value))
+    if (v->value > 3) {
+        return parser_value_out_of_range;
+    }
+    return parser_ok;
+}
+
 parser_error_t _readConfigOpu32(parser_context_t* c, pd_ConfigOpu32_t* v)
 {
     CHECK_INPUT()
@@ -488,6 +514,16 @@ parser_error_t _readOptionTimepoint(parser_context_t* c, pd_OptionTimepoint_t* v
     CHECK_ERROR(_readUInt8(c, &v->some))
     if (v->some > 0) {
         CHECK_ERROR(_readTimepoint(c, &v->contained))
+    }
+    return parser_ok;
+}
+
+parser_error_t _readOptionTuplePerbillAccountId(parser_context_t* c, pd_OptionTuplePerbillAccountId_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->some))
+    if (v->some > 0) {
+        CHECK_ERROR(_readTuplePerbillAccountId(c, &v->contained))
     }
     return parser_ok;
 }
@@ -690,6 +726,27 @@ parser_error_t _toStringCompactAccountIndex(
     return _toStringCompactInt(&v->value, 0, false, "", "", outValue, outValueLen, pageIdx, pageCount);
 }
 
+parser_error_t _toStringPerbill(
+    const pd_Perbill_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    char bufferUI[100] = { 0 };
+    char ratioBuffer[80] = { 0 };
+    memset(outValue, 0, outValueLen);
+    *pageCount = 1;
+
+    if (fpuint64_to_str(ratioBuffer, sizeof(ratioBuffer), v->value, 7) == 0) {
+        return parser_unexpected_value;
+    }
+
+    snprintf(bufferUI, sizeof(bufferUI), "%s%%", ratioBuffer);
+    pageString(outValue, outValueLen, bufferUI, pageIdx, pageCount);
+    return parser_ok;
+}
+
 parser_error_t _toStringAccountIdLookupOfT(
     const pd_AccountIdLookupOfT_t* v,
     char* outValue,
@@ -791,7 +848,7 @@ parser_error_t _toStringCall(
 
     pageIdx--;
 
-    if (pageIdx > *pageCount) {
+    if (pageIdx >= *pageCount) {
         return parser_display_idx_out_of_range;
     }
 
@@ -842,27 +899,6 @@ parser_error_t _toStringHash(
     uint8_t pageIdx,
     uint8_t* pageCount) {
     GEN_DEF_TOSTRING_ARRAY(32)
-}
-
-parser_error_t _toStringPerbill(
-    const pd_Perbill_t* v,
-    char* outValue,
-    uint16_t outValueLen,
-    uint8_t pageIdx,
-    uint8_t* pageCount)
-{
-    char bufferUI[100] = { 0 };
-    char ratioBuffer[80] = { 0 };
-    memset(outValue, 0, outValueLen);
-    *pageCount = 1;
-
-    if (fpuint64_to_str(ratioBuffer, sizeof(ratioBuffer), v->value, 7) == 0) {
-        return parser_unexpected_value;
-    }
-
-    snprintf(bufferUI, sizeof(bufferUI), "%s%%", ratioBuffer);
-    pageString(outValue, outValueLen, bufferUI, pageIdx, pageCount);
-    return parser_ok;
 }
 
 parser_error_t _toStringPercent(
@@ -944,6 +980,43 @@ parser_error_t _toStringTimepoint(
     return parser_display_idx_out_of_range;
 }
 
+parser_error_t _toStringTuplePerbillAccountId(
+    const pd_TuplePerbillAccountId_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+
+    // First measure number of pages
+    uint8_t pages[2] = { 0 };
+    CHECK_ERROR(_toStringPerbill(&v->perbill, outValue, outValueLen, 0, &pages[0]))
+    CHECK_ERROR(_toStringAccountId(&v->id, outValue, outValueLen, 0, &pages[1]))
+
+    *pageCount = 0;
+    for (uint8_t i = 0; i < (uint8_t)sizeof(pages); i++) {
+        *pageCount += pages[i];
+    }
+
+    if (pageIdx >= *pageCount) {
+        return parser_display_idx_out_of_range;
+    }
+
+    if (pageIdx < pages[0]) {
+        CHECK_ERROR(_toStringPerbill(&v->perbill, outValue, outValueLen, pageIdx, &pages[0]))
+        return parser_ok;
+    }
+    pageIdx -= pages[0];
+
+    if (pageIdx < pages[1]) {
+        CHECK_ERROR(_toStringAccountId(&v->id, outValue, outValueLen, pageIdx, &pages[1]))
+        return parser_ok;
+    }
+
+    return parser_display_idx_out_of_range;
+}
+
 parser_error_t _toStringBondExtraBalanceOfT(
     const pd_BondExtraBalanceOfT_t* v,
     char* outValue,
@@ -996,6 +1069,43 @@ parser_error_t _toStringCodeHash(
     uint8_t* pageCount)
 {
     return _toStringHash(&v->hash, outValue, outValueLen, pageIdx, pageCount);
+}
+
+parser_error_t _toStringCommissionChangeRateBlockNumber(
+    const pd_CommissionChangeRateBlockNumber_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+
+    // First measure number of pages
+    uint8_t pages[2] = { 0 };
+    CHECK_ERROR(_toStringPerbill(&v->maxIncrease, outValue, outValueLen, 0, &pages[0]))
+    CHECK_ERROR(_toStringu32(&v->minDelay, outValue, outValueLen, 0, &pages[1]))
+
+    *pageCount = 0;
+    for (uint8_t i = 0; i < (uint8_t)sizeof(pages); i++) {
+        *pageCount += pages[i];
+    }
+
+    if (pageIdx >= *pageCount) {
+        return parser_display_idx_out_of_range;
+    }
+
+    if (pageIdx < pages[0]) {
+        CHECK_ERROR(_toStringPerbill(&v->maxIncrease, outValue, outValueLen, pageIdx, &pages[0]))
+        return parser_ok;
+    }
+    pageIdx -= pages[0];
+
+    if (pageIdx < pages[1]) {
+        CHECK_ERROR(_toStringu32(&v->minDelay, outValue, outValueLen, pageIdx, &pages[1]))
+        return parser_ok;
+    }
+
+    return parser_display_idx_out_of_range;
 }
 
 parser_error_t _toStringConfigOpAccountId(
@@ -1309,6 +1419,34 @@ parser_error_t _toStringWeight(
     return parser_display_idx_out_of_range;
 }
 
+parser_error_t _toStringClaimPermission(
+    const pd_ClaimPermission_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+    UNUSED(pageIdx);
+    switch (v->value) {
+    case 0: // Permissioned
+        snprintf(outValue, outValueLen, "Permissioned");
+        break;
+    case 1: // PermissionlessCompound
+        snprintf(outValue, outValueLen, "PermissionlessCompound");
+        break;
+    case 2: // PermissionlessWithdraw
+        snprintf(outValue, outValueLen, "PermissionlessWithdraw");
+        break;
+    case 3: // PermissionlessAll
+        snprintf(outValue, outValueLen, "PermissionlessAll");
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+    return parser_ok;
+}
+
 parser_error_t _toStringConfigOpu32(
     const pd_ConfigOpu32_t* v,
     char* outValue,
@@ -1344,11 +1482,11 @@ parser_error_t _toStringDeterminism(
     CLEAN_AND_CHECK()
     UNUSED(pageIdx);
     switch (v->value) {
-    case 0: // Deterministic
-        snprintf(outValue, outValueLen, "Deterministic");
+    case 0: // Enforced
+        snprintf(outValue, outValueLen, "Enforced");
         break;
-    case 1: // AllowIndeterminism
-        snprintf(outValue, outValueLen, "AllowIndeterminism");
+    case 1: // Relaxed
+        snprintf(outValue, outValueLen, "Relaxed");
         break;
     default:
         return parser_unexpected_value;
@@ -1473,6 +1611,27 @@ parser_error_t _toStringOptionTimepoint(
     *pageCount = 1;
     if (v->some > 0) {
         CHECK_ERROR(_toStringTimepoint(
+            &v->contained,
+            outValue, outValueLen,
+            pageIdx, pageCount));
+    } else {
+        snprintf(outValue, outValueLen, "None");
+    }
+    return parser_ok;
+}
+
+parser_error_t _toStringOptionTuplePerbillAccountId(
+    const pd_OptionTuplePerbillAccountId_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+
+    *pageCount = 1;
+    if (v->some > 0) {
+        CHECK_ERROR(_toStringTuplePerbillAccountId(
             &v->contained,
             outValue, outValueLen,
             pageIdx, pageCount));
