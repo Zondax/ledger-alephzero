@@ -16,27 +16,18 @@
 #pragma once
 
 #ifdef __cplusplus
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wextern-c-compat"
-
 extern "C" {
 #endif
 
 #include <stdint.h>
 #include <stddef.h>
-
-#define GET_PD_CALL(CALL, VERSION) (PD_CALL_ ## CALL ## _V ## VERSION)
-
+#include "parser_common.h"
 #include "substrate_types_V18.h"
 #include "substrate_methods_V18.h"
 
-typedef union {
-pd_Method_V18_t V18;
-} pd_Method_t;
+// Versioned types functions for tx version V18
 
-typedef union {
-pd_MethodNested_V18_t V18;
-} pd_MethodNested_t;
+
 
 #ifdef __cplusplus
 }
