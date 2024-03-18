@@ -40,6 +40,7 @@ extern "C" {
 #define PD_CALL_SUDO_V18 17
 #define PD_CALL_CONTRACTS_V18 18
 #define PD_CALL_NOMINATIONPOOLS_V18 19
+#define PD_CALL_PROXY_V18 22
 
 #define PD_CALL_UTILITY_BATCH_V18 0
 typedef struct {
@@ -170,6 +171,36 @@ typedef struct {
     pd_BondExtraBalanceOfT_t extra;
 } pd_nominationpools_bond_extra_other_V18_t;
 
+#define PD_CALL_PROXY_REMOVE_PROXIES_V18 3
+typedef struct {
+} pd_proxy_remove_proxies_V18_t;
+
+#define PD_CALL_PROXY_ANNOUNCE_V18 6
+typedef struct {
+    pd_AccountIdLookupOfT_t real;
+    pd_CallHashOf_t call_hash;
+} pd_proxy_announce_V18_t;
+
+#define PD_CALL_PROXY_REMOVE_ANNOUNCEMENT_V18 7
+typedef struct {
+    pd_AccountIdLookupOfT_t real;
+    pd_CallHashOf_t call_hash;
+} pd_proxy_remove_announcement_V18_t;
+
+#define PD_CALL_PROXY_REJECT_ANNOUNCEMENT_V18 8
+typedef struct {
+    pd_AccountIdLookupOfT_t delegate;
+    pd_CallHashOf_t call_hash;
+} pd_proxy_reject_announcement_V18_t;
+
+#define PD_CALL_PROXY_PROXY_ANNOUNCED_V18 9
+typedef struct {
+    pd_AccountIdLookupOfT_t delegate;
+    pd_AccountIdLookupOfT_t real;
+    pd_OptionProxyType_t force_proxy_type;
+    pd_Call_t call;
+} pd_proxy_proxy_announced_V18_t;
+
 #endif
 
 typedef union {
@@ -197,6 +228,11 @@ typedef union {
     pd_nominationpools_create_with_pool_id_V18_t nominationpools_create_with_pool_id_V18;
     pd_nominationpools_set_configs_V18_t nominationpools_set_configs_V18;
     pd_nominationpools_bond_extra_other_V18_t nominationpools_bond_extra_other_V18;
+    pd_proxy_remove_proxies_V18_t proxy_remove_proxies_V18;
+    pd_proxy_announce_V18_t proxy_announce_V18;
+    pd_proxy_remove_announcement_V18_t proxy_remove_announcement_V18;
+    pd_proxy_reject_announcement_V18_t proxy_reject_announcement_V18;
+    pd_proxy_proxy_announced_V18_t proxy_proxy_announced_V18;
 #endif
 } pd_MethodBasic_V18_t;
 
@@ -610,6 +646,43 @@ typedef struct {
     pd_PoolId_t pool_id;
 } pd_nominationpools_claim_commission_V18_t;
 
+#define PD_CALL_PROXY_PROXY_V18 0
+typedef struct {
+    pd_AccountIdLookupOfT_t real;
+    pd_OptionProxyType_t force_proxy_type;
+    pd_Call_t call;
+} pd_proxy_proxy_V18_t;
+
+#define PD_CALL_PROXY_ADD_PROXY_V18 1
+typedef struct {
+    pd_AccountIdLookupOfT_t delegate;
+    pd_ProxyType_t proxy_type;
+    pd_BlockNumber_t delay;
+} pd_proxy_add_proxy_V18_t;
+
+#define PD_CALL_PROXY_REMOVE_PROXY_V18 2
+typedef struct {
+    pd_AccountIdLookupOfT_t delegate;
+    pd_ProxyType_t proxy_type;
+    pd_BlockNumber_t delay;
+} pd_proxy_remove_proxy_V18_t;
+
+#define PD_CALL_PROXY_CREATE_PURE_V18 4
+typedef struct {
+    pd_ProxyType_t proxy_type;
+    pd_BlockNumber_t delay;
+    pd_u16_t index;
+} pd_proxy_create_pure_V18_t;
+
+#define PD_CALL_PROXY_KILL_PURE_V18 5
+typedef struct {
+    pd_AccountIdLookupOfT_t spawner;
+    pd_ProxyType_t proxy_type;
+    pd_u16_t index;
+    pd_Compactu32_t height;
+    pd_Compactu32_t ext_index;
+} pd_proxy_kill_pure_V18_t;
+
 #endif
 
 typedef union {
@@ -684,6 +757,11 @@ typedef union {
     pd_nominationpools_set_commission_max_V18_t nominationpools_set_commission_max_V18;
     pd_nominationpools_set_commission_change_rate_V18_t nominationpools_set_commission_change_rate_V18;
     pd_nominationpools_claim_commission_V18_t nominationpools_claim_commission_V18;
+    pd_proxy_proxy_V18_t proxy_proxy_V18;
+    pd_proxy_add_proxy_V18_t proxy_add_proxy_V18;
+    pd_proxy_remove_proxy_V18_t proxy_remove_proxy_V18;
+    pd_proxy_create_pure_V18_t proxy_create_pure_V18;
+    pd_proxy_kill_pure_V18_t proxy_kill_pure_V18;
 #endif
 } pd_MethodNested_V18_t;
 

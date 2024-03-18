@@ -751,6 +751,95 @@ __Z_INLINE parser_error_t _readMethod_nominationpools_claim_commission_V18(
     return parser_ok;
 }
 
+__Z_INLINE parser_error_t _readMethod_proxy_proxy_V18(
+    parser_context_t* c, pd_proxy_proxy_V18_t* m)
+{
+    CHECK_ERROR(_readAccountIdLookupOfT(c, &m->real))
+    CHECK_ERROR(_readOptionProxyType(c, &m->force_proxy_type))
+    CHECK_ERROR(_readCall(c, &m->call))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_proxy_add_proxy_V18(
+    parser_context_t* c, pd_proxy_add_proxy_V18_t* m)
+{
+    CHECK_ERROR(_readAccountIdLookupOfT(c, &m->delegate))
+    CHECK_ERROR(_readProxyType(c, &m->proxy_type))
+    CHECK_ERROR(_readBlockNumber(c, &m->delay))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_proxy_remove_proxy_V18(
+    parser_context_t* c, pd_proxy_remove_proxy_V18_t* m)
+{
+    CHECK_ERROR(_readAccountIdLookupOfT(c, &m->delegate))
+    CHECK_ERROR(_readProxyType(c, &m->proxy_type))
+    CHECK_ERROR(_readBlockNumber(c, &m->delay))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_proxy_remove_proxies_V18(
+    parser_context_t* c, pd_proxy_remove_proxies_V18_t* m)
+{
+    UNUSED(c);
+    UNUSED(m);
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_proxy_create_pure_V18(
+    parser_context_t* c, pd_proxy_create_pure_V18_t* m)
+{
+    CHECK_ERROR(_readProxyType(c, &m->proxy_type))
+    CHECK_ERROR(_readBlockNumber(c, &m->delay))
+    CHECK_ERROR(_readu16(c, &m->index))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_proxy_kill_pure_V18(
+    parser_context_t* c, pd_proxy_kill_pure_V18_t* m)
+{
+    CHECK_ERROR(_readAccountIdLookupOfT(c, &m->spawner))
+    CHECK_ERROR(_readProxyType(c, &m->proxy_type))
+    CHECK_ERROR(_readu16(c, &m->index))
+    CHECK_ERROR(_readCompactu32(c, &m->height))
+    CHECK_ERROR(_readCompactu32(c, &m->ext_index))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_proxy_announce_V18(
+    parser_context_t* c, pd_proxy_announce_V18_t* m)
+{
+    CHECK_ERROR(_readAccountIdLookupOfT(c, &m->real))
+    CHECK_ERROR(_readCallHashOf(c, &m->call_hash))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_proxy_remove_announcement_V18(
+    parser_context_t* c, pd_proxy_remove_announcement_V18_t* m)
+{
+    CHECK_ERROR(_readAccountIdLookupOfT(c, &m->real))
+    CHECK_ERROR(_readCallHashOf(c, &m->call_hash))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_proxy_reject_announcement_V18(
+    parser_context_t* c, pd_proxy_reject_announcement_V18_t* m)
+{
+    CHECK_ERROR(_readAccountIdLookupOfT(c, &m->delegate))
+    CHECK_ERROR(_readCallHashOf(c, &m->call_hash))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_proxy_proxy_announced_V18(
+    parser_context_t* c, pd_proxy_proxy_announced_V18_t* m)
+{
+    CHECK_ERROR(_readAccountIdLookupOfT(c, &m->delegate))
+    CHECK_ERROR(_readAccountIdLookupOfT(c, &m->real))
+    CHECK_ERROR(_readOptionProxyType(c, &m->force_proxy_type))
+    CHECK_ERROR(_readCall(c, &m->call))
+    return parser_ok;
+}
+
 #endif
 
 parser_error_t _readMethod_V18(
@@ -1034,6 +1123,36 @@ parser_error_t _readMethod_V18(
     case 4884: /* module 19 call 20 */
         CHECK_ERROR(_readMethod_nominationpools_claim_commission_V18(c, &method->nested.nominationpools_claim_commission_V18))
         break;
+    case 5632: /* module 22 call 0 */
+        CHECK_ERROR(_readMethod_proxy_proxy_V18(c, &method->nested.proxy_proxy_V18))
+        break;
+    case 5633: /* module 22 call 1 */
+        CHECK_ERROR(_readMethod_proxy_add_proxy_V18(c, &method->nested.proxy_add_proxy_V18))
+        break;
+    case 5634: /* module 22 call 2 */
+        CHECK_ERROR(_readMethod_proxy_remove_proxy_V18(c, &method->nested.proxy_remove_proxy_V18))
+        break;
+    case 5635: /* module 22 call 3 */
+        CHECK_ERROR(_readMethod_proxy_remove_proxies_V18(c, &method->basic.proxy_remove_proxies_V18))
+        break;
+    case 5636: /* module 22 call 4 */
+        CHECK_ERROR(_readMethod_proxy_create_pure_V18(c, &method->nested.proxy_create_pure_V18))
+        break;
+    case 5637: /* module 22 call 5 */
+        CHECK_ERROR(_readMethod_proxy_kill_pure_V18(c, &method->nested.proxy_kill_pure_V18))
+        break;
+    case 5638: /* module 22 call 6 */
+        CHECK_ERROR(_readMethod_proxy_announce_V18(c, &method->basic.proxy_announce_V18))
+        break;
+    case 5639: /* module 22 call 7 */
+        CHECK_ERROR(_readMethod_proxy_remove_announcement_V18(c, &method->basic.proxy_remove_announcement_V18))
+        break;
+    case 5640: /* module 22 call 8 */
+        CHECK_ERROR(_readMethod_proxy_reject_announcement_V18(c, &method->basic.proxy_reject_announcement_V18))
+        break;
+    case 5641: /* module 22 call 9 */
+        CHECK_ERROR(_readMethod_proxy_proxy_announced_V18(c, &method->basic.proxy_proxy_announced_V18))
+        break;
 #endif
     default:
         return parser_unexpected_callIndex;
@@ -1073,6 +1192,8 @@ const char* _getMethod_ModuleName_V18(uint8_t moduleIdx)
         return STR_MO_CONTRACTS;
     case 19:
         return STR_MO_NOMINATIONPOOLS;
+    case 22:
+        return STR_MO_PROXY;
 #endif
     default:
         return NULL;
@@ -1277,6 +1398,26 @@ const char* _getMethod_Name_V18_ParserFull(uint16_t callPrivIdx)
         return STR_ME_SET_COMMISSION_CHANGE_RATE;
     case 4884: /* module 19 call 20 */
         return STR_ME_CLAIM_COMMISSION;
+    case 5632: /* module 22 call 0 */
+        return STR_ME_PROXY;
+    case 5633: /* module 22 call 1 */
+        return STR_ME_ADD_PROXY;
+    case 5634: /* module 22 call 2 */
+        return STR_ME_REMOVE_PROXY;
+    case 5635: /* module 22 call 3 */
+        return STR_ME_REMOVE_PROXIES;
+    case 5636: /* module 22 call 4 */
+        return STR_ME_CREATE_PURE;
+    case 5637: /* module 22 call 5 */
+        return STR_ME_KILL_PURE;
+    case 5638: /* module 22 call 6 */
+        return STR_ME_ANNOUNCE;
+    case 5639: /* module 22 call 7 */
+        return STR_ME_REMOVE_ANNOUNCEMENT;
+    case 5640: /* module 22 call 8 */
+        return STR_ME_REJECT_ANNOUNCEMENT;
+    case 5641: /* module 22 call 9 */
+        return STR_ME_PROXY_ANNOUNCED;
 #endif
     default:
         return NULL;
@@ -1471,6 +1612,26 @@ uint8_t _getMethod_NumItems_V18(uint8_t moduleIdx, uint8_t callIdx)
         return 2;
     case 4884: /* module 19 call 20 */
         return 1;
+    case 5632: /* module 22 call 0 */
+        return 3;
+    case 5633: /* module 22 call 1 */
+        return 3;
+    case 5634: /* module 22 call 2 */
+        return 3;
+    case 5635: /* module 22 call 3 */
+        return 0;
+    case 5636: /* module 22 call 4 */
+        return 3;
+    case 5637: /* module 22 call 5 */
+        return 5;
+    case 5638: /* module 22 call 6 */
+        return 2;
+    case 5639: /* module 22 call 7 */
+        return 2;
+    case 5640: /* module 22 call 8 */
+        return 2;
+    case 5641: /* module 22 call 9 */
+        return 4;
 #endif
     default:
         return 0;
@@ -2281,6 +2442,110 @@ const char* _getMethod_ItemName_V18(uint8_t moduleIdx, uint8_t callIdx, uint8_t 
         switch (itemIdx) {
         case 0:
             return STR_IT_pool_id;
+        default:
+            return NULL;
+        }
+    case 5632: /* module 22 call 0 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_real;
+        case 1:
+            return STR_IT_force_proxy_type;
+        case 2:
+            return STR_IT_call;
+        default:
+            return NULL;
+        }
+    case 5633: /* module 22 call 1 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_delegate;
+        case 1:
+            return STR_IT_proxy_type;
+        case 2:
+            return STR_IT_delay;
+        default:
+            return NULL;
+        }
+    case 5634: /* module 22 call 2 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_delegate;
+        case 1:
+            return STR_IT_proxy_type;
+        case 2:
+            return STR_IT_delay;
+        default:
+            return NULL;
+        }
+    case 5635: /* module 22 call 3 */
+        switch (itemIdx) {
+        default:
+            return NULL;
+        }
+    case 5636: /* module 22 call 4 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_proxy_type;
+        case 1:
+            return STR_IT_delay;
+        case 2:
+            return STR_IT_index;
+        default:
+            return NULL;
+        }
+    case 5637: /* module 22 call 5 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_spawner;
+        case 1:
+            return STR_IT_proxy_type;
+        case 2:
+            return STR_IT_index;
+        case 3:
+            return STR_IT_height;
+        case 4:
+            return STR_IT_ext_index;
+        default:
+            return NULL;
+        }
+    case 5638: /* module 22 call 6 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_real;
+        case 1:
+            return STR_IT_call_hash;
+        default:
+            return NULL;
+        }
+    case 5639: /* module 22 call 7 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_real;
+        case 1:
+            return STR_IT_call_hash;
+        default:
+            return NULL;
+        }
+    case 5640: /* module 22 call 8 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_delegate;
+        case 1:
+            return STR_IT_call_hash;
+        default:
+            return NULL;
+        }
+    case 5641: /* module 22 call 9 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_delegate;
+        case 1:
+            return STR_IT_real;
+        case 2:
+            return STR_IT_force_proxy_type;
+        case 3:
+            return STR_IT_call;
         default:
             return NULL;
         }
@@ -3629,6 +3894,191 @@ parser_error_t _getMethod_ItemValue_V18(
         default:
             return parser_no_data;
         }
+    case 5632: /* module 22 call 0 */
+        switch (itemIdx) {
+        case 0: /* proxy_proxy_V18 - real */;
+            return _toStringAccountIdLookupOfT(
+                &m->nested.proxy_proxy_V18.real,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* proxy_proxy_V18 - force_proxy_type */;
+            return _toStringOptionProxyType(
+                &m->nested.proxy_proxy_V18.force_proxy_type,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* proxy_proxy_V18 - call */;
+            return _toStringCall(
+                &m->nested.proxy_proxy_V18.call,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 5633: /* module 22 call 1 */
+        switch (itemIdx) {
+        case 0: /* proxy_add_proxy_V18 - delegate */;
+            return _toStringAccountIdLookupOfT(
+                &m->nested.proxy_add_proxy_V18.delegate,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* proxy_add_proxy_V18 - proxy_type */;
+            return _toStringProxyType(
+                &m->nested.proxy_add_proxy_V18.proxy_type,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* proxy_add_proxy_V18 - delay */;
+            return _toStringBlockNumber(
+                &m->nested.proxy_add_proxy_V18.delay,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 5634: /* module 22 call 2 */
+        switch (itemIdx) {
+        case 0: /* proxy_remove_proxy_V18 - delegate */;
+            return _toStringAccountIdLookupOfT(
+                &m->nested.proxy_remove_proxy_V18.delegate,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* proxy_remove_proxy_V18 - proxy_type */;
+            return _toStringProxyType(
+                &m->nested.proxy_remove_proxy_V18.proxy_type,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* proxy_remove_proxy_V18 - delay */;
+            return _toStringBlockNumber(
+                &m->nested.proxy_remove_proxy_V18.delay,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 5635: /* module 22 call 3 */
+        switch (itemIdx) {
+        default:
+            return parser_no_data;
+        }
+    case 5636: /* module 22 call 4 */
+        switch (itemIdx) {
+        case 0: /* proxy_create_pure_V18 - proxy_type */;
+            return _toStringProxyType(
+                &m->nested.proxy_create_pure_V18.proxy_type,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* proxy_create_pure_V18 - delay */;
+            return _toStringBlockNumber(
+                &m->nested.proxy_create_pure_V18.delay,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* proxy_create_pure_V18 - index */;
+            return _toStringu16(
+                &m->nested.proxy_create_pure_V18.index,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 5637: /* module 22 call 5 */
+        switch (itemIdx) {
+        case 0: /* proxy_kill_pure_V18 - spawner */;
+            return _toStringAccountIdLookupOfT(
+                &m->nested.proxy_kill_pure_V18.spawner,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* proxy_kill_pure_V18 - proxy_type */;
+            return _toStringProxyType(
+                &m->nested.proxy_kill_pure_V18.proxy_type,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* proxy_kill_pure_V18 - index */;
+            return _toStringu16(
+                &m->nested.proxy_kill_pure_V18.index,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* proxy_kill_pure_V18 - height */;
+            return _toStringCompactu32(
+                &m->nested.proxy_kill_pure_V18.height,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 4: /* proxy_kill_pure_V18 - ext_index */;
+            return _toStringCompactu32(
+                &m->nested.proxy_kill_pure_V18.ext_index,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 5638: /* module 22 call 6 */
+        switch (itemIdx) {
+        case 0: /* proxy_announce_V18 - real */;
+            return _toStringAccountIdLookupOfT(
+                &m->basic.proxy_announce_V18.real,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* proxy_announce_V18 - call_hash */;
+            return _toStringCallHashOf(
+                &m->basic.proxy_announce_V18.call_hash,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 5639: /* module 22 call 7 */
+        switch (itemIdx) {
+        case 0: /* proxy_remove_announcement_V18 - real */;
+            return _toStringAccountIdLookupOfT(
+                &m->basic.proxy_remove_announcement_V18.real,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* proxy_remove_announcement_V18 - call_hash */;
+            return _toStringCallHashOf(
+                &m->basic.proxy_remove_announcement_V18.call_hash,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 5640: /* module 22 call 8 */
+        switch (itemIdx) {
+        case 0: /* proxy_reject_announcement_V18 - delegate */;
+            return _toStringAccountIdLookupOfT(
+                &m->basic.proxy_reject_announcement_V18.delegate,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* proxy_reject_announcement_V18 - call_hash */;
+            return _toStringCallHashOf(
+                &m->basic.proxy_reject_announcement_V18.call_hash,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 5641: /* module 22 call 9 */
+        switch (itemIdx) {
+        case 0: /* proxy_proxy_announced_V18 - delegate */;
+            return _toStringAccountIdLookupOfT(
+                &m->basic.proxy_proxy_announced_V18.delegate,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* proxy_proxy_announced_V18 - real */;
+            return _toStringAccountIdLookupOfT(
+                &m->basic.proxy_proxy_announced_V18.real,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* proxy_proxy_announced_V18 - force_proxy_type */;
+            return _toStringOptionProxyType(
+                &m->basic.proxy_proxy_announced_V18.force_proxy_type,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* proxy_proxy_announced_V18 - call */;
+            return _toStringCall(
+                &m->basic.proxy_proxy_announced_V18.call,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
 #endif
     default:
         return parser_ok;
@@ -3709,6 +4159,11 @@ bool _getMethod_IsNestingSupported_V18(uint8_t moduleIdx, uint8_t callIdx)
     case 4871: // NominationPools:Create with pool id
     case 4875: // NominationPools:Set configs
     case 4878: // NominationPools:Bond extra other
+    case 5635: // Proxy:Remove proxies
+    case 5638: // Proxy:Announce
+    case 5639: // Proxy:Remove announcement
+    case 5640: // Proxy:Reject announcement
+    case 5641: // Proxy:Proxy announced
         return false;
     default:
         return true;

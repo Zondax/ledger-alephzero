@@ -30,6 +30,7 @@ static const char* STR_MO_MULTISIG = "Multisig";
 static const char* STR_MO_SUDO = "Sudo";
 static const char* STR_MO_CONTRACTS = "Contracts";
 static const char* STR_MO_NOMINATIONPOOLS = "Nominationpools";
+static const char* STR_MO_PROXY = "Proxy";
 
 // Methods names
 static const char* STR_ME_REMARK = "Remark";
@@ -115,6 +116,16 @@ static const char* STR_ME_SET_COMMISSION = "Set commission";
 static const char* STR_ME_SET_COMMISSION_MAX = "Set commission max";
 static const char* STR_ME_SET_COMMISSION_CHANGE_RATE = "Set commission change rate";
 static const char* STR_ME_CLAIM_COMMISSION = "Claim commission";
+static const char* STR_ME_PROXY = "Proxy";
+static const char* STR_ME_ADD_PROXY = "Add proxy";
+static const char* STR_ME_REMOVE_PROXY = "Remove proxy";
+static const char* STR_ME_REMOVE_PROXIES = "Remove proxies";
+static const char* STR_ME_CREATE_PURE = "Create pure";
+static const char* STR_ME_KILL_PURE = "Kill pure";
+static const char* STR_ME_ANNOUNCE = "Announce";
+static const char* STR_ME_REMOVE_ANNOUNCEMENT = "Remove announcement";
+static const char* STR_ME_REJECT_ANNOUNCEMENT = "Reject announcement";
+static const char* STR_ME_PROXY_ANNOUNCED = "Proxy announced";
 
 // Items names
 static const char* STR_IT_remark = "Remark";
@@ -197,6 +208,14 @@ static const char* STR_IT_other = "Other";
 static const char* STR_IT_new_commission = "New commission";
 static const char* STR_IT_max_commission = "Max commission";
 static const char* STR_IT_change_rate = "Change rate";
+static const char* STR_IT_real = "Real";
+static const char* STR_IT_force_proxy_type = "Force proxy type";
+static const char* STR_IT_delegate = "Delegate";
+static const char* STR_IT_proxy_type = "Proxy type";
+static const char* STR_IT_delay = "Delay";
+static const char* STR_IT_spawner = "Spawner";
+static const char* STR_IT_height = "Height";
+static const char* STR_IT_ext_index = "Ext index";
 
 #ifdef __cplusplus
 }
