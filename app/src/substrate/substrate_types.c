@@ -1,5 +1,5 @@
 /*******************************************************************************
- *  (c) 2019 - 2023 Zondax AG
+ *  (c) 2019 - 2024 Zondax AG
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -216,6 +216,16 @@ parser_error_t _readPercent(parser_context_t* c, pd_Percent_t* v)
     return parser_ok;
 }
 
+parser_error_t _readProxyType(parser_context_t* c, pd_ProxyType_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->value))
+    if (v->value > 3) {
+        return parser_value_out_of_range;
+    }
+    return parser_ok;
+}
+
 parser_error_t _readSystemOrigin(parser_context_t* c, pd_SystemOrigin_t* v)
 {
     CHECK_INPUT()
@@ -426,6 +436,10 @@ parser_error_t _readWeight(parser_context_t* c, pd_Weight_t* v)
     return parser_ok;
 }
 
+parser_error_t _readCallHashOf(parser_context_t* c, pd_CallHashOf_t* v) {
+    GEN_DEF_READARRAY(32)
+}
+
 parser_error_t _readClaimPermission(parser_context_t* c, pd_ClaimPermission_t* v)
 {
     CHECK_INPUT()
@@ -534,6 +548,16 @@ parser_error_t _readOptionCompactBalanceOf(parser_context_t* c, pd_OptionCompact
     CHECK_ERROR(_readUInt8(c, &v->some))
     if (v->some > 0) {
         CHECK_ERROR(_readCompactBalanceOf(c, &v->contained))
+    }
+    return parser_ok;
+}
+
+parser_error_t _readOptionProxyType(parser_context_t* c, pd_OptionProxyType_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->some))
+    if (v->some > 0) {
+        CHECK_ERROR(_readProxyType(c, &v->contained))
     }
     return parser_ok;
 }
@@ -915,6 +939,37 @@ parser_error_t _toStringPercent(
 
     snprintf(bufferUI, sizeof(bufferUI), "%s%%", bufferRatio);
     pageString(outValue, outValueLen, bufferUI, pageIdx, pageCount);
+    return parser_ok;
+}
+
+parser_error_t _toStringProxyType(
+    const pd_ProxyType_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+    UNUSED(pageIdx);
+
+    *pageCount = 1;
+    switch (v->value) {
+    case 0:
+        snprintf(outValue, outValueLen, "Any");
+        break;
+    case 1:
+        snprintf(outValue, outValueLen, "NonTransfer");
+        break;
+    case 2:
+        snprintf(outValue, outValueLen, "Staking");
+        break;
+    case 3:
+        snprintf(outValue, outValueLen, "Nomination");
+        break;
+    default:
+        return parser_print_not_supported;
+    }
+
     return parser_ok;
 }
 
@@ -1419,6 +1474,15 @@ parser_error_t _toStringWeight(
     return parser_display_idx_out_of_range;
 }
 
+parser_error_t _toStringCallHashOf(
+    const pd_CallHashOf_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount) {
+    GEN_DEF_TOSTRING_ARRAY(32)
+}
+
 parser_error_t _toStringClaimPermission(
     const pd_ClaimPermission_t* v,
     char* outValue,
@@ -1653,6 +1717,27 @@ parser_error_t _toStringOptionCompactBalanceOf(
     *pageCount = 1;
     if (v->some > 0) {
         CHECK_ERROR(_toStringCompactBalanceOf(
+            &v->contained,
+            outValue, outValueLen,
+            pageIdx, pageCount));
+    } else {
+        snprintf(outValue, outValueLen, "None");
+    }
+    return parser_ok;
+}
+
+parser_error_t _toStringOptionProxyType(
+    const pd_OptionProxyType_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+
+    *pageCount = 1;
+    if (v->some > 0) {
+        CHECK_ERROR(_toStringProxyType(
             &v->contained,
             outValue, outValueLen,
             pageIdx, pageCount));

@@ -1,5 +1,5 @@
 /*******************************************************************************
- *  (c) 2019 - 2023 Zondax AG
+ *  (c) 2019 - 2024 Zondax AG
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -177,6 +177,10 @@ typedef struct {
 
 typedef struct {
     uint8_t value;
+} pd_ProxyType_t;
+
+typedef struct {
+    uint8_t value;
     pd_AccountId_t _signed;
 } pd_SystemOrigin_t;
 
@@ -274,6 +278,10 @@ typedef struct {
 } pd_Weight_t;
 
 typedef struct {
+    const uint8_t* _ptr;
+} pd_CallHashOf_t;
+
+typedef struct {
     uint8_t value;
 } pd_ClaimPermission_t;
 
@@ -302,6 +310,11 @@ typedef struct {
     uint8_t some;
     pd_CompactBalanceOf_t contained;
 } pd_OptionCompactBalanceOf_t;
+
+typedef struct {
+    uint8_t some;
+    pd_ProxyType_t contained;
+} pd_OptionProxyType_t;
 
 typedef struct {
     uint32_t value;

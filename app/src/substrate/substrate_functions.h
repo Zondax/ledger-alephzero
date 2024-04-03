@@ -1,5 +1,5 @@
 /*******************************************************************************
- *  (c) 2019 - 2023 Zondax AG
+ *  (c) 2019 - 2024 Zondax AG
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -46,6 +46,7 @@ parser_error_t _readCompactBalanceOf(parser_context_t* c, pd_CompactBalanceOf_t*
 parser_error_t _readCompactPerBill(parser_context_t* c, pd_CompactPerBill_t* v);
 parser_error_t _readHash(parser_context_t* c, pd_Hash_t* v);
 parser_error_t _readPercent(parser_context_t* c, pd_Percent_t* v);
+parser_error_t _readProxyType(parser_context_t* c, pd_ProxyType_t* v);
 parser_error_t _readSystemOrigin(parser_context_t* c, pd_SystemOrigin_t* v);
 parser_error_t _readTimepoint(parser_context_t* c, pd_Timepoint_t* v);
 parser_error_t _readTuplePerbillAccountId(parser_context_t* c, pd_TuplePerbillAccountId_t* v);
@@ -65,6 +66,7 @@ parser_error_t _readVecAccountIdLookupOfT(parser_context_t* c, pd_VecAccountIdLo
 parser_error_t _readVecCall(parser_context_t* c, pd_VecCall_t* v);
 parser_error_t _readVestingInfo(parser_context_t* c, pd_VestingInfo_t* v);
 parser_error_t _readWeight(parser_context_t* c, pd_Weight_t* v);
+parser_error_t _readCallHashOf(parser_context_t* c, pd_CallHashOf_t* v);
 parser_error_t _readClaimPermission(parser_context_t* c, pd_ClaimPermission_t* v);
 parser_error_t _readConfigOpu32(parser_context_t* c, pd_ConfigOpu32_t* v);
 parser_error_t _readDeterminism(parser_context_t* c, pd_Determinism_t* v);
@@ -72,6 +74,7 @@ parser_error_t _readEraIndex(parser_context_t* c, pd_EraIndex_t* v);
 parser_error_t _readH256(parser_context_t* c, pd_H256_t* v);
 parser_error_t _readKeys(parser_context_t* c, pd_Keys_t* v);
 parser_error_t _readOptionCompactBalanceOf(parser_context_t* c, pd_OptionCompactBalanceOf_t* v);
+parser_error_t _readOptionProxyType(parser_context_t* c, pd_OptionProxyType_t* v);
 parser_error_t _readPoolId(parser_context_t* c, pd_PoolId_t* v);
 parser_error_t _readPoolState(parser_context_t* c, pd_PoolState_t* v);
 parser_error_t _readVecAccountId(parser_context_t* c, pd_VecAccountId_t* v);
@@ -220,6 +223,13 @@ parser_error_t _toStringPercent(
     uint8_t pageIdx,
     uint8_t* pageCount);
 
+parser_error_t _toStringProxyType(
+    const pd_ProxyType_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
 parser_error_t _toStringSystemOrigin(
     const pd_SystemOrigin_t* v,
     char* outValue,
@@ -353,6 +363,13 @@ parser_error_t _toStringWeight(
     uint8_t pageIdx,
     uint8_t* pageCount);
 
+parser_error_t _toStringCallHashOf(
+    const pd_CallHashOf_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
 parser_error_t _toStringClaimPermission(
     const pd_ClaimPermission_t* v,
     char* outValue,
@@ -397,6 +414,13 @@ parser_error_t _toStringKeys(
 
 parser_error_t _toStringOptionCompactBalanceOf(
     const pd_OptionCompactBalanceOf_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
+parser_error_t _toStringOptionProxyType(
+    const pd_OptionProxyType_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,

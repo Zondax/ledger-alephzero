@@ -1,5 +1,5 @@
 /*******************************************************************************
- *  (c) 2019 - 2023 Zondax AG
+ *  (c) 2019 - 2024 Zondax AG
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -27,15 +27,15 @@ extern "C" {
 
 #define GET_PD_CALL(CALL, VERSION) (PD_CALL_##CALL##_V##VERSION)
 
-#include "substrate_methods_V17.h"
-#include "substrate_types_V17.h"
+#include "substrate_methods_V18.h"
+#include "substrate_types_V18.h"
 
 typedef union {
-    pd_Method_V17_t V17;
+    pd_Method_V18_t V18;
 } pd_Method_t;
 
 typedef union {
-    pd_MethodNested_V17_t V17;
+    pd_MethodNested_V18_t V18;
 } pd_MethodNested_t;
 
 #ifdef __cplusplus
