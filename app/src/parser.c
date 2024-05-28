@@ -91,7 +91,8 @@ parser_error_t parser_getNumItems(const parser_context_t *ctx, uint8_t *num_item
     if (!parser_show_expert_fields()) {
         total -= EXPERT_FIELDS_TOTAL_COUNT;
 
-        for (uint8_t argIdx = 0; argIdx < methodArgCount; argIdx++) {
+        const uint8_t initialMethodArgCount = methodArgCount;
+        for (uint8_t argIdx = 0; argIdx < initialMethodArgCount; argIdx++) {
             bool isArgExpert = _getMethod_ItemIsExpert(ctx->tx_obj->transactionVersion,
                                                        ctx->tx_obj->callIndex.moduleIdx,
                                                        ctx->tx_obj->callIndex.idx, argIdx);
@@ -137,20 +138,27 @@ parser_error_t parser_getItem(const parser_context_t *ctx,
     uint8_t methodArgCount = _getMethod_NumItems(ctx->tx_obj->transactionVersion,
                                                  ctx->tx_obj->callIndex.moduleIdx,
                                                  ctx->tx_obj->callIndex.idx);
-    // Adjust offset when displayIdx > 0
-    uint8_t argIdx = displayIdx - 1;
-
-
+    uint8_t argIdx = UINT8_MAX;
     if (!parser_show_expert_fields()) {
-        // Search for the next non expert item
-        while ((argIdx < methodArgCount) && _getMethod_ItemIsExpert(ctx->tx_obj->transactionVersion,
-                                                                    ctx->tx_obj->callIndex.moduleIdx,
-                                                                    ctx->tx_obj->callIndex.idx, argIdx)) {
-            argIdx++;
-            displayIdx++;
-        }
-    }
 
+        uint8_t nonExpert = 0;
+        for(uint8_t i = 0; i < methodArgCount; i++) {
+            if (!_getMethod_ItemIsExpert(ctx->tx_obj->transactionVersion,
+                                         ctx->tx_obj->callIndex.moduleIdx,
+                                         ctx->tx_obj->callIndex.idx, i)) {
+                nonExpert++;
+            }
+
+            if(nonExpert == displayIdx) {
+                argIdx = i;
+                break;
+            }
+        }
+     } else {
+        argIdx = displayIdx - 1;
+     }
+
+    // Print txn arguments
     if (argIdx < methodArgCount) {
         snprintf(outKey, outKeyLen, "%s",
                  _getMethod_ItemName(ctx->tx_obj->transactionVersion,
@@ -163,84 +171,65 @@ parser_error_t parser_getItem(const parser_context_t *ctx,
                                    ctx->tx_obj->callIndex.moduleIdx, ctx->tx_obj->callIndex.idx, argIdx,
                                    outVal, outValLen,
                                    pageIdx, pageCount);
-    } else {
-        // CONTINUE WITH FIXED ARGUMENTS
+    }
+
+    // CONTINUE WITH SIGNED EXTENSIONS
+    if (parser_show_expert_fields()) {
         displayIdx -= methodArgCount;
-        if (displayIdx == FIELD_NETWORK) {
+        if (displayIdx >= FIELD_TIP && !parser_show_tip(ctx)) {
+            displayIdx++;
+        }
+
+    } else if(parser_show_tip(ctx)) {
+        displayIdx = FIELD_TIP;
+    }
+
+    switch (displayIdx) {
+        case FIELD_NETWORK:
             if (_getAddressType() == PK_ADDRESS_TYPE) {
-                if (parser_show_expert_fields()) {
                     snprintf(outKey, outKeyLen, "Chain");
                     snprintf(outVal, outValLen, COIN_NAME);
                     return parser_ok;
-                }
-            } else {
-                snprintf(outKey, outKeyLen, "Genesis Hash");
-                return _toStringHash(&ctx->tx_obj->genesisHash,
-                              outVal, outValLen,
-                              pageIdx, pageCount);
             }
-        }
+            // If SS58 prefix is detected print Chain name. Otherwise, print genesis hash
+            snprintf(outKey, outKeyLen, "Genesis Hash");
+            return _toStringHash(&ctx->tx_obj->genesisHash,
+                                outVal, outValLen,
+                                pageIdx, pageCount);
 
-        if (!parser_show_expert_fields()) {
-            displayIdx++;
-        }
-
-        if (displayIdx == FIELD_NONCE && parser_show_expert_fields()) {
+        case FIELD_NONCE:
             snprintf(outKey, outKeyLen, "Nonce");
             return _toStringCompactIndex(&ctx->tx_obj->nonce,
-                                         outVal, outValLen,
-                                         pageIdx, pageCount);
-        }
+                                            outVal, outValLen,
+                                            pageIdx, pageCount);
 
-        if (!parser_show_expert_fields()) {
-            displayIdx++;
-        }
-
-        if (displayIdx == FIELD_TIP && parser_show_tip(ctx)) {
+        case FIELD_TIP:
             snprintf(outKey, outKeyLen, "Tip");
             err = _toStringCompactBalance(&ctx->tx_obj->tip,
-                                          outVal, outValLen,
-                                          pageIdx, pageCount);
+                                        outVal, outValLen,
+                                        pageIdx, pageCount);
             if (err != parser_ok) return err;
             number_inplace_trimming(outVal, 1);
             return err;
-        }
 
-        if (!parser_show_tip(ctx)) {
-            displayIdx++;
-        }
-
-        if (displayIdx == FIELD_ERA_PHASE && parser_show_expert_fields()) {
+        case FIELD_ERA_PHASE:
             snprintf(outKey, outKeyLen, "Era Phase");
             uint64_to_str(outVal, outValLen, ctx->tx_obj->era.phase);
             return parser_ok;
-        }
 
-        if (!parser_show_expert_fields()) {
-            displayIdx++;
-        }
-
-        if (displayIdx == FIELD_ERA_PERIOD && parser_show_expert_fields()) {
+        case FIELD_ERA_PERIOD:
             snprintf(outKey, outKeyLen, "Era Period");
             uint64_to_str(outVal, outValLen, ctx->tx_obj->era.period);
             return parser_ok;
-        }
 
-        if (!parser_show_expert_fields()) {
-            displayIdx++;
-        }
-
-        if (displayIdx == FIELD_BLOCK_HASH && parser_show_expert_fields()) {
+        case FIELD_BLOCK_HASH:
             snprintf(outKey, outKeyLen, "Block");
             return _toStringHash(&ctx->tx_obj->blockHash,
-                          outVal, outValLen,
-                          pageIdx, pageCount);
-        }
-
-        return parser_no_data;
+                            outVal, outValLen,
+                            pageIdx, pageCount);
+        default:
+            return parser_no_data;
     }
 
+    return parser_no_data;
 }
-
-
-
