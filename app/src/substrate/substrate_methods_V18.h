@@ -341,7 +341,7 @@ typedef struct {
 
 #define PD_CALL_SYSTEM_SET_CODE_V18 2
 typedef struct {
-    pd_Vecu8_t code;
+    pd_Bytes_t code;
 } pd_system_set_code_V18_t;
 
 #define PD_CALL_SYSTEM_SET_CODE_WITHOUT_CHECKS_V18 3
@@ -472,7 +472,7 @@ typedef struct {
     pd_CompactBalance_t amount;
     pd_Compactu64_t gas_limit;
     pd_OptionCompactBalanceOf_t storage_deposit_limit;
-    pd_Vecu8_t data;
+    pd_Bytes_t data;
 } pd_contracts_call_old_weight_V18_t;
 
 #define PD_CALL_CONTRACTS_INSTANTIATE_WITH_CODE_OLD_WEIGHT_V18 1
@@ -480,9 +480,9 @@ typedef struct {
     pd_CompactBalance_t amount;
     pd_Compactu64_t gas_limit;
     pd_OptionCompactBalanceOf_t storage_deposit_limit;
-    pd_Vecu8_t code;
-    pd_Vecu8_t data;
-    pd_Vecu8_t salt;
+    pd_Bytes_t code;
+    pd_Bytes_t data;
+    pd_Bytes_t salt;
 } pd_contracts_instantiate_with_code_old_weight_V18_t;
 
 #define PD_CALL_CONTRACTS_INSTANTIATE_OLD_WEIGHT_V18 2
@@ -491,13 +491,13 @@ typedef struct {
     pd_Compactu64_t gas_limit;
     pd_OptionCompactBalanceOf_t storage_deposit_limit;
     pd_CodeHash_t code_hash;
-    pd_Vecu8_t data;
-    pd_Vecu8_t salt;
+    pd_Bytes_t data;
+    pd_Bytes_t salt;
 } pd_contracts_instantiate_old_weight_V18_t;
 
 #define PD_CALL_CONTRACTS_UPLOAD_CODE_V18 3
 typedef struct {
-    pd_Vecu8_t code;
+    pd_Bytes_t code;
     pd_OptionCompactBalanceOf_t storage_deposit_limit;
     pd_Determinism_t determinism;
 } pd_contracts_upload_code_V18_t;
@@ -519,7 +519,7 @@ typedef struct {
     pd_CompactBalance_t amount;
     pd_Weight_t gas_limit;
     pd_OptionCompactBalanceOf_t storage_deposit_limit;
-    pd_Vecu8_t data;
+    pd_Bytes_t data;
 } pd_contracts_call_V18_t;
 
 #define PD_CALL_CONTRACTS_INSTANTIATE_WITH_CODE_V18 7
@@ -527,9 +527,9 @@ typedef struct {
     pd_CompactBalance_t amount;
     pd_Weight_t gas_limit;
     pd_OptionCompactBalanceOf_t storage_deposit_limit;
-    pd_Vecu8_t code;
-    pd_Vecu8_t data;
-    pd_Vecu8_t salt;
+    pd_Bytes_t code;
+    pd_Bytes_t data;
+    pd_Bytes_t salt;
 } pd_contracts_instantiate_with_code_V18_t;
 
 #define PD_CALL_CONTRACTS_INSTANTIATE_V18 8
