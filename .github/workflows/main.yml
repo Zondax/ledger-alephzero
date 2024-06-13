@@ -11,7 +11,7 @@ on:
 
 jobs:
   configure:
-    runs-on: zondax-runners
+    runs-on: ubuntu-latest
     outputs:
       uid_gid: ${{ steps.get-user.outputs.uid_gid }}
     steps:
@@ -19,44 +19,21 @@ jobs:
         run: echo "uid_gid=$(id -u):$(id -g)" >> $GITHUB_OUTPUT
 
   build:
-    runs-on: zondax-runners
+    runs-on: ubuntu-latest
     steps:
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y curl protobuf-compiler build-essential git wget unzip python3 python3-pip \
-            libssl-dev libffi-dev libreadline-dev zlib1g-dev libbz2-dev libsqlite3-dev libncurses5-dev \
-            libgdbm-dev libnss3-dev liblzma-dev libxml2-dev libxmlsec1-dev libffi-dev libyaml-dev
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: true
-      - name: Install CMake 3.28
-        run: |
-          wget https://github.com/Kitware/CMake/releases/download/v3.28.0/cmake-3.28.0-linux-x86_64.sh
-          sudo mkdir /opt/cmake
-          sudo sh cmake-3.28.0-linux-x86_64.sh --skip-license --prefix=/opt/cmake
-          sudo ln -s /opt/cmake/bin/cmake /usr/local/bin/cmake
-          sudo ln -s /opt/cmake/bin/ctest /usr/local/bin/ctest
-      - name: Verify CMake version
-        run: cmake --version
       - name: Install deps
         run: |
           sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10
           make deps
-      - name: Run CMake
-        run: mkdir -p build && cd build && cmake -DCMAKE_BUILD_TYPE=Debug .. && make
       - run: make cpp_test
 
   build_only_rust:
-    runs-on: zondax-runners
+    runs-on: ubuntu-latest
     steps:
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y curl protobuf-compiler build-essential git wget unzip python3 python3-pip \
-            libssl-dev libffi-dev libreadline-dev zlib1g-dev libbz2-dev libsqlite3-dev libncurses5-dev \
-            libgdbm-dev libnss3-dev liblzma-dev libxml2-dev libxmlsec1-dev libffi-dev libyaml-dev
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -82,7 +59,7 @@ jobs:
 
   build_ledger:
     needs: configure
-    runs-on: zondax-runners
+    runs-on: ubuntu-latest
     container:
       image: zondax/ledger-app-builder:latest
       options: --user ${{ needs.configure.outputs.uid_gid }}
@@ -108,7 +85,7 @@ jobs:
 
   size_nano_s:
     needs: build_ledger
-    runs-on: zondax-runners
+    runs-on: ubuntu-latest
     env:
       NANOS_LIMIT_SIZE: 136
     steps:
@@ -117,19 +94,13 @@ jobs:
           [ ${{needs.build_ledger.outputs.size}} -le $NANOS_LIMIT_SIZE ]
 
   test_zemu:
-    runs-on: zondax-runners
+    runs-on: ubuntu-latest
     steps:
       - name: Test
         run: |
           id
           echo $HOME
           echo $DISPLAY
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y curl protobuf-compiler build-essential git wget unzip python3 python3-pip \
-            libssl-dev libffi-dev libreadline-dev zlib1g-dev libbz2-dev libsqlite3-dev libncurses5-dev \
-            libgdbm-dev libnss3-dev liblzma-dev libxml2-dev libxmlsec1-dev libffi-dev libyaml-dev
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -159,7 +130,7 @@ jobs:
   build_package_nanos:
     needs: [configure, build, build_ledger, test_zemu]
     if: ${{ github.ref == 'refs/heads/main' }}
-    runs-on: zondax-runners
+    runs-on: ubuntu-latest
     container:
       image: zondax/ledger-app-builder:latest
       options: --user ${{ needs.configure.outputs.uid_gid }}
@@ -195,7 +166,7 @@ jobs:
   build_package_nanos_xl:
     needs: [configure, build, build_ledger, test_zemu]
     if: ${{ github.ref == 'refs/heads/main' }}
-    runs-on: zondax-runners
+    runs-on: ubuntu-latest
     container:
       image: zondax/ledger-app-builder:latest
       options: --user ${{ needs.configure.outputs.uid_gid }}
@@ -231,7 +202,7 @@ jobs:
   build_package_nanosp:
     needs: [configure, build, build_ledger, test_zemu]
     if: ${{ github.ref == 'refs/heads/main' }}
-    runs-on: zondax-runners
+    runs-on: ubuntu-latest
     container:
       image: zondax/ledger-app-builder:latest
       options: --user ${{ needs.configure.outputs.uid_gid }}
@@ -267,7 +238,7 @@ jobs:
   build_package_stax:
     needs: [configure, build, build_ledger, test_zemu]
     if: ${{ github.ref == 'refs/heads/main' }}
-    runs-on: zondax-runners
+    runs-on: ubuntu-latest
     container:
       image: zondax/ledger-app-builder:latest
       options: --user ${{ needs.configure.outputs.uid_gid }}
