@@ -26,7 +26,19 @@ include $(CURDIR)/../deps/ledger-zxlib/makefiles/Makefile.installer_script
 
 include $(BOLOS_SDK)/Makefile.defines
 
+# Set the default value for PRODUCTION_BUILD to 0 if not already defined
+PRODUCTION_BUILD ?= 1
+
 $(info ************ TARGET_NAME  = [$(TARGET_NAME)])
+
+# Display whether this is a production build or for internal use
+ifeq ($(PRODUCTION_BUILD), 1)
+    $(info ************ PRODUCTION_BUILD  = [PRODUCTION BUILD])
+else
+    $(info ************ PRODUCTION_BUILD  = [INTERNAL USE])
+endif
+# Add the PRODUCTION_BUILD definition to the compiler flags
+DEFINES += PRODUCTION_BUILD=$(PRODUCTION_BUILD)
 
 include $(CURDIR)/../deps/ledger-zxlib/makefiles/Makefile.app_testing
 
@@ -51,7 +63,6 @@ $(info COIN  = [$(COIN)])
 
 ifeq ($(COIN),AZERO)
 # Main app configuration
-DEFINES += APP_STANDARD
 ifneq ($(TARGET_NAME),TARGET_NANOS)
 DEFINES += SUBSTRATE_PARSER_FULL
 endif
@@ -60,7 +71,7 @@ APPPATH = "44'/643'"
 
 else ifeq ($(COIN),AZERO_XL)
 # XL app configuration
-DEFINES += APP_STANDARD SUBSTRATE_PARSER_FULL
+DEFINES += SUBSTRATE_PARSER_FULL
 APPNAME = "Aleph Zero XL"
 APPPATH = "44'/643'"
 

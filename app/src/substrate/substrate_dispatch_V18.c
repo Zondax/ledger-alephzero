@@ -193,7 +193,7 @@ __Z_INLINE parser_error_t _readMethod_system_set_heap_pages_V18(
 __Z_INLINE parser_error_t _readMethod_system_set_code_V18(
     parser_context_t* c, pd_system_set_code_V18_t* m)
 {
-    CHECK_ERROR(_readVecu8(c, &m->code))
+    CHECK_ERROR(_readBytes(c, &m->code))
     return parser_ok;
 }
 
@@ -483,7 +483,7 @@ __Z_INLINE parser_error_t _readMethod_contracts_call_old_weight_V18(
     CHECK_ERROR(_readCompactBalance(c, &m->amount))
     CHECK_ERROR(_readCompactu64(c, &m->gas_limit))
     CHECK_ERROR(_readOptionCompactBalanceOf(c, &m->storage_deposit_limit))
-    CHECK_ERROR(_readVecu8(c, &m->data))
+    CHECK_ERROR(_readBytes(c, &m->data))
     return parser_ok;
 }
 
@@ -493,9 +493,9 @@ __Z_INLINE parser_error_t _readMethod_contracts_instantiate_with_code_old_weight
     CHECK_ERROR(_readCompactBalance(c, &m->amount))
     CHECK_ERROR(_readCompactu64(c, &m->gas_limit))
     CHECK_ERROR(_readOptionCompactBalanceOf(c, &m->storage_deposit_limit))
-    CHECK_ERROR(_readVecu8(c, &m->code))
-    CHECK_ERROR(_readVecu8(c, &m->data))
-    CHECK_ERROR(_readVecu8(c, &m->salt))
+    CHECK_ERROR(_readBytes(c, &m->code))
+    CHECK_ERROR(_readBytes(c, &m->data))
+    CHECK_ERROR(_readBytes(c, &m->salt))
     return parser_ok;
 }
 
@@ -506,15 +506,15 @@ __Z_INLINE parser_error_t _readMethod_contracts_instantiate_old_weight_V18(
     CHECK_ERROR(_readCompactu64(c, &m->gas_limit))
     CHECK_ERROR(_readOptionCompactBalanceOf(c, &m->storage_deposit_limit))
     CHECK_ERROR(_readCodeHash(c, &m->code_hash))
-    CHECK_ERROR(_readVecu8(c, &m->data))
-    CHECK_ERROR(_readVecu8(c, &m->salt))
+    CHECK_ERROR(_readBytes(c, &m->data))
+    CHECK_ERROR(_readBytes(c, &m->salt))
     return parser_ok;
 }
 
 __Z_INLINE parser_error_t _readMethod_contracts_upload_code_V18(
     parser_context_t* c, pd_contracts_upload_code_V18_t* m)
 {
-    CHECK_ERROR(_readVecu8(c, &m->code))
+    CHECK_ERROR(_readBytes(c, &m->code))
     CHECK_ERROR(_readOptionCompactBalanceOf(c, &m->storage_deposit_limit))
     CHECK_ERROR(_readDeterminism(c, &m->determinism))
     return parser_ok;
@@ -542,7 +542,7 @@ __Z_INLINE parser_error_t _readMethod_contracts_call_V18(
     CHECK_ERROR(_readCompactBalance(c, &m->amount))
     CHECK_ERROR(_readWeight(c, &m->gas_limit))
     CHECK_ERROR(_readOptionCompactBalanceOf(c, &m->storage_deposit_limit))
-    CHECK_ERROR(_readVecu8(c, &m->data))
+    CHECK_ERROR(_readBytes(c, &m->data))
     return parser_ok;
 }
 
@@ -552,9 +552,9 @@ __Z_INLINE parser_error_t _readMethod_contracts_instantiate_with_code_V18(
     CHECK_ERROR(_readCompactBalance(c, &m->amount))
     CHECK_ERROR(_readWeight(c, &m->gas_limit))
     CHECK_ERROR(_readOptionCompactBalanceOf(c, &m->storage_deposit_limit))
-    CHECK_ERROR(_readVecu8(c, &m->code))
-    CHECK_ERROR(_readVecu8(c, &m->data))
-    CHECK_ERROR(_readVecu8(c, &m->salt))
+    CHECK_ERROR(_readBytes(c, &m->code))
+    CHECK_ERROR(_readBytes(c, &m->data))
+    CHECK_ERROR(_readBytes(c, &m->salt))
     return parser_ok;
 }
 
@@ -2817,7 +2817,7 @@ parser_error_t _getMethod_ItemValue_V18(
     case 2: /* module 0 call 2 */
         switch (itemIdx) {
         case 0: /* system_set_code_V18 - code */;
-            return _toStringVecu8(
+            return _toStringBytes(
                 &m->nested.system_set_code_V18.code,
                 outValue, outValueLen,
                 pageIdx, pageCount);
@@ -3327,7 +3327,7 @@ parser_error_t _getMethod_ItemValue_V18(
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 4: /* contracts_call_old_weight_V18 - data */;
-            return _toStringVecu8(
+            return _toStringBytes(
                 &m->nested.contracts_call_old_weight_V18.data,
                 outValue, outValueLen,
                 pageIdx, pageCount);
@@ -3352,17 +3352,17 @@ parser_error_t _getMethod_ItemValue_V18(
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 3: /* contracts_instantiate_with_code_old_weight_V18 - code */;
-            return _toStringVecu8(
+            return _toStringBytes(
                 &m->nested.contracts_instantiate_with_code_old_weight_V18.code,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 4: /* contracts_instantiate_with_code_old_weight_V18 - data */;
-            return _toStringVecu8(
+            return _toStringBytes(
                 &m->nested.contracts_instantiate_with_code_old_weight_V18.data,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 5: /* contracts_instantiate_with_code_old_weight_V18 - salt */;
-            return _toStringVecu8(
+            return _toStringBytes(
                 &m->nested.contracts_instantiate_with_code_old_weight_V18.salt,
                 outValue, outValueLen,
                 pageIdx, pageCount);
@@ -3392,12 +3392,12 @@ parser_error_t _getMethod_ItemValue_V18(
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 4: /* contracts_instantiate_old_weight_V18 - data */;
-            return _toStringVecu8(
+            return _toStringBytes(
                 &m->nested.contracts_instantiate_old_weight_V18.data,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 5: /* contracts_instantiate_old_weight_V18 - salt */;
-            return _toStringVecu8(
+            return _toStringBytes(
                 &m->nested.contracts_instantiate_old_weight_V18.salt,
                 outValue, outValueLen,
                 pageIdx, pageCount);
@@ -3407,7 +3407,7 @@ parser_error_t _getMethod_ItemValue_V18(
     case 4611: /* module 18 call 3 */
         switch (itemIdx) {
         case 0: /* contracts_upload_code_V18 - code */;
-            return _toStringVecu8(
+            return _toStringBytes(
                 &m->nested.contracts_upload_code_V18.code,
                 outValue, outValueLen,
                 pageIdx, pageCount);
@@ -3472,7 +3472,7 @@ parser_error_t _getMethod_ItemValue_V18(
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 4: /* contracts_call_V18 - data */;
-            return _toStringVecu8(
+            return _toStringBytes(
                 &m->nested.contracts_call_V18.data,
                 outValue, outValueLen,
                 pageIdx, pageCount);
@@ -3497,17 +3497,17 @@ parser_error_t _getMethod_ItemValue_V18(
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 3: /* contracts_instantiate_with_code_V18 - code */;
-            return _toStringVecu8(
+            return _toStringBytes(
                 &m->nested.contracts_instantiate_with_code_V18.code,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 4: /* contracts_instantiate_with_code_V18 - data */;
-            return _toStringVecu8(
+            return _toStringBytes(
                 &m->nested.contracts_instantiate_with_code_V18.data,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 5: /* contracts_instantiate_with_code_V18 - salt */;
-            return _toStringVecu8(
+            return _toStringBytes(
                 &m->nested.contracts_instantiate_with_code_V18.salt,
                 outValue, outValueLen,
                 pageIdx, pageCount);
@@ -4092,6 +4092,20 @@ bool _getMethod_ItemIsExpert_V18(uint8_t moduleIdx, uint8_t callIdx, __Z_UNUSED 
     uint16_t callPrivIdx = ((uint16_t)moduleIdx << 8u) + callIdx;
 
     switch (callPrivIdx) {
+    case 2: // System:Set code
+        switch (itemIdx) {
+        case 0: // Code
+            return true;
+        default:
+            return false;
+        }
+    case 3: // System:Set code without checks
+        switch (itemIdx) {
+        case 0: // Code
+            return true;
+        default:
+            return false;
+        }
     case 2051: // Staking:Withdraw Unbonded
         switch (itemIdx) {
         case 0: // Num slashing spans
@@ -4109,6 +4123,61 @@ bool _getMethod_ItemIsExpert_V18(uint8_t moduleIdx, uint8_t callIdx, __Z_UNUSED 
     case 2068: // Staking:Reap stash
         switch (itemIdx) {
         case 1: // Num slashing spans
+            return true;
+        default:
+            return false;
+        }
+    case 4608: // Contracts:Call old weight
+        switch (itemIdx) {
+        case 4: // Data
+            return true;
+        default:
+            return false;
+        }
+    case 4609: // Contracts:Instantiate with code old weight
+        switch (itemIdx) {
+        case 3: // Code
+        case 4: // Data
+        case 5: // Salt
+            return true;
+        default:
+            return false;
+        }
+    case 4610: // Contracts:Instantiate old weight
+        switch (itemIdx) {
+        case 4: // Data
+        case 5: // Salt
+            return true;
+        default:
+            return false;
+        }
+    case 4611: // Contracts:Upload code
+        switch (itemIdx) {
+        case 0: // Code
+            return true;
+        default:
+            return false;
+        }
+    case 4614: // Contracts:Call
+        switch (itemIdx) {
+        case 4: // Data
+            return true;
+        default:
+            return false;
+        }
+    case 4615: // Contracts:Instantiate with code
+        switch (itemIdx) {
+        case 3: // Code
+        case 4: // Data
+        case 5: // Salt
+            return true;
+        default:
+            return false;
+        }
+    case 4616: // Contracts:Instantiate
+        switch (itemIdx) {
+        case 4: // Data
+        case 5: // Salt
             return true;
         default:
             return false;
