@@ -17,7 +17,7 @@
 #include "crypto_helper.h"
 #include "base58.h"
 
-#if defined(TARGET_NANOS) || defined(TARGET_NANOX) || defined(TARGET_NANOS2) || defined(TARGET_STAX)
+#if defined(TARGET_NANOS) || defined(TARGET_NANOX) || defined(TARGET_NANOS2) || defined(TARGET_STAX) || defined(TARGET_FLEX)
 #include "cx.h"
 
 cx_err_t ss58hash(const unsigned char *in, unsigned int inLen,
